@@ -1,0 +1,103 @@
+2024-05-27 00:00:18.107  INFO 14556 --- [http-nio-8080-exec-9] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@1c25753 
+2024-05-27 00:00:45.623  INFO 14556 --- [http-nio-8080-exec-8] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@7323e3fe 
+2024-05-27 00:00:59.743  INFO 14556 --- [http-nio-8080-exec-10] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@1afddef 
+2024-05-27 00:01:10.978  INFO 14556 --- [http-nio-8080-exec-1] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@79ccbb44 
+2024-05-27 00:01:12.529  INFO 14556 --- [http-nio-8080-exec-4] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@3ee08c0a 
+2024-05-27 00:01:13.146  INFO 14556 --- [http-nio-8080-exec-5] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@31bf88e7 
+2024-05-27 00:01:13.738  INFO 14556 --- [http-nio-8080-exec-6] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@f0d0550 
+2024-05-27 00:01:14.378  INFO 14556 --- [http-nio-8080-exec-7] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@7269e234 
+2024-05-27 00:01:20.634  INFO 14556 --- [http-nio-8080-exec-8] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@26d49f35 
+2024-05-27 00:01:21.370  INFO 14556 --- [http-nio-8080-exec-9] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@29138998 
+2024-05-27 00:01:27.377  INFO 14556 --- [http-nio-8080-exec-10] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@553d1c68 
+2024-05-27 00:01:34.133  INFO 14556 --- [http-nio-8080-exec-1] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@36a62857 
+2024-05-27 00:01:49.145  INFO 14556 --- [http-nio-8080-exec-4] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@679e873e 
+2024-05-27 00:03:21.954  INFO 14556 --- [http-nio-8080-exec-6] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@55707130 
+2024-05-27 00:07:54.404  INFO 14556 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2024-05-27 00:07:54.405  INFO 14556 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@187df588]]
+2024-05-27 00:07:54.406  INFO 14556 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2024-05-27 00:07:54.556  INFO 14556 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27 00:07:54.561  INFO 14556 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-05-27 00:07:54.567  INFO 14556 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-05-27 00:07:59.597  INFO 12116 --- [main] c.v.o.OntapThayCuongApplication          : Starting OntapThayCuongApplication using Java 1.8.0_202 on Quanaqt with PID 12116 (C:\project\viettel\chatclient-remake\backend\finder_service\target\classes started by PC in C:\project\viettel\chatclient-remake\backend\finder_service)
+2024-05-27 00:07:59.600  INFO 12116 --- [main] c.v.o.OntapThayCuongApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-05-27 00:08:00.281  INFO 12116 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-27 00:08:00.351  INFO 12116 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 4 JPA repository interfaces.
+2024-05-27 00:08:00.828  INFO 12116 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-05-27 00:08:00.836  INFO 12116 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-05-27 00:08:00.836  INFO 12116 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2024-05-27 00:08:00.991  INFO 12116 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-05-27 00:08:00.991  INFO 12116 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1343 ms
+2024-05-27 00:08:01.108  INFO 12116 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-27 00:08:01.220  INFO 12116 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.10.Final
+2024-05-27 00:08:01.392  INFO 12116 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-05-27 00:08:01.500  INFO 12116 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-05-27 00:08:01.892  INFO 12116 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-05-27 00:08:01.905  INFO 12116 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-05-27 00:08:02.712  INFO 12116 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-05-27 00:08:02.721  INFO 12116 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27 00:08:03.289  WARN 12116 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-27 00:08:03.603  INFO 12116 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-05-27 00:08:03.607  INFO 12116 --- [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2024-05-27 00:08:03.608  INFO 12116 --- [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2e7e4480]]
+2024-05-27 00:08:03.608  INFO 12116 --- [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2024-05-27 00:08:03.620  INFO 12116 --- [main] c.v.o.OntapThayCuongApplication          : Started OntapThayCuongApplication in 4.548 seconds (JVM running for 5.427)
+2024-05-27 00:08:15.343  INFO 12116 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-27 00:08:15.343  INFO 12116 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-05-27 00:08:15.345  INFO 12116 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-05-27 00:08:19.122  INFO 12116 --- [http-nio-8080-exec-5] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@311967b3 
+2024-05-27 00:08:28.459  INFO 12116 --- [http-nio-8080-exec-7] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@5aa528b1 
+2024-05-27 00:09:03.271  INFO 12116 --- [MessageBroker-6] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 9, active threads = 0, queued tasks = 0, completed tasks = 9], outboundChannel[pool size = 3, active threads = 0, queued tasks = 0, completed tasks = 3], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 2, completed tasks = 11]
+2024-05-27 00:09:09.059  INFO 12116 --- [http-nio-8080-exec-9] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@6e56b401 
+2024-05-27 00:10:23.396  INFO 12116 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2024-05-27 00:10:23.397  INFO 12116 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2e7e4480]]
+2024-05-27 00:10:23.397  INFO 12116 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2024-05-27 00:10:23.540  INFO 12116 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27 00:10:23.544  INFO 12116 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-05-27 00:10:23.552  INFO 12116 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-05-27 00:13:10.990  INFO 14420 --- [main] c.v.o.OntapThayCuongApplication          : Starting OntapThayCuongApplication using Java 1.8.0_202 on Quanaqt with PID 14420 (C:\project\viettel\chatclient-remake\backend\finder_service\target\classes started by PC in C:\project\viettel\chatclient-remake\backend\finder_service)
+2024-05-27 00:13:10.994  INFO 14420 --- [main] c.v.o.OntapThayCuongApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-05-27 00:13:11.630  INFO 14420 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-27 00:13:11.696  INFO 14420 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 4 JPA repository interfaces.
+2024-05-27 00:13:12.165  INFO 14420 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-05-27 00:13:12.175  INFO 14420 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-05-27 00:13:12.175  INFO 14420 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2024-05-27 00:13:12.341  INFO 14420 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-05-27 00:13:12.342  INFO 14420 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1288 ms
+2024-05-27 00:13:12.472  INFO 14420 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-27 00:13:12.589  INFO 14420 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.10.Final
+2024-05-27 00:13:12.742  INFO 14420 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-05-27 00:13:12.842  INFO 14420 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-05-27 00:13:13.244  INFO 14420 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-05-27 00:13:13.257  INFO 14420 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-05-27 00:13:14.033  INFO 14420 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-05-27 00:13:14.042  INFO 14420 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27 00:13:14.519  WARN 14420 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-27 00:13:14.785  INFO 14420 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-05-27 00:13:14.787  INFO 14420 --- [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2024-05-27 00:13:14.787  INFO 14420 --- [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@29a50a11]]
+2024-05-27 00:13:14.788  INFO 14420 --- [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2024-05-27 00:13:14.795  INFO 14420 --- [main] c.v.o.OntapThayCuongApplication          : Started OntapThayCuongApplication in 4.282 seconds (JVM running for 5.2)
+2024-05-27 00:13:34.349  INFO 14420 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-27 00:13:34.349  INFO 14420 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-05-27 00:13:34.351  INFO 14420 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-05-27 00:13:40.943  INFO 14420 --- [http-nio-8080-exec-6] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@778aa8a4 
+2024-05-27 00:13:42.779  INFO 14420 --- [http-nio-8080-exec-7] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@5f958594 
+2024-05-27 00:13:44.874  INFO 14420 --- [http-nio-8080-exec-8] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@31642a3d 
+2024-05-27 00:13:46.531  INFO 14420 --- [http-nio-8080-exec-9] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@233c9f45 
+2024-05-27 00:14:14.512  INFO 14420 --- [MessageBroker-7] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 9, active threads = 0, queued tasks = 0, completed tasks = 9], outboundChannel[pool size = 5, active threads = 0, queued tasks = 0, completed tasks = 5], sockJsScheduler[pool size = 8, active threads = 1, queued tasks = 2, completed tasks = 10]
+2024-05-27 00:14:22.191  INFO 14420 --- [http-nio-8080-exec-1] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@537d5c39 
+2024-05-27 00:14:26.235  INFO 14420 --- [http-nio-8080-exec-2] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@eb59f27 
+2024-05-27 00:14:28.250  INFO 14420 --- [http-nio-8080-exec-4] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@635607e0 
+2024-05-27 00:14:29.858  INFO 14420 --- [http-nio-8080-exec-5] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@130e3a34 
+2024-05-27 00:14:31.355  INFO 14420 --- [http-nio-8080-exec-6] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@aac929e 
+2024-05-27 00:14:32.882  INFO 14420 --- [http-nio-8080-exec-7] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@2a30622f 
+2024-05-27 00:14:34.483  INFO 14420 --- [http-nio-8080-exec-8] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@7b941cd7 
+2024-05-27 00:14:35.866  INFO 14420 --- [http-nio-8080-exec-9] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@13b1c44 
+2024-05-27 00:14:37.313  INFO 14420 --- [http-nio-8080-exec-10] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@2c599f38 
+2024-05-27 00:14:38.707  INFO 14420 --- [http-nio-8080-exec-2] c.v.o.controller.ChatController          : Receive messages from user ZWEyNmZhYjBjY2YwNGRlMDlmNzBiNzRhNDhhZWZkNTc=, data: com.viettel.ontap_thay_cuong.service.dto.MessageDTO@fd1d9e8 
+2024-05-27 00:14:42.885  INFO 14420 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2024-05-27 00:14:42.885  INFO 14420 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@29a50a11]]
+2024-05-27 00:14:42.885  INFO 14420 --- [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2024-05-27 00:14:43.049  INFO 14420 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-27 00:14:43.052  INFO 14420 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-05-27 00:14:43.058  INFO 14420 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

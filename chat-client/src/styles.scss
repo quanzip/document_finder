@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* datatables styles [ */
+table.dataTable {
+  margin-top: unset !important;
+  margin-bottom: 1rem !important;
+}
+
+.dt-toolbar-footer.row {
+  margin-right: unset !important;
+  margin-left: unset !important;
+}
+
+.dt-toolbar-footer .dataTables_info {
+  padding: unset !important;
+}
+
+.dt-toolbar-footer .dataTables_paginate {
+  padding: unset !important;
+}
+
+.dt-toolbar-footer .dataTables_paginate .pagination {
+  gap: 8px
+}
+
+.dt-toolbar-footer .dataTables_paginate .paginate_button {
+  padding: unset !important;
+  border: unset !important;
+}
+
+hc-datatable[tableclass~="dt-toolbar-hidden"] > div > .dt-toolbar {
+  display: none;
+}
+
+hc-datatable[tableclass~="dt-toolbar-footer-hidden"] > div > .dt-toolbar-footer {
+  display: none;
+}
+/* datatables styles ] */

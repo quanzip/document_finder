@@ -1,0 +1,20 @@
+<script type="text/javascript">
+      function loadJsAsync(src, callback) {
+        let s = document.createElement('script');
+        s.type = "text/javascript";
+        s.src = src;
+        s.addEventListener('load', function (e) { callback(null, e); }, false);
+        let head = document.getElementsByTagName('head')[0];
+        head.appendChild(s);
+      }
+      window.onload = function() {
+        loadJsAsync('http://localhost:4200/assets/js/IpccChat.js', function() {
+          let IpccChat = {
+            realmName: 'demo',
+            domain: '383bb8d6-4273-4a92-a537-bdeb4c2fdf68',
+            url: 'http://localhost:4200'
+          };
+          embedIpccChat(IpccChat);
+        })
+      };
+    </script>

@@ -1,0 +1,25 @@
+<div class="gif-picker">
+    <div class="px-2">
+        <div class="form-icon right mb-3">
+            <input type="email" class="form-control form-control-icon" id="iconrightInput"
+                   placeholder="{{'chat.search' | translate}}"
+                   [(ngModel)]="gifSearchInput"
+                   (ngModelChange)="changeFilteredGifList()"
+            >
+            <div class="icon">
+            </div>
+        </div>
+
+        <div>
+            <div *ngIf="loading" class="d-flex justify-content-center">
+                <div class="loader"></div>
+            </div>
+            <div (scroll)="onScroll($event)" class="gap-2 frame-gif-picker">
+                <img *ngFor="let data of filteredGifList" [src]="loadFileContent(data.sourceUrl)" class="img-gif"
+                     loading="lazy"
+                     (click)="chooseGif(data)"
+                >
+            </div>
+        </div>
+    </div>
+</div>

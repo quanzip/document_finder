@@ -1,0 +1,36 @@
+<div  [style.border-top-left-radius]="8 + 'px'" [style.border-top-right-radius]="8 + 'px'"
+      class="card-header align-items-center d-flex text-white-50"
+     [style.background-color]="'#41c0f2'"
+     [style.border-bottom]="'none'">
+    <div class="flex-grow-0" style="margin-right: 10px">
+        <div class="chat-avatar working-status">
+            <img class="rounded-circle profile-user" src="{{smallAvatar}}" onerror="this.src='assets/images/users/user-dummy-img.jpg'"  alt="">
+
+            <div class="in-time">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="5.89749" cy="6" rx="5.12821" ry="5" fill="#00AB76" stroke="white" stroke-width="1.5"/>
+                </svg>
+            </div>
+
+            <div *ngIf="domainDataService.workingTimeType == 2" class="out-time" style="color: #878c8b">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="5.89749" cy="6" rx="5.12821" ry="5" fill="#878C8BFF" stroke="white" stroke-width="1.5"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="flex-grow-1">
+        <h5 class="fs-15 text-white mb-1 profile-username ">{{getTruncateFileName(domainDataService.chatTitle)}}</h5>
+        <p class="mb-0 fs-13 lh-1">{{getTruncateFileName(domainDataService.chatInfo)}}</p>
+    </div>
+    <div class="flex-shrink-0">
+        <div class="mt-n3 me-n3">
+            <button type="button" class="btn btn-link text-white fs-25 text-decoration-none invisible" id="client-btn-edit" (click)="openService()"><i class="las la-user-edit"></i></button>
+        </div>
+    </div>
+    <div class="flex-shrink-0">
+        <div class="mt-n3 me-n3">
+            <button type="button" class="btn btn-link text-white fs-25 text-decoration-none" id="emailchat-btn-close" (click)="closeChatBox()"><i class="ri-subtract-fill"></i></button>
+        </div>
+    </div>
+</div><!-- end card header -->

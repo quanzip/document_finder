@@ -1,0 +1,13 @@
+.fade{
+    opacity: 0.5;
+}
+
+.small-avatar {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    /*object-fit: cover; !* or object-fit: contain; *!*/
+    background-size: cover; background-repeat: no-repeat; background-position: center;
+    border: 1px solid #c6c4d2;
+    filter: drop-shadow(1px 1px 2px lightgray);
+}

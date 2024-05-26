@@ -1,0 +1,9 @@
+<div class="mess-content">
+    <span *ngIf="!hasLink">{{contentByTypes[0]}}</span>
+    <div *ngIf="hasLink">
+        <span *ngFor="let contentParts of contentByTypes">
+            <span *ngIf="contentParts.type == 'TEXT'">{{contentParts.content}}</span>
+            <a target="_blank" *ngIf="contentParts.type == 'LINK'" [href]="contentParts.content">{{contentParts.content}}</a>
+        </span>
+    </div>
+</div>

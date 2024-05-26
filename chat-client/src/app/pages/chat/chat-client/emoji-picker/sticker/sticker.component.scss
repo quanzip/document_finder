@@ -1,0 +1,48 @@
+.sticker-picker {
+  .frame-sticker-picker {
+    height: 180px;
+  }
+
+  .sticker {
+    border-radius: 6px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    padding-top: 5px;
+    padding-left: 5px;
+    .sticker-image {
+      width: 40px;
+      height: 40px;
+    }
+    &:hover {
+      background-color: var(--vz-gray-07);
+    }
+  }
+
+  .loader {
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #3498db;
+    width: 70px;
+    height: 70px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+
+  .sticker-category {
+    flex-shrink: 0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    line-height: 24px;
+    cursor: pointer;
+
+    &:hover, &.selected {
+      background-color: #9ba7b3;
+    }
+  }
+}

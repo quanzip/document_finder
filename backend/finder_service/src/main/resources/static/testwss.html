@@ -1,0 +1,110 @@
+<html>
+<head>
+    <title>Chat WebSocket</title>
+    <script src="sockjs-0.3.4.js"></script>
+    <script src="stomp.js"></script>
+    <script type="text/javascript">
+        var stompClient = null;
+        var isConnected = false;
+
+        function setConnected(connected) {
+            document.getElementById('connect').disabled = connected;
+            document.getElementById('disconnect').disabled = !connected;
+            document.getElementById('conversationDiv').style.visibility
+                = connected ? 'visible' : 'hidden';
+            document.getElementById('response').innerHTML = '';
+
+            isConnected = connected;
+            window.setTimeout(() => { document.getElementById('text').focus();}, 200);
+        }
+
+        function connect() {
+            if (isConnected) return;
+            document.getElementById('from').style.visibility = 'hidden';
+            var socket = new SockJS('http://localhost:8080/chat');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                setConnected(true);
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/messages', function(messageOutput) {
+                    showMessageOutput(JSON.parse(messageOutput.body));
+                });
+
+                stompClient.subscribe('/topic/special', function(messageOutput) {
+                    showMessageOutput(JSON.parse(messageOutput.body));
+                });
+            });
+        }
+
+        function disconnect() {
+            if(stompClient != null) {
+                document.getElementById('from').style.visibility = 'visible';
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
+
+        function sendMessage() {
+            var from = document.getElementById('from').value;
+            var text = document.getElementById('text').value;
+            if (text != '') {
+                stompClient.send("/app/chat", {},
+                    JSON.stringify({'from':from, 'text':text}));
+                showMessageOutput({"from": from, "text": text});
+            } else {
+                document.getElementById('text').focus();
+            }
+        }
+
+        function keyDown(event) {
+            if(event.which === 13 && event.target.value.trim() !== '') {
+                sendMessage();
+            } else {
+                if(event.code === 'Escape') {
+                    disconnect();
+                    document.getElementById('from').focus();
+                }
+            }
+        }
+
+        function keyDownConnect(event) {
+            if(event.which === 13 && event.target.value.trim() !== '') {
+                connect();
+            }
+        }
+
+        function showMessageOutput(messageOutput) {
+            var response = document.getElementById('response');
+            var p = document.createElement('p');
+            p.style.wordWrap = 'break-word';
+            p.appendChild(document.createTextNode(messageOutput.from + ": "
+                + messageOutput.text + " (" + new Date().getHours() + ":" + new Date().getMinutes() + ")"));
+            response.appendChild(p);
+            document.getElementById('text').value = '';
+            document.getElementById('text').focus();
+        }
+    </script>
+</head>
+<body onload="disconnect()">
+<div>
+    <div>
+        <input type="text" onkeydown="keyDownConnect(event)" id="from" placeholder="Choose a nickname"/>
+    </div>
+    <br />
+    <div>
+        <button id="connect" onclick="connect();">Connect</button>
+        <button id="disconnect" disabled="disabled" onclick="disconnect();">
+            Disconnect
+        </button>
+    </div>
+    <br />
+    <div id="conversationDiv">
+        <input onkeydown="keyDown(event)" type="text" id="text" placeholder="Write a message..."/>
+        <button id="sendMessage" onclick="sendMessage();">Send</button>
+        <p id="response"></p>
+    </div>
+</div>
+
+</body>
+</html>

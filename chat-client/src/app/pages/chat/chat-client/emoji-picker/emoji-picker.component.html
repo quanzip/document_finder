@@ -1,0 +1,57 @@
+<div class="dropdown-center p-0 m-0" ngbDropdown #dropEmotion="ngbDropdown">
+
+    <!--    this button click will trigger click event of  id="btn-emoji-dropdown" below-->
+    <button type="button p-0 m-0" class="btn btn-sm btn-rounded btn-icon text-light"
+            [style.background-color]="domainDataService.color"
+            onclick="document.getElementById('btn-emoji-dropdown').click()">
+
+        <!--        emogi icon-->
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 16C13.3137 16 16 13.3137 16 10C16 6.68629 13.3137 4 10 4C6.68629 4 4 6.68629 4 10C4 13.3137 6.68629 16 10 16Z"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 8.6665H8.00667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+            <path d="M12 8.6665H12.0067" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+            <path d="M8.33337 12C8.55063 12.2217 8.80994 12.3979 9.09613 12.5181C9.38231 12.6384 9.68962 12.7003 10 12.7003C10.3105 12.7003 10.6178 12.6384 10.904 12.5181C11.1901 12.3979 11.4495 12.2217 11.6667 12"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+    <button id="btn-emoji-dropdown" class="invisible p-0 m-0" ngbDropdownToggle></button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+        <div style="width: 300px; height: 316px" class="px-3 py-2">
+            <ul ngbNav #Bordered="ngbNav" [activeId]="this.enableSendEmoji ? 1 : this.enableSendSticker ? 2 : 3"
+                class="nav nav-tabs nav-tabs-custom nav-primary nav-justified mb-3">
+                <li [ngbNavItem]="1" *ngIf="this.enableSendEmoji">
+                    <a ngbNavLink>
+                        Emoji
+                    </a>
+                    <ng-template ngbNavContent>
+                        <app-emoji (emojiPicked)="chooseEmoji($event)"></app-emoji>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2" *ngIf="this.enableSendSticker">
+                    <a ngbNavLink>
+                        Sticker
+                    </a>
+                    <ng-template ngbNavContent>
+                        <app-sticker (stickerPicked)="chooseSticker($event); dropEmotion.close()"></app-sticker>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="3" *ngIf="this.enableSendGif">
+                    <a ngbNavLink>
+                        GIF
+                    </a>
+                    <ng-template ngbNavContent>
+                        <app-gif (gifPicked)="chooseGif($event); dropEmotion.close()"></app-gif>
+                    </ng-template>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content text-muted">
+                <div [ngbNavOutlet]="Bordered"></div>
+            </div>
+        </div>
+
+    </div>
+</div>

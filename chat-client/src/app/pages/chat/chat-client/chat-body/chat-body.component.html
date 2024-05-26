@@ -1,0 +1,519 @@
+<div>
+    <!--         [style.background-image]="'url(' + fileService.getURLContentFilePublic(domainDataService.domainThemeUrl, domainDataService.realmName) + ')'"-->
+    <div id="users-chat" #userChat
+         [style.background-image]="'.\\assets\\images\\chat-bg-pattern.png'"
+         style="background-size: cover; background-repeat: no-repeat; background-position: center" >
+        <ngx-simplebar class="chat-conversation p-2" id="chat-conversation" data-simplebar style="height: 475px;" #scrollRef>
+<!--            <div #loadingOldButton class="bg-success position-absolute" style="margin-top: -300px"></div>-->
+<!--            <div class="d-flex justify-content-center">-->
+<!--                <div *ngIf="loading" class="spinner-border text-primary" role="status" >-->
+<!--                    <span class="visually-hidden">Loading...</span>-->
+<!--                </div>-->
+<!--            </div>-->
+            <ul *ngIf="isShowChatHistory()" class="list-unstyled chat-conversation-list chat-sm overflow-hidden" id="users-conversation">
+
+                <li *ngFor="let message of chatModel.chatState.chatHistory; let i = index" data-index="#i"
+                    class="m-0 p-0" [id]="message.messageId">
+                    <div class="main-msg-body">
+                        <div>
+                            <p *ngIf="isNewDateInSectionFromAgent(i)"
+                               class="text-shadow time-in-conversation fs-14 mt-2">{{getDateFromLong(message.sendTime)}}</p>
+                        </div>
+                        <div [ngClass]="message.userType == this.userType.CLIENT ? 'chat-list d-flex justify-content-end main-msg-body mb-0 pb-0'
+                                       : 'chat-list d-flex justify-content-start main-msg-body mb-0 pb-0'">
+                            <!--                    2: agent, 1: self-user-->
+
+                            <div class="d-flex mb-2">
+                                <!-- mb-2: khoang cach tren-duoi giua cac tin nhan -->
+                                <!--                        User avatar-->
+                                <div class="chat-avatar d-flex align-items-end"
+                                     [ngClass]=" isLastMessageInSectionFromAgent(i) ? 'visisble' : ( message.userType == this.userType.CLIENT ? 'd-none' : 'invisible')">
+                                    <img class="small-avatar" src="{{smallAvatar}}" alt="" onerror="this.src='assets/images/users/user-dummy-img.jpg'">
+                                </div>
+                                <div class="d-flex align-items-center m-0 p-0 text-invert-color">
+                                    <!--                      reply icon of self-client mesages, only show when receive back from chat-server that it can has ID to be replied-->
+                                    <div class="user-chat-content" (mouseleave)="mouseLeave($event)"
+                                         (mouseenter)="mouseEnter($event)">
+                                        <div>
+                                            <div [ngClass]="message.userType == this.userType.CLIENT ? 'd-flex align-items-center right' : 'd-flex align-items-center'">
+                                                <div *ngIf="message.userType == this.userType.CLIENT && (message.status == this.messageStatus.SEEN || message.status == this.messageStatus.SENT)"
+                                                     class="reply-icon d-flex flex-wrap justify-content-center align-items-center">
+                                                    <!--Time stamp-->
+                                                    <div class="time-in-conversation text-shadow fs-12 me-1">{{getDateAndTimeFromLong(message.sendTime)}}</div>
+                                                    <!--                         reply icon   -->
+                                                    <div *ngIf="message.isRepliable" class="text-shadow cursor-pointer me-1"
+                                                         (click)="replyMessage($event, message)">
+                                                        <svg class="svg-shadow" width="20" height="20"
+                                                             viewBox="0 0 20 20" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M4.804 8.26309L8.324 5.03609C8.9655 4.44809 10 4.90309 10 5.77309V7.50009C16.5 7.50009 15.5 15.5001 15.5 15.5001C15.5 15.5001 13.5 10.5001 10 10.5001V12.2266C10 13.0966 8.9655 13.5516 8.3245 12.9641L4.8045 9.73709C4.70235 9.64342 4.62079 9.52953 4.565 9.40265C4.5092 9.27578 4.48039 9.13869 4.48039 9.00009C4.48039 8.86149 4.5092 8.72441 4.565 8.59754C4.62079 8.47066 4.70235 8.35677 4.8045 8.26309H4.804Z"
+                                                                  stroke="lightgray" stroke-width="1.5"
+                                                                  stroke-linecap="round"
+                                                                  stroke-linejoin="round"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <!-- --------------------------------------------------------------  main content: (text và không phải toàn bộ là emogi)
+                                                 hoặc là dạng file doc, excel hoặc là dạng tin nhắn reply 1 tin nhắn khác-->
+                                                <div *ngIf="(((isTextType(message.type) && message.onlyEmoji == false) || message.type == this.messageType.FILE || message.isReplyMessage) || message.type == this.messageType.SURVEY)"
+                                                     class="mb-0 pb-0">
+                                                    <!--                                                                reply title-->
+                                                    <div class="ctext-wrap-content"
+                                                         [ngClass]="{'failed-message' : message.status == this.messageStatus.FAILED && message.userType == this.userType.CLIENT}"
+                                                         [style.background-color]="message.userType == this.userType.AGENT ? '#008391' : '#d22cff'">
+                                                        <div class="minor-div" [id]="message.messageId + 'reMsg'">ok</div>
+                                                        <div [style.background-color]="message.userType == this.userType.AGENT ? domainDataService.colorAgent : domainDataService.colorCust"
+                                                             [style.border-left]="'3px solid ' + getColorFromText(message.messageId)"
+                                                             [ngClass]="message.replyUserType == this.userType.AGENT ? 'replymessage-block-agent' : 'replymessage-block-user'"
+                                                             class="d-flex align-items-center reply-block mx-1 mb-1 cursor-pointer"
+                                                             *ngIf="message.isReplyMessage"
+                                                             (click)="scrollToMessage(message.replyMsgId)">
+                                                            <div class="me-2"
+                                                                 *ngIf="isImageOrGifOrSticker(message.replyType)">
+                                                                <img class="attach-img"
+                                                                     *ngIf="isImageOrGifOrSticker(message.replyType) && message.replyFiles"
+                                                                     src="{{message.replyFiles}}"
+                                                                     alt="{{'chat.can-not-open-image' | translate}}">
+                                                            </div>
+                                                            <div class="me-2"
+                                                                 *ngIf="message.replyType == this.messageType.VIDEO">
+                                                                <video class="p-0 m-0"
+                                                                       *ngIf="message.replyFiles">
+                                                                    <!--NO SONAR-->
+                                                                    <source [src]="message.replyFiles">
+                                                                </video>
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center mt-0">
+                                                                <div>
+                                                                    <!--  class: mess-reply-content is for truncate content to 1 line, add ... in the end of that line -->
+                                                                    <div class="mess-content fs-14 mt-0">
+                                                                        <p class="m-0 mess-reply-content">
+                                                                            <b> {{message.replyUserType == this.userType.CLIENT ? (userDataService.name ? userDataService.name : ('chat.you' | translate)) : domainDataService.authorName}}</b>
+                                                                        </p>
+                                                                    </div>
+
+                                                                    <div class="attach-media-reply-darker wrap-text"
+                                                                         *ngIf=" message.replyType == this.messageType.FILE || message.replyType == this.messageType.AUDIO">
+                                                                        {{getTruncateFileName(message)}}
+                                                                    </div>
+
+                                                                    <div class="attach-media-reply-darker text-wrap"
+                                                                         *ngIf=" isImageOrGifOrSticker(message.replyType)">
+                                                                        {{message.replyType == this.messageType.IMAGE ? (message.isReplyingAlbum ? 'Album' : ('chat.image' | translate)) : (message.replyType == 15 ? "Sticker" : 'Gif')}}
+                                                                    </div>
+
+                                                                    <div class="attach-media-reply-darker text-wrap"
+                                                                         *ngIf="message.replyType == this.messageType.VIDEO ">
+                                                                        {{'Video'}}
+                                                                    </div>
+
+                                                                    <div class="mess-reply-content">{{message.replyMsg}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!--                                        set color like this will apply for all text-color inside this devide
+                                                                                                    also inject to stroke property in svg tag-->
+                                                        <div>
+                                                            <!-- file: doc excel txt-->
+                                                            <div class="d-flex image-container mb-2"
+                                                                 *ngIf="message.type == this.messageType.FILE">
+                                                                <div class="mx-1">
+                                                                    <svg class="svg-shadow" width="16" height="16" viewBox="0 0 16 16"
+                                                                         fill="none"
+                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M9.33331 2V4.66667C9.33331 4.84348 9.40355 5.01305 9.52858 5.13807C9.6536 5.2631 9.82317 5.33333 9.99998 5.33333H12.6666"
+                                                                              stroke="currentColor" stroke-width="1.5"
+                                                                              stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                        <path d="M11.3333 14H4.66665C4.31302 14 3.97389 13.8595 3.72384 13.6095C3.47379 13.3594 3.33331 13.0203 3.33331 12.6667V3.33333C3.33331 2.97971 3.47379 2.64057 3.72384 2.39052C3.97389 2.14048 4.31302 2 4.66665 2H9.33331L12.6666 5.33333V12.6667C12.6666 13.0203 12.5262 13.3594 12.2761 13.6095C12.0261 13.8595 11.6869 14 11.3333 14Z"
+                                                                              stroke="currentColor" stroke-width="1.5"
+                                                                              stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                        <path d="M6 6H6.66667" stroke="currentColor"
+                                                                              stroke-width="1.5" stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                        <path d="M6 8.6665H10" stroke="currentColor"
+                                                                              stroke-width="1.5" stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                        <path d="M6 11.3335H10" stroke="currentColor"
+                                                                              stroke-width="1.5" stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                    </svg>
+
+                                                                </div>
+                                                                <div class="ms-1">
+                                                                    <div>
+                                                                        <div (click)="downloadFile(message.status, message.filesName[0], message.files[0])"
+                                                                             class="file-name cursor-pointer">{{message.filesName[0]}}</div>
+                                                                        <div class="text-start">{{message.fileSize | displayFileSize}}</div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <mess-content *ngIf="message.type != this.messageType.SURVEY" [mess]="message"></mess-content>
+                                                            <div *ngIf="message.type == this.messageType.SURVEY" class="mb-0 pb-0 ctext-content fs-14 mess-content">
+                                                                {{truncateSurveyText(message.content)}}
+                                                                <div  *ngIf="message.type == this.messageType.SURVEY" (click)="loadSurvey(message.survey!)" class="survey-link">{{'chat.survey.start-survey' | translate}}</div>
+                                                            </div>
+
+                                                            <!--  ----------------------------------------- case send file to reply other message -->
+                                                            <div *ngIf="message.isReplyMessage"
+                                                                 class="mt-1 ctext-wrap-content1">
+
+                                                                <app-audio  *ngIf="message.type == this.messageType.AUDIO" [mess] = "message"></app-audio>
+
+                                                                <div  id="video" *ngIf="message.type == this.messageType.VIDEO">
+                                                                    <app-content-video  class="m-0 p-0" [mess]="message"></app-content-video>
+                                                                    <div (click)="openReourceInbigView([getResource(message.files[0])], message.type)"
+                                                                         class="full-screen-btn cursor-pointer">
+                                                                        <svg class="svg-shadow" width="24" height="24" viewBox="0 0 24 24"
+                                                                             fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                            <g clip-path="url(#clip0_383_38379)">
+                                                                                <path d="M4 8V6C4 5.46957 4.21071 4.96086 4.58579 4.58579C4.96086 4.21071 5.46957 4 6 4H8"
+                                                                                      stroke="gray" stroke-width="2"
+                                                                                      stroke-linecap="round"
+                                                                                      stroke-linejoin="round"/>
+                                                                                <path d="M4 16V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H8"
+                                                                                      stroke="#FFFFFFFF" stroke-width="2"
+                                                                                      stroke-linecap="round"
+                                                                                      stroke-linejoin="round"/>
+                                                                                <path d="M16 4H18C18.5304 4 19.0391 4.21071 19.4142 4.58579C19.7893 4.96086 20 5.46957 20 6V8"
+                                                                                      stroke="#FFFFFFFF" stroke-width="2"
+                                                                                      stroke-linecap="round"
+                                                                                      stroke-linejoin="round"/>
+                                                                                <path d="M16 20H18C18.5304 20 19.0391 19.7893 19.4142 19.4142C19.7893 19.0391 20 18.5304 20 18V16"
+                                                                                      stroke="gray" stroke-width="2"
+                                                                                      stroke-linecap="round"
+                                                                                      stroke-linejoin="round"/>
+                                                                            </g>
+                                                                            <defs>
+                                                                                <clipPath id="clip0_383_38379">
+                                                                                    <rect width="24" height="24" fill="white"/>
+                                                                                </clipPath>
+                                                                            </defs>
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!--                                            image in an album-->
+                                                                <div class="image-container"
+                                                                     *ngIf="  isImageOrGifOrSticker(message.type) && (message.status == this.messageStatus.FAILED || message.status == this.messageStatus.SENDING) && message.safeUrls">
+                                                                    <div class="flex-wrap">
+                                                                        <img *ngFor="let img of message.safeUrls; let i = index"
+                                                                             data-index="#i"
+                                                                             id="main-img"
+                                                                             (click)="openReourceInbigViewUsingSafeUrl(getResourceFromSafeUrl(img), message.type)"
+                                                                             [ngClass]=" message.files.length == 1 ? 'content-img' : 'content-img-album mt-1 me-1'"
+                                                                             [src]="getResourceFromSafeUrl(img)"
+                                                                             alt="{{'chat.can-not-open-image' | translate}}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="image-container"
+                                                                     *ngIf=" isImageOrGifOrSticker(message.type) && (message.status == this.messageStatus.SENT || message.status == this.messageStatus.SEEN ) && message.files">
+                                                                    <div class="flex-wrap">
+                                                                        <img *ngFor="let img of message.files; let i = index"
+                                                                             data-index="#i"
+                                                                             (click)="openReourceInbigView([getResource(message.files[i])], message.type)"
+                                                                             [ngClass]=" message.files.length == 1 ? 'content-img' : 'content-img-album mt-1 me-1'"
+                                                                             [src]="getResource(img)"
+                                                                             alt="{{'chat.can-not-open-image' | translate}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!------------------------------------------------------------------------ End main part1-->
+                                                    </div>
+                                                </div>
+                                                <!-- ----------------------------main content: media file || onlyEmoji, không phải loại file thường như doc, excel
+                                                        và không phải tin nhắn đang reply (considering...)-->
+                                                <div *ngIf=" (!isTextType(message.type) || message.onlyEmoji == true) && message.type != this.messageType.FILE && message && !message.isReplyMessage && message.type != this.messageType.SURVEY"
+                                                     [ngClass]="message.userType== this.userType.CLIENT ? ' ctext-wrap-content1' : 'ctext-wrap-content1'">
+                                                    <div *ngIf="message.isReplyMessage"
+                                                         class="ctext-wrap-content cursor-pointer"
+                                                         [style.background-color]="message.userType == this.userType.AGENT ? domainDataService.colorAgent : domainDataService.colorCust">
+                                                        <div class="minor-div" [id]="message.messageId + 'reMsg'">{{message.replyMsg}}</div>
+                                                        <div [ngClass]="message.userType == this.userType.AGENT ? 'replymessage-block-agent1' : 'replymessage-block-user1'"
+                                                             [style.border-radius]="(message.userType != message.replyUserType) ? '3px' : ''"
+                                                             class="reply-block px-1">
+                                                            <div class="d-flex">
+
+                                                                <div class="me-2"
+                                                                     *ngIf="isImageOrGifOrSticker(message.replyType) && message.replyFiles">
+                                                                    <img class="attach-img"
+                                                                         src="{{message.replyFiles}}"
+                                                                         alt="{{'chat.can-not-open-image' | translate}}">
+                                                                </div>
+
+                                                                <div class="me-2"
+                                                                     *ngIf="message.replyType == this.messageType.VIDEO && message.replyFiles">
+                                                                    <video class="p-0 m-0"> <!--NO SONAR-->
+                                                                        <source [src]="message.replyFiles">
+                                                                    </video>
+                                                                </div>
+                                                                <div class="flex-grow-1 mt-0">
+                                                                    <div>
+                                                                        <div class="mess-content fs-14 mt-0">
+                                                                            <p class="m-0 mess-reply-content">
+                                                                                <b> {{message.replyUserType == this.userType.CLIENT ? (userDataService.name ? userDataService.name : ('chat.you' | translate)) : domainDataService.authorName}}</b>
+                                                                            </p>
+                                                                        </div>
+
+                                                                        <div class="attach-media-reply-darker text-wrap"
+                                                                             *ngIf=" message.replyType == this.messageType.FILE || message.replyType == this.messageType.AUDIO">
+                                                                            {{getTruncateFileName(message)}}
+                                                                        </div>
+
+                                                                        <div class="attach-media-reply-darker text-wrap"
+                                                                             *ngIf="isImageOrGifOrSticker(message.replyType)">
+                                                                            {{message.replyType == this.messageType.IMAGE ? (message.isReplyingAlbum ? 'Album' : 'Ảnh') : (message.replyType == 15 ? "Sticker" : 'Gif')}}
+                                                                        </div>
+
+                                                                        <div class="attach-media-reply-darker text-wrap"
+                                                                             *ngIf=" message.replyType == this.messageType.VIDEO">
+                                                                            {{'Video'}}
+                                                                        </div>
+
+                                                                        <div class="mb-0 mess-reply-content">{{message.replyMsg}}</div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Phần content chính của media content bên dưới khối reply gồm: -->
+                                                    <div class="mt-1"
+                                                         [ngClass]="message.userType== this.userType.CLIENT ? 'align-content-right' : 'align-content-left'">
+
+                                                        <app-audio  *ngIf="message.type == this.messageType.AUDIO" [mess] = "message"></app-audio>
+
+                                                        <div id="video"
+                                                             *ngIf="message.type == this.messageType.VIDEO">
+                                                            <app-content-video  class="m-0 p-0" [mess]="message"></app-content-video>
+                                                            <div (click)="openReourceInbigView([getResource(message.files[0])], message.type)"
+                                                                 class="full-screen-btn cursor-pointer">
+                                                                <svg class="svg-shadow" width="24" height="24" viewBox="0 0 24 24"
+                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <g clip-path="url(#clip0_383_38379)">
+                                                                        <path d="M4 8V6C4 5.46957 4.21071 4.96086 4.58579 4.58579C4.96086 4.21071 5.46957 4 6 4H8"
+                                                                              stroke="gray" stroke-width="2"
+                                                                              stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                        <path d="M4 16V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H8"
+                                                                              stroke="#FFFFFFFF" stroke-width="2"
+                                                                              stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                        <path d="M16 4H18C18.5304 4 19.0391 4.21071 19.4142 4.58579C19.7893 4.96086 20 5.46957 20 6V8"
+                                                                              stroke="#FFFFFFFF" stroke-width="2"
+                                                                              stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                        <path d="M16 20H18C18.5304 20 19.0391 19.7893 19.4142 19.4142C19.7893 19.0391 20 18.5304 20 18V16"
+                                                                              stroke="gray" stroke-width="2"
+                                                                              stroke-linecap="round"
+                                                                              stroke-linejoin="round"/>
+                                                                    </g>
+                                                                    <defs>
+                                                                        <clipPath id="clip0_383_38379">
+                                                                            <rect width="24" height="24" fill="white"/>
+                                                                        </clipPath>
+                                                                    </defs>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+
+                                                        <!--                                            image in an album-->
+                                                        <div *ngIf="  isImageOrGifOrSticker(message.type) && (message.status == this.messageStatus.FAILED || message.status == this.messageStatus.SENDING) && message.safeUrls"
+                                                             class="flex-wrap"
+                                                             [ngClass]="message.userType== this.userType.CLIENT ? 'align-content-right' : 'align-content-left'">
+                                                            <img *ngFor="let img of message.safeUrls; let i = index"
+                                                                 data-index="#i"
+                                                                 id="main-img"
+                                                                 (click)="openReourceInbigViewUsingSafeUrl(getResourceFromSafeUrl(img), message.type)"
+                                                                 [ngClass]=" message.files.length == 1 ? 'content-img' : 'content-img-album mt-1 me-1'"
+                                                                 [src]="getResourceFromSafeUrl(img)"
+                                                                 alt="{{'chat.can-not-open-image' | translate}}">
+                                                        </div>
+                                                        <div *ngIf=" isImageOrGifOrSticker(message.type) && (message.status == this.messageStatus.SENT || message.status == this.messageStatus.SEEN ) && message.files"
+                                                             class="flex-wrap"
+                                                             [ngClass]="message.userType== this.userType.CLIENT ? 'align-content-right' : 'align-content-left'">
+                                                            <img *ngFor="let img of message.files; let i = index"
+                                                                 data-index="#i"
+                                                                 (click)="openReourceInbigView([getResource(message.files[i])], message.type)"
+                                                                 [ngClass]=" message.files.length == 1 ? 'content-img' : 'content-img-album mt-1 me-1'"
+                                                                 [src]="getResource(img)"
+                                                                 alt="{{'chat.can-not-open-image' | translate}}">
+                                                        </div>
+
+                                                        <div *ngIf="message.onlyEmoji"
+                                                             class="mb-0 pb-0 ctext-content fs-24">{{message.content}}</div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- reply agent message for [emogi only and audio/mp4/image] message-->
+                                                <div class="ms-1 my-0 d-flex align-items-center"
+                                                     *ngIf="message.userType == this.userType.AGENT">
+                                                    <!--                            if last element in row: message-time does not have enough space to show, it will break into another line:
+                                                                                    d-flex justify-content-center flex-wrap, it it has enough, it will stay in same line with other element  and line up
+                                                                                    very important-->
+                                                    <div class="d-flex justify-content-center flex-wrap align-items-center">
+                                                        <!--                         reply icon message of agent -->
+                                                        <div *ngIf="message.isRepliable"
+                                                             (click)="replyMessage($event, message)"
+                                                             class="mx-1 m-0 p-0 cursor-pointer reply-icon hide">
+                                                            <svg class="svg-shadow" width="20" height="20"
+                                                                 viewBox="0 0 20 20" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M4.804 8.26309L8.324 5.03609C8.9655 4.44809 10 4.90309 10 5.77309V7.50009C16.5 7.50009 15.5 15.5001 15.5 15.5001C15.5 15.5001 13.5 10.5001 10 10.5001V12.2266C10 13.0966 8.9655 13.5516 8.3245 12.9641L4.8045 9.73709C4.70235 9.64342 4.62079 9.52953 4.565 9.40265C4.5092 9.27578 4.48039 9.13869 4.48039 9.00009C4.48039 8.86149 4.5092 8.72441 4.565 8.59754C4.62079 8.47066 4.70235 8.35677 4.8045 8.26309H4.804Z"
+                                                                      stroke="lightgray" stroke-width="1.5"
+                                                                      stroke-linecap="round"
+                                                                      stroke-linejoin="round"/>
+                                                            </svg>
+                                                        </div>
+                                                        <!--                             lable time-->
+                                                        <div class="text-shadow time-in-conversation fs-12 reply-icon">{{getDateAndTimeFromLong(message.sendTime)}}</div>
+                                                    </div>
+                                                </div>
+                                                <!--                                Failed message icon-->
+                                                <div *ngIf="message.userType == this.userType.CLIENT && message.status == this.messageStatus.FAILED">
+                                                    <i>
+                                                        <svg class="svg-shadow" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                                             data-bs-toggle="tooltip"
+                                                             ngbTooltip="{{'chat.failed' | translate}}"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M12 17C12.2833 17 12.521 16.904 12.713 16.712C12.9043 16.5207 13 16.2833 13 16C13 15.7167 12.9043 15.479 12.713 15.287C12.521 15.0957 12.2833 15 12 15C11.7167 15 11.4793 15.0957 11.288 15.287C11.096 15.479 11 15.7167 11 16C11 16.2833 11.096 16.5207 11.288 16.712C11.4793 16.904 11.7167 17 12 17ZM12 22C10.6167 22 9.31667 21.7373 8.1 21.212C6.88333 20.6873 5.825 19.975 4.925 19.075C4.025 18.175 3.31267 17.1167 2.788 15.9C2.26267 14.6833 2 13.3833 2 12C2 10.6167 2.26267 9.31667 2.788 8.1C3.31267 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.31233 8.1 2.787C9.31667 2.26233 10.6167 2 12 2C13.3833 2 14.6833 2.26233 15.9 2.787C17.1167 3.31233 18.175 4.025 19.075 4.925C19.975 5.825 20.6873 6.88333 21.212 8.1C21.7373 9.31667 22 10.6167 22 12C22 13.3833 21.7373 14.6833 21.212 15.9C20.6873 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6873 15.9 21.212C14.6833 21.7373 13.3833 22 12 22ZM12 13C12.2833 13 12.521 12.904 12.713 12.712C12.9043 12.5207 13 12.2833 13 12V8C13 7.71667 12.9043 7.479 12.713 7.287C12.521 7.09567 12.2833 7 12 7C11.7167 7 11.4793 7.09567 11.288 7.287C11.096 7.479 11 7.71667 11 8V12C11 12.2833 11.096 12.5207 11.288 12.712C11.4793 12.904 11.7167 13 12 13Z"
+                                                                  fill="#EE0033"/>
+                                                        </svg>
+                                                    </i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                        send failed icon-->
+                                        <div class="retry-send d-flex align-items-center right"
+                                             *ngIf="message.userType == this.userType.CLIENT && message.status == this.messageStatus.FAILED">
+                                            <div class="ms-1"><b>{{'chat.retry' | translate}}</b>.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="d-flex align-items-end right fs-14 ms-1 me-0"
+                                     *ngIf="message.status != this.messageStatus.FAILED && message.userType == this.userType.CLIENT">
+                                    <!--                                            seen icon-->
+                                    <svg class="svg-shadow" data-bs-toggle="tooltip" ngbTooltip="{{'chat.seen' | translate}}"
+                                         *ngIf="message.status == this.messageStatus.SEEN && message.userType == this.userType.CLIENT"
+                                         width="17" height="16"
+                                         viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.5 7.33333L5.83333 10.6667L12.5 4" [attr.stroke]="domainDataService.colorCust"
+                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M8.5 10.6667L15.1667 4" [attr.stroke]="'#d22cff'" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                    <!--                                            sent icon-->
+                                    <svg class="svg-shadow" data-bs-toggle="tooltip" ngbTooltip="{{'chat.sent' | translate}}"
+                                         *ngIf="message.status == this.messageStatus.SENT && message.userType == this.userType.CLIENT"
+                                         width="16" height="16"
+                                         viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3.33331 7.99984L6.66665 11.3332L13.3333 4.6665" [attr.stroke]="'#d22cff'"
+                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <!--                                             Sending icon-->
+                                    <svg class="svg-shadow" *ngIf="message.status == this.messageStatus.SENDING && message.userType == this.userType.CLIENT"
+                                         data-bs-toggle="tooltip" ngbTooltip="{{'chat.sending' | translate}}"
+                                         width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 11C8.76142 11 11 8.76142 11 6C11 3.23858 8.76142 1 6 1C3.23858 1 1 3.23858 1 6C1 8.76142 3.23858 11 6 11Z"
+                                              [attr.stroke]="domainDataService.colorCust" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M6 3V6L4 7" [attr.stroke]="'#d22cff'" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-customer"
+                             *ngIf="isNewConversation(i, message)">
+                            <div class="item">
+                                <hr>
+                            </div>
+                            <div class="text-shadow item text-center">{{getDateFromLong(message.sendTime)}}</div>
+                            <div class="item">
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="typing-img" *ngIf="chatModel.isTyping">
+                    <div class="d-flex m-0 p-0">
+                        <div class="chat-avatar d-flex align-items-end">
+                            <img class="small-avatar rounded-circle" src="{{smallAvatar}}" alt="" onerror="this.src='assets/images/users/user-dummy-img.jpg'">
+                        </div>
+                        <img class="m-0 p-0" [src]="typingUrl"
+                             alt="{{'chat.can-not-open-image' | translate}}">
+                    </div>
+                </li>
+
+            </ul>
+        </ngx-simplebar>
+    </div>
+
+    <div *ngIf="isreplyMessage" class="mb-0 pb-0 p-1"  [style.border-top]="'1px solid lightgray'">
+        <app-chat-reply [chatModel]="chatModel" (replyEvent)="closeReplyBlock()"></app-chat-reply>
+    </div>
+
+    <div *ngIf="chatModel.endChat"
+         [style.border-top]="'1px solid lightgray'" class="py-3">
+        <div style="text-align: center">
+            <button class="btn btn-primary"
+                    [style.background-color]="domainDataService.color"
+                    (click)="startNewConversation()">{{'chat.start_new_conversation' | translate}}</button>
+        </div>
+    </div>
+
+    <div class="px-1 py-2"
+         *ngIf="!chatModel.endChat"
+         [style.border-top]="isreplyMessage ? '2px dotted lightgray' : '1px solid lightgray'">
+
+        <div class="d-flex align-items-center">
+            <!--Error list-->
+            <div *ngIf="chatModel.showError" style="width: 100%; display: block; position:absolute ; top: 0; left: 0;">
+                <div class="m-0 p-0" *ngFor="let message of chatModel.notifyMessage">
+                    <p *ngIf="message.flag == messageFlag.ERROR" class="bg-danger py-2 text-center m-0">{{message.message}}<p>
+                    <p  *ngIf="message.flag == messageFlag.INFO" class="bg-info py-2 text-center m-0">{{message.message}}<p>
+                </div>
+            </div>
+
+            <div>
+                <app-chat-toolbar [chatModel]="chatModel"
+                                  (fileChanges)="onChangeToolbarFilesInput($event)">
+                </app-chat-toolbar>
+            </div>
+            <div class="d-flex wrap-input-chat flex-grow-1">
+                <div style="width:100%; max-height: 120px; overflow-y: auto; flex-grow: 1">
+                    <textarea #inputContent id="box-chat-input" type="text"
+                              [(ngModel)]="chatModel.chatMessage.content"
+                              (keydown)="onChangeTextKeyDown($event)"
+                              [rows]="(chatModel.chatMessage.content.length > textLengthToBreakLine || chatModel.chatMessage.content.indexOf('\n') >=0 ) ? 5 : 1 "
+                              class="form-control border-light bg-light box-chat"
+                              placeholder="{{'chat.type' | translate}}"></textarea>
+                </div>
+                <div class="col-auto d-flex align-items-center">
+                    <div (click)="sendMessage()" class="d-flex align-items-center cursor-pointer me-2"
+                         [style.color]="domainDataService.color">
+                        <svg class="svg-shadow" width="15" height="13" viewBox="0 0 15 13" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <mask id="path-1-inside-1_2852_2190" fill="white">
+                                <path d="M14.0401 6.98261C14.0404 6.88434 14.0117 6.78816 13.9576 6.70609C13.9035 6.62403 13.8265 6.55972 13.7361 6.5212L0.749272 0.989874C0.662692 0.952454 0.567295 0.940285 0.474095 0.954774C0.380894 0.969263 0.293693 1.00982 0.22256 1.07176C0.151427 1.13369 0.099264 1.21449 0.0720944 1.30481C0.0449248 1.39513 0.0438568 1.4913 0.0690139 1.5822L1.38554 6.45065L6.04146 6.46368C6.17036 6.46934 6.29208 6.5246 6.38118 6.61792C6.47028 6.71124 6.51986 6.83539 6.51954 6.96441C6.51923 7.09344 6.46906 7.21734 6.37951 7.31023C6.28996 7.40312 6.16797 7.45779 6.03905 7.46282L1.38276 7.45297L0.0437402 12.3182C0.020753 12.4031 0.0206024 12.4927 0.0433047 12.5777C0.0660059 12.6628 0.110756 12.7403 0.17303 12.8025L0.196661 12.8262C0.267152 12.8881 0.353609 12.9288 0.44616 12.9439C0.538711 12.9589 0.633626 12.9476 0.720069 12.9113L13.7342 7.4422C13.8247 7.40408 13.9019 7.34018 13.9563 7.25845C14.0107 7.17672 14.0398 7.08079 14.0401 6.98261Z"/>
+                            </mask>
+                            <path d="M14.0401 6.98261C14.0404 6.88434 14.0117 6.78816 13.9576 6.70609C13.9035 6.62403 13.8265 6.55972 13.7361 6.5212L0.749272 0.989874C0.662692 0.952454 0.567295 0.940285 0.474095 0.954774C0.380894 0.969263 0.293693 1.00982 0.22256 1.07176C0.151427 1.13369 0.099264 1.21449 0.0720944 1.30481C0.0449248 1.39513 0.0438568 1.4913 0.0690139 1.5822L1.38554 6.45065L6.04146 6.46368C6.17036 6.46934 6.29208 6.5246 6.38118 6.61792C6.47028 6.71124 6.51986 6.83539 6.51954 6.96441C6.51923 7.09344 6.46906 7.21734 6.37951 7.31023C6.28996 7.40312 6.16797 7.45779 6.03905 7.46282L1.38276 7.45297L0.0437402 12.3182C0.020753 12.4031 0.0206024 12.4927 0.0433047 12.5777C0.0660059 12.6628 0.110756 12.7403 0.17303 12.8025L0.196661 12.8262C0.267152 12.8881 0.353609 12.9288 0.44616 12.9439C0.538711 12.9589 0.633626 12.9476 0.720069 12.9113L13.7342 7.4422C13.8247 7.40408 13.9019 7.34018 13.9563 7.25845C14.0107 7.17672 14.0398 7.08079 14.0401 6.98261Z"
+                                  fill="currentColor"/>
+                            <path d="M13.7361 6.5212L20.008 -8.19829L20.0058 -8.19923L13.7361 6.5212ZM0.749272 0.989874L-5.5986 15.6768L-5.55956 15.6936L-5.52043 15.7103L0.749272 0.989874ZM0.0690139 1.5822L15.5142 -2.59449L15.502 -2.63994L15.4894 -2.68532L0.0690139 1.5822ZM1.38554 6.45065L-14.0597 10.6273L-10.8717 22.4164L1.34074 22.4506L1.38554 6.45065ZM6.04146 6.46368L6.74284 -9.52094L6.41471 -9.53533L6.08626 -9.53625L6.04146 6.46368ZM6.03905 7.46282L6.00518 23.4628L6.33425 23.4635L6.66305 23.4506L6.03905 7.46282ZM1.38276 7.45297L1.41662 -8.547L-10.8015 -8.57285L-14.0436 3.20726L1.38276 7.45297ZM0.0437402 12.3182L-15.3827 8.07247L-15.3919 8.10601L-15.401 8.1396L0.0437402 12.3182ZM0.17303 12.8025L11.5141 1.5162L11.4973 1.49935L11.4805 1.48255L0.17303 12.8025ZM0.196661 12.8262L-11.1444 24.1125L-10.7617 24.4971L-10.3538 24.8549L0.196661 12.8262ZM0.720069 12.9113L6.91867 27.6618L6.91884 27.6617L0.720069 12.9113ZM13.7342 7.4422L19.933 22.1926L19.9396 22.1899L19.9461 22.1871L13.7342 7.4422ZM14.0401 6.98261L-1.95985 6.93675L-1.95987 6.94452L14.0401 6.98261ZM30.04 7.02848C30.0493 3.78538 29.1027 0.611503 27.3185 -2.0966L0.596752 15.5088C-1.07932 12.9648 -1.96858 9.98329 -1.95985 6.93675L30.04 7.02848ZM27.3185 -2.0966C25.5342 -4.80474 22.9915 -6.92703 20.008 -8.19829L7.46418 21.2407C4.66148 20.0465 2.27285 18.0528 0.596752 15.5088L27.3185 -2.0966ZM20.0058 -8.19923L7.01897 -13.7305L-5.52043 15.7103L7.46638 21.2416L20.0058 -8.19923ZM7.09714 -13.697C4.24005 -14.9319 1.09192 -15.3335 -1.9837 -14.8553L2.93189 16.7649C0.0426669 17.214 -2.91466 16.8368 -5.5986 15.6768L7.09714 -13.697ZM-1.9837 -14.8553C-5.05931 -14.3772 -7.93696 -13.0389 -10.2843 -10.9949L10.7295 13.1384C8.52434 15.0585 5.8211 16.3157 2.93189 16.7649L-1.9837 -14.8553ZM-10.2843 -10.9949C-12.6317 -8.95098 -14.3531 -6.28474 -15.2497 -3.30413L15.3939 5.91375C14.5516 8.71372 12.9346 11.2184 10.7295 13.1384L-10.2843 -10.9949ZM-15.2497 -3.30413C-16.1463 -0.323494 -16.1815 2.84994 -15.3514 5.84972L15.4894 -2.68532C16.2693 0.132651 16.2362 3.11376 15.3939 5.91375L-15.2497 -3.30413ZM-15.3762 5.75889L-14.0597 10.6273L16.8308 2.27396L15.5142 -2.59449L-15.3762 5.75889ZM1.34074 22.4506L5.99667 22.4636L6.08626 -9.53625L1.43033 -9.54929L1.34074 22.4506ZM5.34008 22.4483C1.34422 22.273 -2.42919 20.5598 -5.19122 17.6669L17.9536 -4.43104C15.0134 -7.51056 10.9965 -9.33429 6.74284 -9.52094L5.34008 22.4483ZM-5.19122 17.6669C-7.95325 14.774 -9.49009 10.9254 -9.48041 6.92569L22.5195 7.00313C22.5298 2.74539 20.8938 -1.35152 17.9536 -4.43104L-5.19122 17.6669ZM-9.48041 6.92569C-9.47073 2.92601 -7.9153 -0.915116 -5.13928 -3.79461L17.8983 18.4151C20.8534 15.3498 22.5092 11.2609 22.5195 7.00313L-9.48041 6.92569ZM-5.13928 -3.79461C-2.36328 -6.67409 1.41837 -8.36901 5.41504 -8.525L6.66305 23.4506C10.9176 23.2846 14.9432 21.4803 17.8983 18.4151L-5.13928 -3.79461ZM6.07291 -8.53714L1.41662 -8.547L1.34889 23.4529L6.00518 23.4628L6.07291 -8.53714ZM-14.0436 3.20726L-15.3827 8.07247L15.4701 16.5639L16.8092 11.6987L-14.0436 3.20726ZM-15.401 8.1396C-16.1596 10.9436 -16.1645 13.898 -15.4154 16.7043L15.502 8.45108C16.2057 11.0873 16.2011 13.8627 15.4885 16.4967L-15.401 8.1396ZM-15.4154 16.7043C-14.6662 19.5107 -13.1895 22.0696 -11.1344 24.1225L11.4805 1.48255C13.411 3.41097 14.7982 5.81481 15.502 8.45108L-15.4154 16.7043ZM-11.168 24.0888L-11.1444 24.1125L11.5377 1.53995L11.5141 1.5162L-11.168 24.0888ZM-10.3538 24.8549C-8.02754 26.8953 -5.17446 28.2404 -2.12033 28.7367L3.01265 -2.84894C5.88168 -2.3827 8.56185 -1.11911 10.7471 0.79763L-10.3538 24.8549ZM-2.12033 28.7367C0.933808 29.233 4.06601 28.8606 6.91867 27.6618L-5.47853 -1.8392C-2.79876 -2.96532 0.143614 -3.31519 3.01265 -2.84894L-2.12033 28.7367ZM6.91884 27.6617L19.933 22.1926L7.53544 -7.30823L-5.4787 -1.83913L6.91884 27.6617ZM19.9461 22.1871C22.9317 20.9293 25.481 18.8204 27.276 16.1233L0.636627 -1.60641C2.32285 -4.14001 4.71763 -6.12112 7.52229 -7.3027L19.9461 22.1871ZM27.276 16.1233C29.071 13.4263 30.0323 10.2605 30.04 7.02071L-1.95987 6.94452C-1.95262 3.90109 -1.04958 0.927163 0.636627 -1.60641L27.276 16.1233Z"
+                                  fill="currentColor" mask="url(#path-1-inside-1_2852_2190)"/>
+                        </svg>
+                    </div>
+                </div><!-- end col -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div>
+</div>

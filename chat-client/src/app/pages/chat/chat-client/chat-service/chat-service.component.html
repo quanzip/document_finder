@@ -1,0 +1,124 @@
+<div id="chat-body" [style.padding-bottom]="'8px'" [style.background]="'url(' + 'assets/images/small/img-4.jpg' + ')'"
+     [style.border-bottom-left-radius]="domainDataService?.borderRadius+'px'"
+     [style.border-bottom-right-radius]="domainDataService?.borderRadius+'px'">
+    <div id="users-chat">
+        <div class="invisible">This is invisible title just to take space</div>
+        <ngx-simplebar class="chat-conversation p-3" id="chat-conversation" data-simplebar style="height: 350px;">
+            <div class="row">
+                <!--end col-->
+                <div class="col-12 d-flex align-items-center">
+                    <table style="width: 100%; margin: 0; background-color: white; border-radius: 10px">
+                        <tr style="margin: 0; height: 350px">
+                            <td class="container service-container" style="margin: 0">
+                                <div class="content service-content">
+                                    <table  width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction">
+                                        <tr>
+                                            <td valign="top">
+                                                <table width="100%" cellpadding="0" cellspacing="0">
+                                                    <tr>
+                                                        <td class="content-block">
+                                                            <div class="my-2">
+                                                                {{onlineGreetingOnUserForm}}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr *ngIf="showSelectService()">
+                                                        <td class="content-block">
+                                                            <div class="mb-3" bis_skin_checked="1">
+                                                                <label for="service" class="form-label">{{'chat.select-service-pls' | translate}}</label>
+                                                                <select id="service" class="form-select mb-3"
+                                                                        aria-label="Default select example" [(ngModel)]="selectedService" (change)="changeService()">
+                                                                    <option [ngValue]="null" disabled>{{'chat.select-one-service' | translate}}</option>
+                                                                    <option *ngFor="let service of domainDataService.services" [ngValue]="service">
+                                                                        {{service.serviceName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr *ngIf="domainDataService.enableCustomerInfo == 1 && domainDataService.domainDetail.allowInfo == 1">
+                                                        <td>
+                                                            <div class="mb-3">
+                                                                <label for="name" class="form-label">{{'chat.customer-name' | translate}}
+                                                                    <label *ngIf=" domainDataService.domainDetail.requireInfo == 1" class="text-danger">*</label></label>
+                                                                <input (focusin)="onFocusNameIn()"  (focusout)="changeUserName()" [(ngModel)]="userDataService.name" type="text" class="form-control" id="name">
+                                                                <label class="text-danger" *ngIf="showWarningNameEmpty">{{'chat.fill-customer-name-pls' | translate}}</label>
+                                                                <label class="text-danger" *ngIf="showWarningNameRegex">{{'chat.fill-chars-pls' | translate}}</label>
+                                                                <label class="text-danger" *ngIf="showWarningNameLength">{{'chat.fill-cusName-less-than-y-chars' | translate : {'length': 100} }}</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr *ngIf="domainDataService.enableCustomerInfo == 1 && domainDataService.domainDetail.allowEmail == 1">
+                                                        <td class="content-block">
+                                                            <div class="mb-3">
+                                                                <label for="email" class="form-label">{{'Email'}}
+                                                                    <label *ngIf=" domainDataService.domainDetail.requireEmail == 1" class="text-danger">*</label></label>
+                                                                <input (focusin)="onFocusEmailIn()"  (focusout)="changeUserEmail()" [(ngModel)]="userDataService.email" type="text" class="form-control" id="email">
+                                                                <label class="text-danger" *ngIf="showWarningEmailEmpty">{{'chat.fill-customer-email-pls' | translate}}</label>
+                                                                <label class="text-danger" *ngIf="showWarningEmailRegex">{{'chat.fill-email-pls' | translate}}</label>
+                                                                <label class="text-danger" *ngIf="showWarningEmailLength">{{'chat.fill-cusEmail-less-than-y-chars' | translate : {'length': 100} }}</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr *ngIf="domainDataService.enableCustomerInfo == 1 && domainDataService.domainDetail.allowMobile == 1">
+                                                        <td class="content-block">
+                                                            <div class="mb-3">
+                                                                <label for="phone" class="form-label">{{'chat.phone-number' | translate}}
+                                                                    <label *ngIf=" domainDataService.domainDetail.requireMobile == 1" class="text-danger">*</label></label>
+                                                                <input  (focusin)="onFocusPhoneIn()"  (focusout)="changeUserPhone()" [(ngModel)]="userDataService.phone" type="text" class="form-control" id="phone">
+                                                                <label class="text-danger" *ngIf="showWarningPhoneEmpty">{{'chat.fill-customer-phone-pls' | translate}}</label>
+                                                                <label class="text-danger" *ngIf="showWarningPhoneRegex">{{'chat.fill-number-pls' | translate}}</label>
+                                                                <label class="text-danger" *ngIf="showWarningPhoneLength">{{'chat.fill-cusPhone-less-than-y-chars' | translate : {'length': 20} }}</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <!--  in case of out working time, always show this field-->
+                                                    <tr *ngIf="(domainDataService.enableCustomerInfo == 1 && domainDataService.domainDetail.allowMessage == 1)
+                                                     || domainDataService.workingTimeType == WORKING_TYPE.OUT_TIME">
+                                                        <td class="content-block">
+                                                            <div class="mb-3" >
+                                                                <label for="message" class="form-label">{{'chat.message'| translate}}
+                                                                    <label *ngIf=" domainDataService.domainDetail.requireMessage == 1 || domainDataService.workingTimeType == WORKING_TYPE.OUT_TIME" class="text-danger">*</label></label>
+                                                                <textarea maxlength="4096" (focusin)="onFocusContentIn()"  (focusout)="changeUserMessage()"  [(ngModel)]="userDataService.message" class="form-control" id="message" rows="3" spellcheck="false" style="resize: none"></textarea>
+                                                                <label class="text-danger italic" *ngIf="showWarningMessage">{{'chat.fill-message-pls' | translate}}</label>
+                                                                <label class="text-danger italic" *ngIf="showWarningMessageLength">{{'chat.fill-cusContent-less-than-y-chars' | translate : {'length': 4096} }}</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- end table -->
+                </div>
+                <!--end col-->
+            </div><!-- end row -->
+        </ngx-simplebar>
+    </div>
+    <div class="border-top border-top-dashed">
+        <div class="row g-1 mx-1 mt-1 mb-2">
+            <div class="col-md-12 text-center" >
+                <button type="submit" class="btn btn-primary btn-start-chat"
+                        [style.background-color]="domainDataService.color"
+                        (click)="onSubmit()">{{'chat.start-chat' |  translate}}</button>
+            </div>
+
+<!--            <div class="col-md-12 text-center" *ngIf="domainDataService.workingTimeType == WORKING_TYPE.OUT_TIME && leaveMessageStep == OUT_TIME_STEPS.LEAVE_INFO">-->
+<!--                <button type="submit" class="btn btn-primary btn-start-chat"-->
+<!--                        [style.background-color]="domainDataService.color"-->
+<!--                        (click)="onSubmit()">{{'chat.leave-message' | translate}}</button>-->
+<!--            </div>-->
+
+<!--            <div class="col-md-12 text-center" *ngIf="domainDataService.workingTimeType == WORKING_TYPE.OUT_TIME  && leaveMessageStep == OUT_TIME_STEPS.THANKS_AND_WAIT">-->
+<!--                <button type="submit" class="btn btn-primary btn-start-chat"-->
+<!--                        [style.background-color]="domainDataService.color"-->
+<!--                        (click)="leaveMoreMessage()">{{'chat.leave-other-message' | translate}}</button>-->
+<!--            </div>-->
+        </div><!-- end row -->
+    </div>
+</div>

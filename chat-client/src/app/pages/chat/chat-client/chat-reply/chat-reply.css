@@ -1,0 +1,33 @@
+
+img {
+    border-radius: 10px;
+    width:50px;
+    height:50px;
+}
+
+video {
+    border-radius: 10px;
+    max-width: 70px;
+    /*height: auto;*/
+    max-height: 70px
+}
+
+.reply-text{
+    word-wrap: break-word;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.reply-block{
+    width: 100%;
+    /*position: absolute;*/
+    bottom: 0;
+    background-color: white;
+}
+.fs-lighter{
+    color: #73777A
+}

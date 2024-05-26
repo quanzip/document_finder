@@ -1,0 +1,8 @@
+.col-sm-12 {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+.smart-form :after, .smart-form :before{
+    box-sizing: border-box!important;
+}

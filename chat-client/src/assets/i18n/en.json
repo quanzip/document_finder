@@ -1,0 +1,348 @@
+{
+  "common": {
+    "error": {
+      "content-file": "Sorry, the attachment could not be downloaded. Please check the file path again or try again later.",
+      "400": "There was a syntax error in the request and the request was denied",
+      "401": "Sorry, you are not authorized to access our website for security reasons.",
+      "403": "Sorry, you are not authorized to access this site.",
+      "404": "Sorry, we couldn't find the site you're looking for.",
+      "405": "Sorry, request method is not allowed on this site.",
+      "406": "Sorry, the site cannot display the content you requested.",
+      "408": "Sorry, the site could not process your request within the specified time period.",
+      "500": "Sorry, the site is experiencing internal technical issues and cannot process your request at this time.",
+      "502": "Sorry, the site cannot complete your request at this time.",
+      "503": "Sorry, the website is currently experiencing technical problems and the service is temporarily unavailable.",
+      "504": "Sorry, the site is unable to complete your request at this time because the connection timeout has been exceeded."
+    }
+  },
+  "chat": {
+    "search": "Search",
+    "connected": "Connected",
+    "reply": "Reply",
+    "reply-lowercase": "reply",
+    "you": "You",
+    "you-lowercase": "you",
+    "you-reply": "You reply",
+    "reply-you-lowercase": "reply you",
+    "click": "Click",
+    "retry": "Send failed",
+    "can-not-open-image": "Can not load image",
+    "seen": "Seen",
+    "send": "Send",
+    "sent": "Sent",
+    "failed": "Failed",
+    "sending": "Sending",
+    "type": "Type here",
+    "image": "Image",
+    "select-service-pls": "Choose the service you want",
+    "select-one-service": "Choose one service",
+    "customer-name": "Customer name",
+    "fill-customer-name-pls": "Please fill out Customer name",
+    "fill-chars-pls": "Please fill Customer name with number",
+    "fill-cusName-less-than-y-chars": "Please fill Customer name at most {{length}} letters",
+    "fill-cusEmail-less-than-y-chars": "Please fill Email at most {{length}} letters",
+    "fill-cusPhone-less-than-y-chars": "Please fill Phone number at most {{length}} letters",
+    "fill-cusContent-less-than-y-chars": "Please fill Message at most {{length}} letters",
+    "fill-customer-email-pls": "Please fill out Email address",
+    "fill-email-pls": "Please fill Email with Email format. Ex example@gmail.com",
+    "fill-customer-phone-pls": "Please fill out Phone number",
+    "fill-number-pls": "Please fill Phone number with number only",
+    "message": "Message",
+    "fill-message-pls": "Please fill out Message",
+    "phone-number": "Phone number",
+    "start-chat": "Start conversation",
+    "leave-message": "Leave message",
+    "leave-other-message": "Leave more message",
+    "start_new_conversation": "Start new conversation",
+    "ended": "Conversation ended",
+    "chat-server": {
+      "db-error": "System has error, please retry later!",
+      "re-connected": "Reconnected successfully!"
+    },
+    "error": {
+      "invalid-format": "File {{param}} in not supported! (supported: {{param1}})",
+      "invalid-size": "File {{param}} has invalid size,(at most {{param1}}MB)",
+      "invalid-domain": "Domain stoped!"
+    },
+    "survey": {
+      "survey": "Survey",
+      "reject": "Do not agree",
+      "invitation": "Ipcc invited you to do a survey",
+      "time-out": "Khảo sát hết hạn",
+      "thank-for-usage": "Thanks for using service and product of Viettel",
+      "non-exist": "Sorry, survey did not exist",
+      "done": "You completed survey to assess the quality of Viettel service",
+      "start-survey": "Start survey"
+    },
+    "no-service": "No services"
+  },
+  "HEADER": {
+    "MORE": {
+      "TEXT": "More"
+    }
+  },
+  "MENUITEMS": {
+    "MENU": {
+      "TEXT": "MENU"
+    },
+    "DASHBOARD": {
+      "TEXT": "Dashboard",
+      "BADGE": "New",
+      "LIST": {
+        "ANALYTICS": "Analytics",
+        "CRM": "CRM",
+        "ECOMMERCE": "Ecommerce",
+        "CRYPTO": "Crypto",
+        "PROJECTS": "Projects",
+        "NFT": "NFT"
+      }
+    },
+    "APPS": {
+      "TEXT": "Apps",
+      "LIST": {
+        "CALENDAR": "Calendar",
+        "CHAT": "Chat",
+        "EMAIL": "Email",
+        "MAILBOX": "Mailbox",
+        "MAILTEMPLATES": "Email Templates",
+        "BASICACTION": "Basic Action",
+        "ECOMMERCEACTION": "Ecommerce Action",
+        "ECOMMERCE": "Ecommerce",
+        "PRODUCTS": "Products",
+        "PRODUCTDETAILS": "Product Details",
+        "CREATEPRODUCT": "Create Product",
+        "ORDERS": "Orders",
+        "ORDERDETAILS": "Order Details",
+        "CUSTOMERS": "Customers",
+        "SHOPPINGCART": "Shopping Cart",
+        "CHECKOUT": "Checkout",
+        "SELLERS": "Sellers",
+        "SELLERDETAILS": "Seller Details",
+        "PROJECTS": "Projects",
+        "LIST": "List",
+        "OVERVIEW": "Overview",
+        "CREATEPROJECT": "Create Project",
+        "TASK": "Tasks",
+        "KANBANBOARD": "Kanban Board",
+        "LISTVIEW": "List View",
+        "TASKDETAILS": "Task Details",
+        "CRM": "CRM",
+        "CONTACTS": "Contacts",
+        "COMPANIES": "Companies",
+        "DEALS": "Deals",
+        "LEADS": "Leads",
+        "CRYPTO": "Crypto",
+        "TRANSACTIONS": "Transactions",
+        "BUY&SELL": "Buy & Sell",
+        "MYWALLET": "My Wallet",
+        "ICOLIST": "ICO List",
+        "KYCAPPLICATION": "KYC Application",
+        "INVOICES": "Invoices",
+        "DETAILS": "Details",
+        "CREATEINVOICE": "Create Invoice",
+        "SUPPORTTICKETS": "Support Tickets",
+        "TICKETDETAILS": "Ticket Details",
+        "NFTMARKETPLACE": "NFT Marketplace",
+        "MARKETPLACE": "Marketplace",
+        "EXPLORENOW": "Explore Now",
+        "LIVEAUCTION": "Live Auction",
+        "ITEMDETAILS": "Item Details",
+        "COLLECTIONS": "Collections",
+        "CREATORS": "Creators",
+        "RANKING": "Ranking",
+        "WALLETCONNECT": "Wallet Connect",
+        "CREATENFT": "Create NFT",
+        "FILEMANAGER": "File Manager",
+        "TODO": "To Do"
+      }
+    },
+    "LAYOUTS": {
+      "TEXT": "Layouts",
+      "LIST": {
+        "HORIZONTAL": "Horizontal",
+        "DETACHED": "Detached",
+        "TWOCOLUMN": "Two Column",
+        "HOVERED": "Hovered"
+      }
+    },
+    "PAGES": {
+      "TEXT": "Pages"
+    },
+    "AUTHENTICATION": {
+      "TEXT": "Authentication",
+      "LIST": {
+        "BASIC": "Basic",
+        "COVER": "Cover",
+        "SIGNIN": "Sign In",
+        "SIGNUP": "Sign Up",
+        "PASSWORDRESET": "Password Reset",
+        "PASSWORDCREATE": "Password Create",
+        "LOCKSCREEN": "Lock Screen",
+        "LOGOUT": "Logout",
+        "SUCCESSMESSAGE": "Success Message",
+        "TWOSTEPVERIFICATION": "Two Step Verification",
+        "ERRORS": "Errors",
+        "404BASIC": "404 Basic",
+        "404COVER": "404 Cover",
+        "404ALT": "404 Alt",
+        "500": "500",
+        "OFFLINE": "Offline Page"
+      }
+    },
+    "PAGES": {
+      "TEXT": "Pages",
+      "LIST": {
+        "STARTER": "Starter",
+        "PROFILE": "Profile",
+        "SIMPLEPAGE": "Simple Page",
+        "SETTINGS": "Settings",
+        "TEAM": "Team",
+        "TIMELINE": "Timeline",
+        "FAQS": "FAQs",
+        "PRICING": "Pricing",
+        "GALLERY": "Gallery",
+        "MAINTENANCE": "Maintenance",
+        "COMINGSOON": "Coming Soon",
+        "SITEMAP": "Sitemap",
+        "SEARCHRESULTS": "Search Results"
+      }
+    },
+    "LANDING": {
+      "TEXT": "Landing",
+      "LIST": {
+        "ONEPAGE": "One Page",
+        "NFTLANDING": "NFT Landing"
+      }
+    },
+    "COMPONENTS": {
+      "TEXT": "Components"
+    },
+    "BASEUI": {
+      "TEXT": "Base UI",
+      "LIST": {
+        "ALERTS": "Alerts",
+        "BADGES": "Badges",
+        "BUTTONS": "Buttons",
+        "COLORS": "Colors",
+        "CARDS": "Cards",
+        "CAROUSEL": "Carousel",
+        "DROPDOWNS": "Dropdowns",
+        "GRID": "Grid",
+        "IMAGES": "Images",
+        "TABS": "Tabs",
+        "ACCORDION&COLLAPSE": "Accordion & Collapse",
+        "MODALS": "Modals",
+        "OFFCANVAS": "Offcanvas",
+        "PLACEHOLDERS": "Placeholders",
+        "PROGRESS": "Progress",
+        "NOTIFICATIONS": "Notifications",
+        "MEDIAOBJECT": "Media object",
+        "EMBEDVIDEO": "Embed Video",
+        "TYPOGRAPHY": "Typography",
+        "LISTS": "Lists",
+        "GENERAL": "General",
+        "RIBBONS": "Ribbons",
+        "UTILITIES": "Utilities"
+      }
+    },
+    "ADVANCEUI": {
+      "TEXT": "Advance UI",
+      "LIST": {
+        "SWEETALERTS": "Sweet Alerts",
+        "NESTABLELIST": "Nestable List",
+        "SCROLLBAR": "Scrollbar",
+        "ANIMATION": "Animation",
+        "TOUR": "Tour",
+        "SWIPERSLIDER": "Swiper Slider",
+        "RATTINGS": "Ratings",
+        "HIGHLIGHT": "Highlight",
+        "SCROLLSPY": "ScrollSpy"
+      }
+    },
+    "WIDGETS": {
+      "TEXT": "Widgets"
+    },
+    "FORMS": {
+      "TEXT": "Forms",
+      "LIST": {
+        "BASICELEMENTS": "Basic Elements",
+        "FORMSELECT": "Form Select",
+        "CHECKBOXS&RADIOS": "Checkboxs & Radios",
+        "PICKERS": "Pickers",
+        "INPUTMASKS": "Input Masks",
+        "ADVANCED": "Advanced",
+        "RANGESLIDER": "Range Slider",
+        "VALIDATION": "Validation",
+        "WIZARD": "Wizard",
+        "EDITORS": "Editors",
+        "FILEUPLOADS": "File Uploads",
+        "FORMLAYOUTS": "Form Layouts"
+      }
+    },
+    "TABLES": {
+      "TEXT": "Tables",
+      "LIST": {
+        "BASICTABLES": "Basic Tables",
+        "GRIDJS": "Grid Js",
+        "LISTJS": "List Js",
+        "DATATABLES": "Datatables"
+      }
+    },
+    "CHARTS": {
+      "TEXT": "Charts",
+      "LIST": {
+        "APEXCHARTS": "Apexcharts",
+        "LINE": "Line",
+        "AREA": "Area",
+        "COLUMN": "Column",
+        "BAR": "Bar",
+        "MIXED": "Mixed",
+        "TIMELINE": "Timeline",
+        "CANDLSTICK": "Candlstick",
+        "BOXPLOT": "Boxplot",
+        "BUBBLE": "Bubble",
+        "SCATTER": "Scatter",
+        "HEATMAP": "Heatmap",
+        "TREEMAP": "Treemap",
+        "PIE": "Pie",
+        "RADIALBAR": "Radialbar",
+        "RADAR": "Radar",
+        "POLARAREA": "Polar Area",
+        "CHARTJS": "Chartjs",
+        "ECHARTS": "Echarts"
+      }
+    },
+    "ICONS": {
+      "TEXT": "Icons",
+      "LIST": {
+        "REMIX": "Remix",
+        "BOXICONS": "Boxicons",
+        "MATERIALDESIGN": "Material Design",
+        "LINEAWESOME": "Line Awesome",
+        "FEATHER": "Feather",
+        "CRYPTOSVG": "Crypto SVG"
+      }
+    },
+    "MAPS": {
+      "TEXT": "Maps",
+      "LIST": {
+        "GOOGLE": "Google",
+        "VECTOR": "Vector",
+        "LEAFLET": "Leaflet"
+      }
+    },
+    "MULTILEVEL": {
+      "TEXT": "Multi Level",
+      "LIST": {
+        "LEVEL1": {
+          "1": "Level 1.1",
+          "2": "Level 1.2",
+          "LEVEL2": {
+            "1": "Level 2.1",
+            "2": "Level 2.2"
+          }
+        }
+      }
+    }
+  }
+}

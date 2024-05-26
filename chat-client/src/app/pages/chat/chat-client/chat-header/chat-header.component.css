@@ -1,0 +1,15 @@
+.working-status{
+    position: relative;
+    left: 0;
+}
+.in-time{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.out-time{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}

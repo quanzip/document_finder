@@ -1,0 +1,24 @@
+<div class="d-flex align-items-center ps-1">
+    <button *ngIf="this.enableSendFile" onclick="document.getElementById('selectedFile').click();"
+            [style.background-color]="domainDataService.color" class="btn btn-sm btn-rounded btn-icon me-1 text-light">
+        <input id="selectedFile" style="display: none;" type="file" multiple [(ngModel)]="files"
+               (change)="changeFileInput($event)"/>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 5.2735V10.6668C4 11.7277 4.42143 12.7451 5.17157 13.4953C5.92172 14.2454 6.93913 14.6668 8 14.6668C9.06087 14.6668 10.0783 14.2454 10.8284 13.4953C11.5786 12.7451 12 11.7277 12 10.6668V4.00016C12 3.29292 11.719 2.61464 11.219 2.11454C10.7189 1.61445 10.0406 1.3335 9.33333 1.3335C8.62609 1.3335 7.94781 1.61445 7.44772 2.11454C6.94762 2.61464 6.66667 3.29292 6.66667 4.00016V10.1215C6.66667 10.2966 6.70115 10.47 6.76816 10.6317C6.83517 10.7935 6.93338 10.9405 7.05719 11.0643C7.181 11.1881 7.32799 11.2863 7.48976 11.3533C7.65152 11.4203 7.8249 11.4548 8 11.4548V11.4548C8.35362 11.4548 8.69276 11.3144 8.94281 11.0643C9.19286 10.8143 9.33333 10.4751 9.33333 10.1215V5.3335"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <input class="btn btn-sm btn-icon me-1 " type="image" id="myimage" src=".\assets\images\history_icon.png" />
+
+    <div *ngIf="this.enableSendEmoji || this.enableSendSticker || this.enableSendGif">
+        <app-emoji-picker
+                [enableSendEmoji] = this.enableSendEmoji
+                [enableSendSticker] = this.enableSendSticker
+                [enableSendGif] = this.enableSendGif
+                (emojiPicked)="addEmojiToChatInput($event)"
+                (gifPicked)="messageGifSave($event)"
+                (stickerPicked)="messageStickerSave($event)"
+        ></app-emoji-picker>
+    </div>
+</div>

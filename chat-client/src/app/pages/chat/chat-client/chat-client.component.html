@@ -1,0 +1,17 @@
+<div *ngIf="showChatBox()" class="chat-detail-custom" id="chat-detailElem">
+    <div class="card m-0 p-0" [style.border-top-left-radius]="'0px'" [style.border-top-right-radius]="'0px'"
+         [style.border-bottom-left-radius]="domainDataService.borderRadius + 'px'" [style.border-bottom-right-radius]="domainDataService.borderRadius + 'px'">
+        <app-chat-header [chatModel]="chatModel"  style="position: fixed; left: 0; top: 0;z-index: 10; width:100%"
+                         (changeHeader)="onChangeHeader($event)"></app-chat-header>
+        <div class="card-body p-0 m-0" >
+<!--            <app-chat-service *ngIf="showService()" [chatModel]="chatModel"-->
+<!--                              (changeModel)="onChangeService($event)"></app-chat-service>-->
+
+            <app-chat-body *ngIf="!showService()" [chatModel]="chatModel" [lastOffsetCon]="lastOffsetCon" [scrollToBottom]="scrolltoBottom$" [typingSignal]="typingSignal"
+                           (changeBody)="onChangeBody($event)" (resend)="resendMessage($event)" (conversationEnded)="checkDomainCalendar()"></app-chat-body>
+        </div>
+    </div>
+</div>
+
+
+

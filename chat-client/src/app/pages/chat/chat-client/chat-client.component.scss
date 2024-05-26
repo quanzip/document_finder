@@ -1,0 +1,89 @@
+.btn-chat {
+  //margin-top: 10px;
+  height: 30px;
+  width: 30px;
+}
+
+.box-chat {
+  border-radius: 20px;
+  resize: none;
+}
+
+.icon-chat {
+  font-size: 16px;
+}
+
+.chat-detail-custom {
+  position: fixed;
+  max-width: 100%;
+  bottom: 0;
+  right: 0;
+  z-index: 9;
+
+  .card{
+    -webkit-box-shadow:inset 0px 0px 0px 1px lightgray;
+    -moz-box-shadow:inset 0px 0px 0px 1px lightgray;
+    box-shadow:inset 0px 0px 0px 1px lightgray;
+  }
+  .card-header{
+  }
+  @media (max-width: 515.98px) {
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+
+*::before,
+*::after {
+  //box-sizing: ;
+}
+
+.profile-user {
+  height: 40px;
+  width: 40px;
+}
+
+.fs-25 {
+  font-size: 25px !important;
+}
+
+.service-container {
+  vertical-align: top;
+  display: block !important;
+  max-width: 600px !important;
+  clear: both !important;
+  margin: 0 auto;
+}
+
+.service-content {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: 600px;
+  display: block;
+  //margin: 0 auto;
+}
+
+
+.td-wrap {
+  font-family: var(--vz-body-font-family);
+  box-sizing: border-box;
+  color: #495057;
+  font-size: 14px;
+  vertical-align: top;
+  margin: 0;
+  padding: 15px 25px;
+  box-shadow: 0 3px 15px rgba(30, 32, 37, .06);
+  border-radius: 7px;
+  background-color: #fff;
+}
+
+
+.td-wrap > table > tr > td {
+  font-family: var(--vz-body-font-family);
+  box-sizing: border-box;
+  font-size: 13px;
+  margin: 0;
+}
+

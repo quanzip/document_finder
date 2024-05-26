@@ -1,0 +1,11 @@
+.mess-content {
+//white-space: pre-wrap;
+    text-align: start;
+    width: 100%
+}
+
+a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: underline;
+}

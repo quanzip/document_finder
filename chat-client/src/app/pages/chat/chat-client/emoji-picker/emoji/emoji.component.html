@@ -1,0 +1,24 @@
+<div class="emoji-picker">
+    <div>
+        <div class="d-flex justify-content-between my-3">
+            <div *ngFor="let data of gemojiCategories" class="emoji-category"
+                 [class.selected]="data.category === selectedEmojiCategory"
+                 (click)="selectEmojiCategory(data.category, emojiScrollRef)"
+            >
+                {{data.emoji}}
+            </div>
+        </div>
+    </div>
+    <ngx-simplebar class="frame-emoji-picker" #emojiScrollRef>
+        <div class="d-flex justify-content-center">
+            <div class="d-flex flex-wrap pt-1 gap-1" style="width: 256px">
+                <div class="emoji"
+                     *ngFor="let data of selectedGemojiList"
+                     (click)="chooseEmoji(data)"
+                >
+                    {{data.emoji}}
+                </div>
+            </div>
+        </div>
+    </ngx-simplebar>
+</div>

@@ -1,0 +1,43 @@
+<div class="sticker-picker">
+    <div class="d-flex gap-3 my-3  justify-content-center">
+        <button  *ngIf="stickerCategories.length > 6" type="button" class="btn btn-sm btn-icon btn-tertiary flex-shrink-0"
+                (click)="scrollStickerCategoryScrollerTo(stickerCategoryScroller, false)"
+        >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 6L9 12L15 18" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <div style="overflow-x: hidden" #stickerCategoryScroller>
+            <div class="d-flex gap-1">
+                <div *ngFor="let data of stickerCategories" class="sticker-category"
+                     [class.selected]="data.groupId === selectedStickerCategory"
+                     (click)="selectStickerCategory(data.groupId, stickerScrollRef)"
+                >
+                    <img [src]="loadFileContent(data.thumb)" class="icon-lg">
+                </div>
+            </div>
+        </div>
+        <button  *ngIf="stickerCategories.length > 6" type="button" class="btn btn-sm btn-icon btn-tertiary flex-shrink-0"
+                (click)="scrollStickerCategoryScrollerTo(stickerCategoryScroller, true)"
+        >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6L15 12L9 18" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+    <ngx-simplebar class="frame-sticker-picker" #stickerScrollRef>
+        <div *ngIf="loading" class="d-flex justify-content-center">
+            <div class="loader"></div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="d-flex flex-wrap gap-2" style="width: 224px" *ngIf="selectedStickerList && selectedStickerList.length > 0">
+                <div class="sticker"
+                     *ngFor="let data of selectedStickerList"
+                     (click)="chooseSticker(data)"
+                >
+                    <img [src]="loadFileContent(data.sourceUrl)" class="sticker-image" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </ngx-simplebar>
+</div>

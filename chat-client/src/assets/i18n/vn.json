@@ -1,0 +1,82 @@
+{
+  "common": {
+    "error": {
+      "content-file": "Rất tiếc, tập tin đính kèm không thể được tải xuống. Vui lòng kiểm tra lại đường dẫn tập tin hoặc thử lại sau.",
+      "400": "Có một lỗi cú pháp trong yêu cầu và yêu cầu bị từ chối",
+      "401": "Xin lỗi, bạn không được ủy quyền truy cập vào trang web của chúng tôi vì lý do bảo mật.",
+      "403": "Xin lỗi, bạn không được phép truy cập vào trang web này.",
+      "404": "Xin lỗi, chúng tôi không thể tìm thấy trang web mà bạn đang tìm kiếm.",
+      "405": "Xin lỗi, phương thức yêu cầu không được phép trên trang web này.",
+      "406": "Xin lỗi, trang web không thể hiển thị nội dung theo yêu cầu của bạn.",
+      "408": "Xin lỗi, trang web không thể xử lý yêu cầu của bạn trong khoảng thời gian quy định.",
+      "500": "Xin lỗi, trang web đang gặp sự cố kỹ thuật nội bộ và không thể xử lý yêu cầu của bạn tại thời điểm này.",
+      "502": "Xin lỗi, trang web không thể hoàn thành yêu cầu của bạn tại thời điểm này.",
+      "503": "Xin lỗi, trang web hiện đang gặp sự cố kỹ thuật và dịch vụ tạm thời không khả dụng.",
+      "504": "Xin lỗi, trang web không thể hoàn thành yêu cầu của bạn tại thời điểm này do đã vượt quá thời gian chờ kết nối. "
+    }
+  },
+  "chat": {
+    "search": "Tìm kiếm",
+    "connected": "Đã kết nối",
+    "reply": "Trả lời",
+    "reply-lowercase": "trả lời",
+    "you": "Bạn",
+    "you-lowercase": "bạn",
+    "you-reply": "Bạn trả lời",
+    "reply-you-lowercase": "trả lời bạn",
+    "click": "Click",
+    "retry": "Gửi thất bại",
+    "can-not-open-image": "Không thể tải ảnh",
+    "start_new_conversation": "Bắt đầu hội thoại mới",
+    "seen": "Đã xem",
+    "send": "Gửi",
+    "sent": "Đã gửi",
+    "failed": "Thất bại",
+    "sending": "Đang gửi",
+    "type": "Nhập",
+    "image": "Ảnh",
+    "select-service-pls": "Vui lòng chọn dịch vụ mà bạn muốn được hỗ trợ",
+    "select-one-service": "Chọn một dịch vụ",
+    "customer-name": "Tên khách hàng",
+    "fill-customer-name-pls": "Vui lòng nhập Tên khách hàng",
+    "fill-chars-pls": "Vui lòng nhập Tên khách hàng là các chữ cái",
+    "fill-cusName-less-than-y-chars": "Vui lòng nhập Tên khách hàng tối đa {{length}} ký tự",
+    "fill-cusEmail-less-than-y-chars": "Vui lòng nhập Email tối đa {{length}} ký tự",
+    "fill-cusPhone-less-than-y-chars": "Vui lòng nhập Số điện thoại tối đa {{length}} ký tự",
+    "fill-cusContent-less-than-y-chars": "Vui lòng nhập Tin nhắn tối đa {{length}} ký tự",
+    "fill-customer-email-pls": "Vui lòng nhập Email",
+    "fill-email-pls": "Vui lòng nhập đúng định dạng Email. Ví dụ example123@gmail.com",
+    "fill-customer-phone-pls": "Vui lòng nhập Số điện thoại",
+    "fill-number-pls": "Vui lòng nhập Số điện thoại là các chữ số",
+    "message": "Tin nhắn",
+    "message-lc": "tin nhắn",
+    "fill-message-pls": " Vui lòng nhập Tin nhắn",
+    "phone-number": "Số điện thoại",
+    "phone-number-lc": "số điện thoại",
+    "start-chat": "Bắt đầu chat",
+    "leave-message": "Để lại lời nhắn",
+    "leave-other-message": "Gửi lời nhắn khác",
+    "ended": "Hội thoại đã kết thúc",
+    "chat-server": {
+      "db-error": "Hệ thống lỗi, hãy thử lại sau!",
+      "re-connected": "Đã khôi phục kết nối thành công!"
+    },
+    "error": {
+      "invalid-format": "File {{param}} có định dạng chưa được hỗ trợ (đã hỗ trợ: {{param1}})",
+      "invalid-size": "File {{param}} có dung lượng không hợp lệ, (tối đa {{param1}}MB)",
+      "invalid-album-size": "Dung lượng của album ảnh quá lớn",
+      "invalid-domain": "Domain stopped!"
+    },
+    "no-service": "No services",
+    "survey": {
+      "survey": "Khảo sát",
+      "reject": "Không đồng ý",
+      "invitation": "Ipcc kính mời quý khách tham gia khảo sát",
+      "time-out": "Khảo sát hết hạn",
+      "thank-for-usage": "Cảm ơn quý khách đã tin dùng sản phẩm của viettel",
+      "non-exist": "Khảo sát không tồn tại",
+      "done": "Quý khách đã tham gia khảo sát dánh giá chất lượng của dịch vụ viettel",
+      "start-survey": "Bắt đầu khảo sát"
+    }
+  }
+}

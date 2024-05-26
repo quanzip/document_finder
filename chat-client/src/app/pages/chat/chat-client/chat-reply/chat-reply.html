@@ -1,0 +1,28 @@
+<div class="reply-block m-0 pb-1">
+    <div class="d-flex">
+        <div class="flex-grow-0 me-1">
+            <div class="d-flex">
+                <div class="fs-lighter">{{'chat.reply'| translate}}</div>
+                <b class="ms-1">{{chatModel.chatMessage.replyUserType == 1 ? ('chat.you' | translate) : domainDataService.authorName}}</b>
+            </div>
+            <div *ngIf="isTextNotTruncated()" class="reply-text mt-2">{{getContent()}}</div>
+            <div *ngIf="!isTextNotTruncated()" data-bs-toggle="tooltip" ngbTooltip="{{getFullContent()}}" class="reply-text mt-2">{{getContent()}}</div>
+        </div>
+        <div class="d-flex justify-content-end flex-grow-1 pe-2">
+            <div *ngIf="chatModel.chatMessage.replyType == 8 ||chatModel.chatMessage.replyType == 15 ||chatModel.chatMessage.replyType == 17 || chatModel.chatMessage.replyType == 4" class="me-2">
+                <img *ngIf="chatModel.chatMessage.replyType == 8 || chatModel.chatMessage.replyType == 15 || chatModel.chatMessage.replyType == 17" [src]="getResource()" alt="Can not show image">
+                <video class="p-0 m-0" *ngIf="chatModel.chatMessage.replyType == 4">
+                    <source [src]="chatModel.chatMessage.replyFiles">
+                </video>
+<!--                <canvas width="50px" height="50px" style="width: 50px; height: 50px" id="canvas"></canvas>-->
+            </div>
+            <div class="ml-auto" (click)="closeReply()" >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4L4 12" stroke="#73777A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4 4L12 12" stroke="#73777A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+

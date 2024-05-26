@@ -1,0 +1,30 @@
+.col-sm-12 {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+.smart-form :after, .smart-form :before {
+    box-sizing: border-box !important;
+}
+
+.chat-avatar {
+    margin-right: 4px;
+    margin-left: 4px !important;
+}
+
+.ctext-wrap-content {
+    border-radius: 15px !important;
+    max-width: 250px;
+    min-height: 50px;
+    max-height: 130px;
+    height: fit-content;
+    padding: 8px !important;
+    color: var(--vz-black-01) !important;
+}
+
+#chat-body {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    margin-top: -1px;
+}

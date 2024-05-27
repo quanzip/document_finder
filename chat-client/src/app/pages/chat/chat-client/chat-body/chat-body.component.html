@@ -28,7 +28,7 @@
                                 <!--                        User avatar-->
                                 <div class="chat-avatar d-flex align-items-end"
                                      [ngClass]=" isLastMessageInSectionFromAgent(i) ? 'visisble' : ( message.userType == this.userType.CLIENT ? 'd-none' : 'invisible')">
-                                    <img class="small-avatar" src="{{smallAvatar}}" alt="" onerror="this.src='assets/images/users/user-dummy-img.jpg'">
+                                    <img class="small-avatar" src="assets/images/users/user-dummy-img.jpg" alt="" onerror="this.src='assets/images/users/user-dummy-img.jpg'">
                                 </div>
                                 <div class="d-flex align-items-center m-0 p-0 text-invert-color">
                                     <!--                      reply icon of self-client mesages, only show when receive back from chat-server that it can has ID to be replied-->
@@ -447,7 +447,7 @@
                 <li class="typing-img" *ngIf="chatModel.isTyping">
                     <div class="d-flex m-0 p-0">
                         <div class="chat-avatar d-flex align-items-end">
-                            <img class="small-avatar rounded-circle" src="{{smallAvatar}}" alt="" onerror="this.src='assets/images/users/user-dummy-img.jpg'">
+                            <img class="small-avatar rounded-circle" src="assets/images/users/user-dummy-img.jpg" alt="" onerror="this.src='assets/images/users/user-dummy-img.jpg'">
                         </div>
                         <img class="m-0 p-0" [src]="typingUrl"
                              alt="{{'chat.can-not-open-image' | translate}}">

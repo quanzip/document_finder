@@ -433,8 +433,18 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (event.which === 13) {
             this.sendMessage();
             event.preventDefault();
+        } else {
+            this.asyncFunctionWithParams(this.chatModel.chatMessage.content)
         }
     }
+
+
+    async asyncFunctionWithParams(input: String): Promise<any> {
+        if (input && input.trim().length > 1) {
+
+        }
+    }
+
 
     resetCurrentMessage() {
         this.chatModel.chatMessage.files = new FileObject();

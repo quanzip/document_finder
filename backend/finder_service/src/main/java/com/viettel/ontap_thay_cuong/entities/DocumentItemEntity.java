@@ -16,11 +16,20 @@ public class DocumentItemEntity {
     @Column(name = "answer")
     String answer;
 
+    @Column(name = "feature")
+    String feature;
+
+    @Column(name = "site_code")
+    String siteCode;
+
     @ManyToOne()
     DocumentEntity document;
 
     @Column(name = "status")
     Short status;
+
+    @Column(name = "selected_count")
+    Integer selectedCount;
 
     public String getId() {
         return id;
@@ -52,5 +61,37 @@ public class DocumentItemEntity {
 
     public void setDocument(DocumentEntity document) {
         this.document = document;
+    }
+
+    public String getFeature() {
+        return feature;
+    }
+
+    public void setFeature(String feature) {
+        this.feature = feature;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    public String getSiteCode() {
+        return siteCode;
+    }
+
+    public void setSiteCode(String siteCode) {
+        this.siteCode = siteCode;
+    }
+
+    public Integer getSelectedCount() {
+        return selectedCount;
+    }
+
+    public void setSelectedCount(Integer selectedCount) {
+        this.selectedCount = selectedCount;
     }
 }

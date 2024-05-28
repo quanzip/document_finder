@@ -27,6 +27,10 @@ import {ChatServerService} from "../../../../shared/services/chat-client/chat-se
 import {SurveyParamModel} from "../../../../shared/models/chat-client/survey-param.model";
 import {MessageFlag} from "../../../../shared/models/chat-client/messageModel";
 import {Utils} from "../../../../shared/utils";
+import {ChatSuggestComponent} from "../chat-suggest/chat-suggest.component";
+import {data} from "browserslist";
+import {SuggestService} from "../../../../shared/services/chat-client/suggest.service";
+import {HistoryService} from "../../../../shared/services/chat-client/history.service";
 
 @Component({
     selector: 'app-chat-body',
@@ -55,6 +59,8 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     protected chatDomainService: ChatDomainService;
 
     public isreplyMessage = false;
+    public hasSuggest = false;
+    public showHistory = false;
     protected isHavingAttach = false;
     public typingUrl = '.\\assets\\images\\typing.gif'
     smallAvatar: string = ''
@@ -115,7 +121,8 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     private EMOJI_ONLY_TEXT_REGEX = /^[\p{Extended_Pictographic}\s]+$/u;
 
     constructor(private modalService: NgbModal, public domainDataService: DomainDataService, public fileService: FileService
-        , public userDataService: UserProfileService, injector: Injector, private userProfileService: UserProfileService, private sanitizer: DomSanitizer) {
+        , public userDataService: UserProfileService, injector: Injector, private userProfileService: UserProfileService, private sanitizer: DomSanitizer,
+                private suggestService: SuggestService, private historyAskDocumentService: HistoryService) {
         this.chatServerService = injector.get(ChatServerService);
         this.chatDomainService = injector.get(ChatDomainService);
     }
@@ -149,7 +156,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
             threshold: 1.0,
         };
         this.observerForLoadMore = new IntersectionObserver(handleIntersect, options);
-        this.observerForLoadMore.observe(this.loadingOldButton?.nativeElement)
+        // this.observerForLoadMore.observe(this.loadingOldButton?.nativeElement)
     }
 
     disableReplyOldMessages(id: string) {
@@ -330,6 +337,9 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit() {
         this.smallAvatar = this.fileService.getURLContentFilePublic(this.domainDataService.avatarImg, this.domainDataService.realmName);
+        this.historyAskDocumentService.getHistorySubscription().subscribe(res => {
+             this.showHistory = !this.showHistory;
+        })
     }
 
     isNewConversation(index: number, message: ChatMessageModel) {
@@ -369,6 +379,10 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (this.isreplyMessage) {
             this.closeReplyBlock();
+        }
+
+        if (this.hasSuggest) {
+            this.closeSuggestBlock(null);
         }
 
         this.resetCurrentMessage();
@@ -424,24 +438,41 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
             })
     }
 
-    shiftPress = false;
-
     onChangeTextKeyDown(event: any) {
         this.chatModel.chatMessage.onlyEmoji = false;
         if (event.which === 13 && event.shiftKey) {
-            this.shiftPress = true
         } else if (event.which === 13) {
             this.sendMessage();
             event.preventDefault();
-        } else {
-            this.asyncFunctionWithParams(this.chatModel.chatMessage.content)
         }
     }
 
+    getSuggest(event: any) {
+        this.chatModel.chatMessage.onlyEmoji = false;
+        if (event.which === 13 && event.shiftKey) {
+        } else if (event.which === 13) {
+        } else {
+            this.asyncFunctionWithParams(event.target.value)
+        }
+    }
 
-    async asyncFunctionWithParams(input: String): Promise<any> {
-        if (input && input.trim().length > 1) {
-
+    async asyncFunctionWithParams(input: string): Promise<any> {
+        if (input && input.length > 1) {
+            this.chatServerService.getSuggest(input, "1").subscribe(res => {
+                if (res && res.length > 0) {
+                    this.hasSuggest = true;
+                    console.log('Showing suggests')
+                    this.suggestService.startShowSuggestion({"input": input, "data": res})
+                } else {
+                    this.hasSuggest = false;
+                    console.log('No suggestions')
+                }
+            }, error => {
+                this.hasSuggest = false
+                console.log('No suggestions')
+            })
+        } else {
+            this.hasSuggest = false;
         }
     }
 
@@ -600,6 +631,31 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     closeReplyBlock() {
         this.isreplyMessage = false;
         this.resetCurrentMessage();
+    }
+
+    closeSuggestBlock(data: any) {
+        if (!data) {
+            this.hasSuggest = false;
+            this.resetCurrentMessage();
+        }else {
+            if (data.id) {
+                this.chatModel.chatMessage.content = data.question
+                this.sendMessage()
+                this.hasSuggest = false;
+            } else {
+                this.chatModel.chatMessage.content = data.question
+            }
+        }
+    }
+
+    closeHistyBlock(data: any) {
+        if (data == null) {
+            this.showHistory = false;
+        } else {
+            this.chatModel.chatMessage.content = data
+            this.sendMessage()
+            this.showHistory = false;
+        }
     }
 
     isShowChatHistory(): boolean {

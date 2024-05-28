@@ -7,7 +7,10 @@ import com.viettel.ontap_thay_cuong.service.dto.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class DocumentItemServiceImpl implements DocumentItemService {
@@ -25,7 +28,18 @@ public class DocumentItemServiceImpl implements DocumentItemService {
             List<DocumentItemEntity> result = documentItemRepository.findAllByFeatureLikeOrQuestionLikeAndStatusOrderBySelectedCountDesc(input, (short) 1);
             return result;
         } else {
-            List<Object> result = documentItemRepository.findFeaturesByInputAndStatus(input, (short) 1);
+            List<DocumentItemEntity> result = new ArrayList<>();
+            final Function<Object, DocumentItemEntity> objToDocF = obj -> {
+                DocumentItemEntity res = new DocumentItemEntity();
+                res.setQuestion(obj.toString());
+                return res;
+            };
+
+            List<Object> features = documentItemRepository.findFeaturesByInputAndStatus(input, (short) 1);
+            if (features.size() > 0) {
+                result.addAll(features.stream().map(objToDocF).collect(Collectors.toList()));
+            }
+
             if (result.size() < 5) {
                 List<DocumentItemEntity> result1 = documentItemRepository.findAllByFeatureLikeOrQuestionLikeAndStatusOrderBySelectedCountDesc(input, (short) 1);
                 result.addAll(result1);

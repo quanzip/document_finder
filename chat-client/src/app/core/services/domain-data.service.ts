@@ -47,7 +47,7 @@ export class DomainDataService {
     updateBy = '';
     updateTime = -1;
     domainId = '';
-    domainCode = '';
+    domainCode = 'SAMPLE';
     description = '';
     avatarImg = '';
     chatTitle = 'Cx cloud finder';

@@ -9,7 +9,7 @@
         </svg>
     </button>
 
-    <input class="btn btn-sm btn-icon me-1 " type="image" id="myimage" src=".\assets\images\history_icon.png" />
+    <input (click)="showHistory()" class="btn btn-sm btn-icon me-1 " type="image" id="myimage" src=".\assets\images\history_icon.png" />
 
     <div *ngIf="this.enableSendEmoji || this.enableSendSticker || this.enableSendGif">
         <app-emoji-picker

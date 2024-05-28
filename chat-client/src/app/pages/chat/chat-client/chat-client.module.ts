@@ -29,6 +29,8 @@ import {TranslateModule} from "@ngx-translate/core";
 import {SharedModule} from "../../../shared/shared.module";
 import {ContentVideoComponent} from "./chat-message-type/video1/content-video.component";
 import {TextComponent} from "./chat-message-type/text/text.component";
+import {ChatSuggestComponent} from "./chat-suggest/chat-suggest.component";
+import {ChatHistoryComponent} from "./chat-history/chat-history.component";
 
 @NgModule({
     imports: [
@@ -60,6 +62,8 @@ import {TextComponent} from "./chat-message-type/text/text.component";
         AudioComponent,
         ContentVideoComponent,
         TextComponent,
+        ChatSuggestComponent,
+        ChatHistoryComponent
     ],
     exports: [
         ChatHeaderComponent,

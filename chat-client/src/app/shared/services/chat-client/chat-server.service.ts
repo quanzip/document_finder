@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {ToastService} from "../toast-service";
 import {Injectable} from "@angular/core";
 import {AbstractService} from "../abstract.service";
@@ -47,6 +47,13 @@ export class ChatServerService extends AbstractService {
 
     public getChatHistory(conversationId: string, start: number, length: number): Observable<ResponseEnvelope<any>> {
         return this.getRequest(`${this.BASIC_SERVICE_URL}/chat/chat-history/${conversationId}/${start}/${length}`)
+    }
+
+    public getSuggest(input: string, siteCode: string): Observable<any> {
+        let param = new HttpParams();
+        param = this.buildHttpParams(param, "input", input);
+        param = this.buildHttpParams(param, "siteCode", siteCode);
+        return this.getRequest(`${this.SERVICE_URL}/suggest`, {params: param})
     }
 
     public getUserConversation() {

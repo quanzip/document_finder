@@ -1,15 +1,12 @@
 package com.viettel.ontap_thay_cuong.service.impl;
 
-import com.viettel.ontap_thay_cuong.entities.DocumentEntity;
 import com.viettel.ontap_thay_cuong.entities.DocumentItemEntity;
 import com.viettel.ontap_thay_cuong.entities.MessageEntity;
 import com.viettel.ontap_thay_cuong.repository.DocumentItemRepository;
 import com.viettel.ontap_thay_cuong.repository.MessageRepository;
 import com.viettel.ontap_thay_cuong.service.MessageService;
 import com.viettel.ontap_thay_cuong.service.dto.MessageSlimDTO;
-import com.viettel.ontap_thay_cuong.utils.CustomException;
 import com.viettel.ontap_thay_cuong.utils.ErrorApps;
-import jdk.nashorn.internal.runtime.URIUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;

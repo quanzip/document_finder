@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.viettel</groupId>
-	<artifactId>ontap_thay_cuong</artifactId>
+	<artifactId>Finder_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ontap_thay_cuong</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Finder_service</name>
+	<description>Demo project forFinder_service</description>
 	<properties>
 		<java.version>8</java.version>
 		<apache.poi.version>4.1.2</apache.poi.version>

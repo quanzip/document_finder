@@ -22,6 +22,7 @@ import {v4 as uuidv4} from "uuid";
 import {TranslateService} from "@ngx-translate/core";
 import {DomainDataEventService} from "../../../../core/services/domain-data-event.service";
 import {Subscription} from "rxjs";
+import {HistoryService} from "../../../../shared/services/chat-client/history.service";
 
 @Component({
     selector: 'app-chat-toolbar',
@@ -67,7 +68,7 @@ export class ChatToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private http: HttpClient, private injector: Injector, private sanitizer: DomSanitizer, public domainDataService: DomainDataService
         , private fileService: FileService, private translate: TranslateService, private changeDetector: ChangeDetectorRef,
-                private domainDataEventService: DomainDataEventService) {
+                private domainDataEventService: DomainDataEventService, private historyService: HistoryService) {
     }
 
     ngOnDestroy(): void {
@@ -176,6 +177,10 @@ export class ChatToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
             this.fileChanges.emit(this.chatModel);
             this.files = null;
         }
+    }
+
+    showHistory(){
+        this.historyService.startShowHistoryion(true);
     }
 
     getLocalSafeUrl(file: File) {

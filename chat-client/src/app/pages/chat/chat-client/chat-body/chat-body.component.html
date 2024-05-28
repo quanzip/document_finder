@@ -462,6 +462,14 @@
         <app-chat-reply [chatModel]="chatModel" (replyEvent)="closeReplyBlock()"></app-chat-reply>
     </div>
 
+    <div *ngIf="hasSuggest" class="mb-0 pb-0 p-1"  [style.border-top]="'1px solid lightgray'">
+        <app-chat-suggest [chatModel]="chatModel" (suggestEvent)="closeSuggestBlock($event)"></app-chat-suggest>
+    </div>
+
+    <div *ngIf="showHistory" class="mb-0 pb-0 p-1"  [style.border-top]="'1px solid lightgray'">
+        <app-chat-history [chatModel]="chatModel" (historyEvent)="closeHistyBlock($event)"></app-chat-history>
+    </div>
+
     <div *ngIf="chatModel.endChat"
          [style.border-top]="'1px solid lightgray'" class="py-3">
         <div style="text-align: center">
@@ -494,6 +502,7 @@
                     <textarea #inputContent id="box-chat-input" type="text"
                               [(ngModel)]="chatModel.chatMessage.content"
                               (keydown)="onChangeTextKeyDown($event)"
+                              (keyup)="getSuggest($event)"
                               [rows]="(chatModel.chatMessage.content.length > textLengthToBreakLine || chatModel.chatMessage.content.indexOf('\n') >=0 ) ? 5 : 1 "
                               class="form-control border-light bg-light box-chat"
                               placeholder="{{'chat.type' | translate}}"></textarea>

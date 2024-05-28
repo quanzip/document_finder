@@ -37,7 +37,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void responseClient(MessageSlimDTO messageSlimDTO) {
+    public void responseClient(MessageSlimDTO messageSlimDTO, String siteCode) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -46,13 +46,14 @@ public class MessageServiceImpl implements MessageService {
                 messResponse.setType(1);
                 messResponse.setAuthorId("agent");
                 messResponse.setReceivedAt(System.currentTimeMillis());
+                messResponse.setSiteCode(siteCode);
                 String question = messageSlimDTO.getContent();
 
                 if (question.isEmpty()) {
                     messResponse.setContent(ErrorApps.SORRY_NOT_FOUND_ANSWER.getMessage());
                     operations.convertAndSend("/topic/customer_chat_receive",messResponse);
                 } else {
-                    List<DocumentItemEntity> docs = documentItemRepository.findAllByQuestionAndStatus(question, (short ) 1);
+                    List<DocumentItemEntity> docs = documentItemRepository.findAllByQuestionAndStatusAndSiteCode(question, (short ) 1, siteCode);
                     if (docs.isEmpty()) {
                         messResponse.setContent(ErrorApps.SORRY_NOT_FOUND_ANSWER.getMessage());
                         operations.convertAndSend("/topic/customer_chat_receive",messResponse);

@@ -462,7 +462,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         if (input && input.length > 1) {
             if (this.recentText == input) return ;
             this.recentText = input;
-             this.chatServerService.getSuggest(input, "1").subscribe(res => {
+             this.chatServerService.getSuggest(input, this.domainDataService.domainCode).subscribe(res => {
                 if (res && res.length > 0) {
                     this.hasSuggest = true;
                     console.log('Showing suggests')

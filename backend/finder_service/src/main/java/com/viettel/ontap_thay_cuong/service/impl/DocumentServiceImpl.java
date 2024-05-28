@@ -10,7 +10,6 @@ import com.viettel.ontap_thay_cuong.service.DocumentService;
 import com.viettel.ontap_thay_cuong.service.dto.DocumentDTO;
 import com.viettel.ontap_thay_cuong.utils.CustomException;
 import com.viettel.ontap_thay_cuong.utils.ErrorApps;
-import javafx.scene.canvas.GraphicsContext;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -40,6 +39,8 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     private SiteRepository siteRepository;
+
+    @Autowired
     private DocumentItemRepository documentItemRepository;
 
 

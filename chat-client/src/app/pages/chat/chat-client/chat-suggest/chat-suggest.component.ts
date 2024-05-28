@@ -32,15 +32,17 @@ export class ChatSuggestComponent implements OnInit {
     selectSuggest(suggest: any) {
         this.suggestEvent.emit(suggest);
         // @ts-ignore
-        let array = JSON.parse(localStorage.getItem('finder_his_' + this.domainDataService.domainCode));
+        let array: Array = JSON.parse(localStorage.getItem('finder_his_' + this.domainDataService.domainCode));
         if (!array || array.lengh == 0) {
             array = [];
             array.push(suggest.question)
-            localStorage.setItem('finder_his_' + this.domainDataService.domainCode, JSON.stringify(array));
-        } else {
+        }else if (array.indexOf(suggest.question) < 0){
             array.push(suggest.question)
-            localStorage.setItem('finder_his_' + this.domainDataService.domainCode, JSON.stringify(array));
+            if (array.length > 5) {
+                array.splice(0, 1);
+            }
         }
+        localStorage.setItem('finder_his_' + this.domainDataService.domainCode, JSON.stringify(array));
     }
 
     loadSuggest(input: string, data: any) {

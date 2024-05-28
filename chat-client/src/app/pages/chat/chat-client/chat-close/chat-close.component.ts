@@ -67,6 +67,7 @@ export class ChatCloseComponent implements OnInit, OnDestroy {
         this.realm = ChatUtil.newNvl(ChatUtil.getParameterByName('realm', listParams), '')
 
 
+        this.domainDataService.domainCode = this.domainEncoded
         parent.postMessage('openChatBox', '*');
         this.router!.navigate(['/chat-client/' + this.domainEncoded]);
 

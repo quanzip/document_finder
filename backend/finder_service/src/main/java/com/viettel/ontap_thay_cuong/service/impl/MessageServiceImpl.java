@@ -64,9 +64,11 @@ public class MessageServiceImpl implements MessageService {
                         BeanUtils.copyProperties(messResponse, message);
 
                         messageEntities.add(message);
+                        doc.setSelectedCount(doc.getSelectedCount() + 1);
                         operations.convertAndSend("/topic/customer_chat_receive",messResponse);
                     };
                     messageRepository.saveAll(messageEntities);
+                    documentItemRepository.saveAll(docs);
                     docs.forEach(docConsumer);
 
                 }

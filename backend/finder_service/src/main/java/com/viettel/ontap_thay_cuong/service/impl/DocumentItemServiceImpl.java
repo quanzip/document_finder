@@ -45,8 +45,7 @@ public class DocumentItemServiceImpl implements DocumentItemService {
                 result.addAll(result1);
                 return result;
             }
+            return result;
         }
-
-        return null;
     }
 }

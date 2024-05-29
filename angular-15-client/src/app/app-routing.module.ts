@@ -5,6 +5,7 @@ import { TutorialDetailsComponent } from './components/tutorial-details/tutorial
 import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.component';
 import {SiteListComponent} from "./components/site-list/site-list.component";
 import {SiteDetailComponent} from "./components/site-detail/site-detail.component";
+import {AddSiteComponent} from "./components/add-site/add-site.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'tutorials', pathMatch: 'full' },
@@ -14,7 +15,7 @@ const routes: Routes = [
   // { path: '', redirectTo: 'sites', pathMatch: 'full' },
   { path: 'sites', component: SiteListComponent },
   { path: 'sites/:id', component: SiteDetailComponent },
-  // { path: 'add', component: AddTutorialComponent }
+  { path: 'add-site', component: AddSiteComponent }
 ];
 
 @NgModule({

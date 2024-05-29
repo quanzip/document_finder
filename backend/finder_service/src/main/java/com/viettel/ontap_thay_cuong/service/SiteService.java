@@ -2,6 +2,8 @@ package com.viettel.ontap_thay_cuong.service;
 
 import com.viettel.ontap_thay_cuong.entities.SiteEntity;
 import com.viettel.ontap_thay_cuong.service.dto.SiteDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -10,4 +12,10 @@ public interface SiteService {
     SiteEntity getSiteById(String id);
     SiteEntity createSite(SiteDTO siteDTO);
     SiteEntity updateSite(SiteDTO siteDTO);
+
+    String genScriptBySiteCode(String siteCode);
+
+    ResponseEntity<HttpStatus> deleteSite(String id);
+
+    List<SiteEntity> findAllSiteByStatus(short i);
 }

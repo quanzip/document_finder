@@ -38,7 +38,7 @@
       ></app-site-detail>
     </div>
     <div class="col-md-4">
-      <app-file-upload *ngIf="currentSite.siteId"></app-file-upload>
+      <app-file-upload *ngIf="currentSite.id" [selectedSite]="currentSite"></app-file-upload>
     </div>
   </div>
 </div>

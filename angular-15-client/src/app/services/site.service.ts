@@ -37,4 +37,8 @@ export class SiteService {
   findByName(name: any): Observable<Site[]> {
     return this.http.get<Site[]>(`${baseUrl}?siteName=${name}`);
   }
+
+  gencode(code: string | undefined) {
+    return this.http.get(`${baseUrl}/gen-script/${code}`);
+  }
 }

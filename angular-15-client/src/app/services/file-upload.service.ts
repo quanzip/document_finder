@@ -8,10 +8,11 @@ export class FileUploadService {
 
   constructor(private http: HttpClient) { }
 
-  uploadFile(documentUrl: string, siteId: number, multipartFile: File) {
+  uploadFile(documentUrl: string, id: number, multipartFile: File, siteCode1?: string) {
     const formData = new FormData();
     formData.append('documentUrl', documentUrl);
-    formData.append('siteId', siteId.toString());
+    formData.append('id', id.toString());
+    formData.append('siteCode', siteCode1!!);
     formData.append('multipartFile', multipartFile);
 
     return this.http.post<string>(this.apiUrl, formData);

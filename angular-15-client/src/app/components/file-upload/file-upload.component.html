@@ -1,7 +1,7 @@
-<div class="container">
-  <h3>Upload a File</h3>
+<div class="container mt-3">
+  <h3>Upload document</h3>
   <input type="file" (change)="onFileSelected($event)" />
-  <button (click)="onUpload()">Upload</button>
-  <p *ngIf="uploadedFileName">Uploaded File: {{ uploadedFileName }}</p>
+  <button class="mt-2" (click)="onUpload(selectedSite.code)">Upload</button>
+  <p *ngIf="uploadedFileName">Successfully - {{ uploadedFileName }}</p>
   <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
 </div>

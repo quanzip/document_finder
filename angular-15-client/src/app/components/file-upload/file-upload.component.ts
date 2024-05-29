@@ -1,5 +1,6 @@
 import { Component, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { FileUploadService } from '../../services/file-upload.service';
+import {Site} from "../../models/site.model";
 
 @Component({
   selector: 'app-file-upload',
@@ -8,7 +9,7 @@ import { FileUploadService } from '../../services/file-upload.service';
 })
 export class FileUploadComponent implements OnChanges {
   @Input() viewMode = false;
-  @Input() selectedSite: string | null = null;
+  @Input() selectedSite: Site= new Site();
   selectedFile: File | null = null;
   uploadedFileName: string | null = null;
   errorMessage: string | null = null;
@@ -29,22 +30,22 @@ export class FileUploadComponent implements OnChanges {
     }
   }
 
-  onUpload(): void {
+  onUpload(siteCode1?: string): void {
     if (this.selectedFile && !this.errorMessage) {
       // Implement actual file upload logic to the server here
       this.uploadedFileName = this.selectedFile.name;
       console.log('File uploaded:', this.selectedFile.name);
-      this.uploadFile(this.selectedFile)
+      this.uploadFile(this.selectedFile, siteCode1)
 
       // Reset the file input
       this.selectedFile = null;
     }
   }
 
-  uploadFile(file: File): void {
+  uploadFile(file: File, siteCode1?: string): void {
     const documentUrl = 'your_document_url';
-    const siteId = 1; // your site ID
-    this.fileUploadService.uploadFile(documentUrl, siteId, file)
+    const id = 1; // your site ID
+    this.fileUploadService.uploadFile(documentUrl, id, file,siteCode1)
       .subscribe(
         response => {
           console.log('File uploaded successfully:', response);

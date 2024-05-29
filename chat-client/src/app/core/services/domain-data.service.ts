@@ -50,7 +50,7 @@ export class DomainDataService {
     domainCode = 'SAMPLE';
     description = '';
     avatarImg = '';
-    chatTitle = 'Cx cloud finder';
+    chatTitle = 'FAQ BOT';
     chatInfo = 'I am ready to help';
     color = '';
     showService = true;

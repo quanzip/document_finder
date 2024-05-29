@@ -226,6 +226,9 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                 }else {
                     existMessage = this.getMessageFromLocalStorageByContentExtra(data.contentExtra);
                 }
+
+
+                console.log(data.siteCode + "- " + this.domainDataService.domainCode)
                 if (!existMessage && data.siteCode == this.domainDataService.domainCode) {
                     /* message */
                     if (this.domainDataService.workingTimeType == this.WORKING_TYPE.OUT_TIME && isFromAgent) {

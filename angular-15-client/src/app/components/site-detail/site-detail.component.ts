@@ -21,6 +21,12 @@ export class SiteDetailComponent implements OnInit {
     // published: false
   };
 
+  genCode(){
+    this.siteService.gencode(this.currentSite.code).subscribe(res => {
+
+    })
+  }
+
   message = '';
 
   constructor(
@@ -49,7 +55,7 @@ export class SiteDetailComponent implements OnInit {
   updateSite(): void {
     this.message = '';
 
-    this.siteService.update(this.currentSite.siteId, this.currentSite)
+    this.siteService.update(this.currentSite.id, this.currentSite)
       .subscribe({
         next: (res) => {
           console.log(res);
@@ -60,7 +66,7 @@ export class SiteDetailComponent implements OnInit {
   }
 
   deleteSite(): void {
-    this.siteService.delete(this.currentSite.siteId)
+    this.siteService.delete(this.currentSite.id)
       .subscribe({
         next: (res) => {
           console.log(res);

@@ -180,7 +180,9 @@ export class ChatToolbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     showHistory(){
-        this.historyService.startShowHistoryion(true);
+        window.setTimeout(()=> {
+            this.historyService.startShowHistoryion(true);
+        }, 100 )
     }
 
     getLocalSafeUrl(file: File) {

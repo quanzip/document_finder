@@ -1,8 +1,15 @@
-.suggestion {
+.entire-suggestion {
     border: 1px solid gray;
     border-radius: 5px;
     color: white;
-    background-color: #56455b;
+    background-color: #6a5c6e;
+}
+
+.only-keyword {
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: white;
+    background-color: #9b89a1;
 }
 
 .reply-text{

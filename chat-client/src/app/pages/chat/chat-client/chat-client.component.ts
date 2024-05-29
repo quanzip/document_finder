@@ -226,7 +226,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                 }else {
                     existMessage = this.getMessageFromLocalStorageByContentExtra(data.contentExtra);
                 }
-                if (!existMessage) {
+                if (!existMessage && data.siteCode == this.domainDataService.domainCode) {
                     /* message */
                     if (this.domainDataService.workingTimeType == this.WORKING_TYPE.OUT_TIME && isFromAgent) {
                         this.domainDataService.workingTimeType = this.WORKING_TYPE.IN_TIME
@@ -815,7 +815,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this.chatServerService.sendMessage(messageOutData, realmName, this.userProfileService.userId).subscribe(res => {
+        this.chatServerService.sendMessage(messageOutData, realmName, this.domainDataService.domainCode).subscribe(res => {
             console.log("Send MESSAGE successfully, has file: " + hasFile)
             /*now update id, status, fileUrls back to local images*/
             let data = JSON.parse(JSON.stringify(res)).data;

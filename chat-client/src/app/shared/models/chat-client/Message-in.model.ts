@@ -19,6 +19,7 @@ export class MessageIn{
     replyTo: string;
     status: number;
     typing: boolean;
+    siteCode: string
 
     surveyClientId: string;
     surveyFrequency: number;

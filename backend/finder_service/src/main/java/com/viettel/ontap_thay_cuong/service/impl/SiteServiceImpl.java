@@ -4,14 +4,11 @@ import com.viettel.ontap_thay_cuong.entities.SiteEntity;
 import com.viettel.ontap_thay_cuong.mapper.BaseMapper;
 import com.viettel.ontap_thay_cuong.repository.SiteRepository;
 import com.viettel.ontap_thay_cuong.service.SiteService;
-import com.viettel.ontap_thay_cuong.service.dto.SiteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class SiteServiceImpl implements SiteService {
@@ -34,6 +31,11 @@ public class SiteServiceImpl implements SiteService {
     public SiteEntity createSite(SiteDTO siteDTO) {
         SiteEntity siteEntity = mapper.mapDTOToEntity(siteDTO);
 //        siteEntity.setId();
+        siteEntity.setId(UUID.randomUUID().toString());
+        siteEntity.setCode(UUID.randomUUID().toString());
+        siteEntity.setAddress(siteDTO.getAddress());
+        siteEntity.setName(siteDTO.getName());
+        siteEntity.setType(siteDTO.getType());
         return siteRepository.save(siteEntity);
     }
 

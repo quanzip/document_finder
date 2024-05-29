@@ -13,10 +13,10 @@ import {HistoryService} from "../../../../shared/services/chat-client/history.se
 export class ChatHistoryComponent implements OnInit {
     @Input() chatModel: ChatClientModel = new ChatClientModel();
     @Output() historyEvent = new EventEmitter<any>()
-    historyQuestions: any = ["quan"]
+    historyQuestions: any = []
 
     selectedSuggest: any;
-    constructor(private changeDetect: ChangeDetectorRef, private trans: TranslateService, public domainDataService: DomainDataService, private historyService: HistoryService) {
+    constructor(private trans: TranslateService, public domainDataService: DomainDataService, private historyService: HistoryService) {
     }
 
     closeReply() {
@@ -29,10 +29,9 @@ export class ChatHistoryComponent implements OnInit {
 
     loadHistory() {
         // @ts-ignore
-        let his = JSON.parse(localStorage.getItem('finder_his_' + this.domainDataService.domainCode))
+        let his = JSON.parse(localStorage.getItem('finder_his_' + this.domainDataService.domainCode));
         if (his) {
             this.historyQuestions = his;
-            this.changeDetect.detectChanges()
         }
     }
 
@@ -45,7 +44,6 @@ export class ChatHistoryComponent implements OnInit {
         let his = JSON.parse(localStorage.getItem('finder_his_' + this.domainDataService.domainCode))
         if (his) {
             this.historyQuestions = his;
-            this.changeDetect.detectChanges()
         }
 
         this.historyService.getHistorySubscription().subscribe(res => {

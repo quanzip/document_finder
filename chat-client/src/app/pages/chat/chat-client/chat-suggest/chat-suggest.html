@@ -3,7 +3,7 @@
         <div class="flex-grow-0 me-1">
             <div class="d-flex flex-wrap">
                 <div *ngFor="let suggest of suggestList">
-                    <button class="flex-fill ms-1 p-2 mb-1 suggestion"  [innerHTML]="!suggest.id ? suggest.question : boldText(suggest.question, input)" (click)="selectSuggest(suggest)">
+                    <button class="flex-fill ms-1 p-1 mb-1" [ngClass]="!suggest.id ? 'entire-suggestion' : 'only-keyword'" [innerHTML]="!suggest.id ? suggest.question : boldText(suggest.question, input)" (click)="selectSuggest(suggest)">
                     </button>
                 </div>
             </div>

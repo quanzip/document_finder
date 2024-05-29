@@ -25,7 +25,7 @@ public class DocumentItemServiceImpl implements DocumentItemService {
 
         if (sections.length > 1) {
             // search for question;
-            List<DocumentItemEntity> result = documentItemRepository.findAllByFeatureLikeOrQuestionLikeAndStatusOrderBySelectedCountDesc(input, (short) 1);
+            List<DocumentItemEntity> result = documentItemRepository.findAllByFeatureLikeOrQuestionLikeAndStatusOrderBySelectedCountDesc(input, siteCode, (short) 1);
             return result;
         } else {
             List<DocumentItemEntity> result = new ArrayList<>();
@@ -35,13 +35,13 @@ public class DocumentItemServiceImpl implements DocumentItemService {
                 return res;
             };
 
-            List<Object> features = documentItemRepository.findFeaturesByInputAndStatus(input, (short) 1);
+            List<Object> features = documentItemRepository.findFeaturesByInputAndStatus(input, siteCode, (short) 1);
             if (features.size() > 0) {
                 result.addAll(features.stream().map(objToDocF).collect(Collectors.toList()));
             }
 
             if (result.size() < 5) {
-                List<DocumentItemEntity> result1 = documentItemRepository.findAllByFeatureLikeOrQuestionLikeAndStatusOrderBySelectedCountDesc(input, (short) 1);
+                List<DocumentItemEntity> result1 = documentItemRepository.findAllByFeatureLikeOrQuestionLikeAndStatusOrderBySelectedCountDesc(input, siteCode, (short) 1);
                 result.addAll(result1);
                 return result;
             }

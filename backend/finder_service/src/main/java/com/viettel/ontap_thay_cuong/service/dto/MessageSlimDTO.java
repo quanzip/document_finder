@@ -83,6 +83,16 @@ public class MessageSlimDTO implements Serializable {
 
     Short surveyFrequencyUnit;
 
+    String siteCode;
+
+    public String getSiteCode() {
+        return siteCode;
+    }
+
+    public void setSiteCode(String siteCode) {
+        this.siteCode = siteCode;
+    }
+
     public boolean isFromUser() {
         return (this.authorType != null && this.authorType.contains("user"));
     }

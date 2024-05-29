@@ -452,17 +452,23 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         if (event.which === 13 && event.shiftKey) {
         } else if (event.which === 13) {
         } else {
-            this.asyncFunctionWithParams(event.target.value)
+            let input = event.target.value.trim();
+            let result = this.asyncFunctionWithParams(input)
         }
     }
 
-    async asyncFunctionWithParams(input: string): Promise<any> {
+    recentText = "";
+     asyncFunctionWithParams(input: string) {
         if (input && input.length > 1) {
-            this.chatServerService.getSuggest(input, "1").subscribe(res => {
+            if (this.recentText == input) return ;
+            this.recentText = input;
+             this.chatServerService.getSuggest(input, this.domainDataService.domainCode).subscribe(res => {
                 if (res && res.length > 0) {
                     this.hasSuggest = true;
                     console.log('Showing suggests')
-                    this.suggestService.startShowSuggestion({"input": input, "data": res})
+                    window.setTimeout(()=> {
+                        this.suggestService.startShowSuggestion({"input": input, "data": res})
+                    }, 100)
                 } else {
                     this.hasSuggest = false;
                     console.log('No suggestions')
@@ -474,6 +480,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
             this.hasSuggest = false;
         }
+        return null;
     }
 
 
@@ -643,7 +650,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.sendMessage()
                 this.hasSuggest = false;
             } else {
-                this.chatModel.chatMessage.content = data.question
+                this.chatModel.chatMessage.content = data.question + " "
             }
         }
     }

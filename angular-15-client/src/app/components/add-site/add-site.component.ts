@@ -29,11 +29,12 @@ export class AddSiteComponent {
     this.siteService.create(data)
       .subscribe({
         next: (res) => {
-          console.log(res);
+          console.log(" res" + res);
           this.submitted = true;
         },
         error: (e) => console.error(e)
       });
+
   }
 
   newSite(): void {

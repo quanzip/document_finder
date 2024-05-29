@@ -4,18 +4,24 @@ import com.viettel.ontap_thay_cuong.entities.SiteEntity;
 import com.viettel.ontap_thay_cuong.service.SiteService;
 import com.viettel.ontap_thay_cuong.service.dto.SiteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller("/api/v1")
+@CrossOrigin("*")
+@Controller()
+@RequestMapping(value = "/api/v1")
 public class SiteController {
     @Autowired
     private SiteService siteService;
 
     @GetMapping("/sites")
-    public List<SiteEntity> getSites(@RequestParam("siteName") String siteName) {
+    public List<SiteEntity> getSites(@RequestParam(value = "siteName", required = false) String siteName) {
+        if (siteName == null || siteName.isEmpty()) {
+            return this.siteService.findAllSiteByStatus((short)1);
+        }
         return siteService.getSites(siteName);
     }
     @GetMapping("/sites/{id}")
@@ -29,16 +35,12 @@ public class SiteController {
     @PostMapping("/sites/update")
     public SiteEntity updateSite(@RequestBody SiteDTO siteDTO) {
         return siteService.updateSite(siteDTO);
-
-    @DeleteMapping("/sites/{id}")
-    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") String id) {
-        try {
-            siteRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
+
+//    @DeleteMapping("/sites/{id}")
+//    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") String id) {
+//       return siteService.deleteSite(id);
+//    }
 
     @GetMapping(value = "/sites/gen-script/{siteCode}")
     public String getScript(@PathVariable(value = "siteCode") String siteCode) {

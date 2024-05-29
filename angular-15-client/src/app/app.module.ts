@@ -14,7 +14,7 @@ import { SiteListComponent } from './components/site-list/site-list.component';
 import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 import {SiteService} from "./services/site.service";
 import { AddSiteComponent } from './components/add-site/add-site.component';
-import { PopupComponent } from './components/popup/popup.component';
+// import { PopupComponent } from './components/popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { PopupComponent } from './components/popup/popup.component';
     SiteListComponent,
     SiteDetailComponent,
     AddSiteComponent,
-    PopupComponent
+
   ],
   imports: [
     BrowserModule,

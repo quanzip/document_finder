@@ -8,6 +8,8 @@ import com.viettel.ontap_thay_cuong.service.dto.SiteDTO;
 import com.viettel.ontap_thay_cuong.utils.CustomException;
 import com.viettel.ontap_thay_cuong.utils.ErrorApps;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -40,6 +42,7 @@ public class SiteServiceImpl implements SiteService {
         siteEntity.setCode(UUID.randomUUID().toString());
         siteEntity.setAddress(siteDTO.getAddress());
         siteEntity.setName(siteDTO.getName());
+        siteEntity.setStatus((short)1);
         siteEntity.setType(siteDTO.getType());
         return siteRepository.save(siteEntity);
     }
@@ -78,5 +81,20 @@ public class SiteServiceImpl implements SiteService {
             e.printStackTrace();
         }
         return "";
+    }
+
+    @Override
+    public ResponseEntity<HttpStatus> deleteSite(String id) {
+        try {
+            siteRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public List<SiteEntity> findAllSiteByStatus(short i) {
+        return siteRepository.findAllByStatus(i);
     }
 }

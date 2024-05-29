@@ -10,4 +10,6 @@ public interface SiteService {
     SiteEntity getSiteById(String id);
     SiteEntity createSite(SiteDTO siteDTO);
     SiteEntity updateSite(SiteDTO siteDTO);
+
+    String genScriptBySiteCode(String siteCode);
 }

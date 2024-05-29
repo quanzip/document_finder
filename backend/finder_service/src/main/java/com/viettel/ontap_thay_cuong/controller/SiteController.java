@@ -48,7 +48,7 @@ public class SiteController {
         }
     }
 
-    @GetMapping("/apps/{id}")
+    @GetMapping("/sites/{id}")
     public ResponseEntity<SiteEntity> getSiteById(@PathVariable("id") String id) {
         Optional<SiteEntity> siteData = siteRepository.findById(id);
 
@@ -59,7 +59,7 @@ public class SiteController {
         }
     }
 
-    @DeleteMapping("/apps/{id}")
+    @DeleteMapping("/sites/{id}")
     public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") String id) {
         try {
             siteRepository.deleteById(id);
@@ -67,5 +67,10 @@ public class SiteController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(value = "/sites/gen-script/{siteCode}")
+    public String getScript(@PathVariable(value = "siteCode") String siteCode) {
+        return this.siteService.genScriptBySiteCode(siteCode);
     }
 }

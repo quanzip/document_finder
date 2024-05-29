@@ -7,6 +7,7 @@ import { FileUploadService } from '../../services/file-upload.service';
   styleUrls: ['./file-upload.component.css']
 })
 export class FileUploadComponent implements OnChanges {
+  @Input() viewMode = false;
   @Input() selectedSite: string | null = null;
   selectedFile: File | null = null;
   uploadedFileName: string | null = null;

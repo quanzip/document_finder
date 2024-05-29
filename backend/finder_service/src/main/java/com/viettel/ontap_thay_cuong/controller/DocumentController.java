@@ -1,13 +1,12 @@
 package com.viettel.ontap_thay_cuong.controller;
 
+import com.viettel.ontap_thay_cuong.entities.DocumentEntity;
 import com.viettel.ontap_thay_cuong.service.DocumentService;
 import com.viettel.ontap_thay_cuong.service.dto.DocumentDTO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -20,4 +19,8 @@ public class DocumentController {
         return this.documentService.checkAndSaveDocument(documentDTO);
     }
 
+    @GetMapping(value = "/documents")
+    public List<DocumentEntity> getDocumentsBySiteCode(@RequestParam("siteCode") String siteCode) {
+        return documentService.getDocumentsBySiteCode(siteCode);
+    }
 }

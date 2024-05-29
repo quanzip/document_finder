@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface SiteRepository extends JpaRepository<SiteEntity, String> {
     List<SiteEntity> findAllByCodeAndStatus(String code, Short status);
+    List<SiteEntity> findAllByNameLike(String name);
 }

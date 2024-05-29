@@ -10,6 +10,8 @@ import { TutorialDetailsComponent } from './components/tutorial-details/tutorial
 import { TutorialsListComponent } from './components/tutorials-list/tutorials-list.component';
 import {FileUploadService} from "./services/file-upload.service";
 import {FileUploadComponent} from "./components/file-upload/file-upload.component";
+import { SiteListComponent } from './components/site-list/site-list.component';
+import { SiteDetailComponent } from './components/site-detail/site-detail.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import {FileUploadComponent} from "./components/file-upload/file-upload.componen
     AddTutorialComponent,
     TutorialDetailsComponent,
     TutorialsListComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    SiteListComponent,
+    SiteDetailComponent
   ],
   imports: [
     BrowserModule,

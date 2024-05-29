@@ -67,4 +67,9 @@ public class DocumentServiceImpl implements DocumentService {
         }
         return null;
     }
+
+    @Override
+    public List<DocumentEntity> getDocumentsBySiteCode(String siteCode) {
+        return documentRepository.findAllBySiteCode(siteCode);
+    }
 }

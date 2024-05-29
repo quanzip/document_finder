@@ -14,18 +14,21 @@ import { VerticalComponent } from './vertical/vertical.component';
 
 
 @NgModule({
-  declarations: [
-    LayoutComponent,
-    VerticalComponent,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    NgbDropdownModule,
-    NgbNavModule,
-    SimplebarAngularModule,
-    TranslateModule,
-  ],
-  providers: [LanguageService]
+    declarations: [
+        LayoutComponent,
+        VerticalComponent,
+    ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        NgbDropdownModule,
+        NgbNavModule,
+        SimplebarAngularModule,
+        TranslateModule,
+    ],
+    exports: [
+        LayoutComponent
+    ],
+    providers: [LanguageService]
 })
 export class LayoutsModule { }

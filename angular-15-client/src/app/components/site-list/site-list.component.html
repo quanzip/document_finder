@@ -1,16 +1,16 @@
 <div class="list">
-  <div class="col-md-4">
+  <div class="col-md-8">
     <div class="input-group mb-3">
       <input
         type="text"
         class="form-control"
-        placeholder="Search by title"
-        [(ngModel)]="title"
+        placeholder="Search by name"
+        [(ngModel)]="siteName"
       />
       <div class="input-group-append">
         <button
           class="btn btn-outline-secondary"
-          (click)="searchTitle()"
+          (click)="searchName()"
         >
           Search
         </button>
@@ -19,31 +19,26 @@
   </div>
   <div class="row">
     <div class="col-md-4">
-      <h4>Tutorials List</h4>
+      <h4>Site List</h4>
       <ul class="list-group">
         <li
           class="list-group-item"
-          *ngFor="let tutorial of tutorials; let i = index"
+          *ngFor="let site of sites; let i = index"
           [class.active]="i == currentIndex"
-          (click)="setActiveTutorial(tutorial, i)"
+          (click)="setActiveSite(site, i)"
         >
-          {{ tutorial.title }}
+          {{ site.name }}
         </li>
       </ul>
-
-      <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTutorials()">
-        Remove All
-      </button>
     </div>
     <div class="col-md-4">
-      <app-tutorial-details
+      <app-site-detail
         [viewMode]="true"
-        [currentTutorial]="currentTutorial"
-      ></app-tutorial-details>
+        [currentSite]="currentSite"
+      ></app-site-detail>
     </div>
     <div class="col-md-4">
-      <app-file-upload
-        *ngIf="currentTutorial.id"></app-file-upload>
+      <app-file-upload *ngIf="currentSite.siteId"></app-file-upload>
     </div>
   </div>
 </div>

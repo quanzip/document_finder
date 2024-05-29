@@ -1,9 +1,9 @@
 package com.viettel.ontap_thay_cuong.controller;
 
-import com.sBot.service.dto.SiteDTO;
 import com.viettel.ontap_thay_cuong.entities.SiteEntity;
 import com.viettel.ontap_thay_cuong.repository.SiteRepository;
 import com.viettel.ontap_thay_cuong.service.SiteService;
+import com.viettel.ontap_thay_cuong.service.dto.SiteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class SiteController {
 
     @PostMapping(value = "/sites/add")
     public Object createSite(HttpServletRequest request, @RequestBody SiteDTO siteDTO) {
-        return new ResponseEntity<>(this.siteService.save(siteDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.siteService.createSite(siteDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/sites")

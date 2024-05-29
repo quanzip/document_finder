@@ -1,4 +1,4 @@
-package com.sBot.service.dto;
+package com.viettel.ontap_thay_cuong.service.dto;
 
 public class SiteDTO {
     private String id;

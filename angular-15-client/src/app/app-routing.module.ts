@@ -8,11 +8,7 @@ import {SiteDetailComponent} from "./components/site-detail/site-detail.componen
 import {AddSiteComponent} from "./components/add-site/add-site.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: 'tutorials', pathMatch: 'full' },
-  { path: 'tutorials', component: TutorialsListComponent },
-  { path: 'tutorials/:id', component: TutorialDetailsComponent },
-  { path: 'add', component: AddTutorialComponent },
-  // { path: '', redirectTo: 'sites', pathMatch: 'full' },
+  { path: '', redirectTo: 'sites', pathMatch: 'full' },
   { path: 'sites', component: SiteListComponent },
   { path: 'sites/:id', component: SiteDetailComponent },
   { path: 'add-site', component: AddSiteComponent }

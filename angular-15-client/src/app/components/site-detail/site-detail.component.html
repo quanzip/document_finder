@@ -9,12 +9,7 @@
       {{ currentSite.code }}
     </div>
 
-    <a
-      class="badge badge-warning"
-      routerLink="/sites/{{ currentSite.siteId }}"
-    >
-      Edit
-    </a>
+    <button (click)="genScript()">Generate Script</button>
   </div>
 
   <div *ngIf="!currentSite">
@@ -23,49 +18,12 @@
   </div>
 </div>
 
-<!--<ng-template #editable>-->
-<!--  <div *ngIf="currentSite.id" class="edit-form">-->
-<!--    <h4>Site</h4>-->
-<!--    <form>-->
-<!--      <div class="form-group">-->
-<!--        <label for="title">Title</label>-->
-<!--        <input-->
-<!--          type="text"-->
-<!--          class="form-control"-->
-<!--          id="title"-->
-<!--          [(ngModel)]="currentSite.title"-->
-<!--          name="title"-->
-<!--        />-->
-<!--      </div>-->
-<!--      <div class="form-group">-->
-<!--        <label for="description">Description</label>-->
-<!--        <input-->
-<!--          type="text"-->
-<!--          class="form-control"-->
-<!--          id="description"-->
-<!--          [(ngModel)]="currentSite.description"-->
-<!--          name="description"-->
-<!--        />-->
-<!--      </div>-->
-
-<!--      <div class="form-group">-->
-<!--        <label><strong>Status:</strong></label>-->
-<!--        {{ currentSite.published ? "Published" : "Pending" }}-->
-<!--      </div>-->
-<!--    </form>-->
-
-<!--    <button-->
-<!--      class="badge badge-primary mr-2"-->
-<!--      *ngIf="currentSite.published"-->
-<!--      (click)="updatePublished(false)"-->
-<!--    >-->
-<!--      UnPublish-->
-<!--    </button>-->
-<!--    <p>{{ message }}</p>-->
-<!--  </div>-->
-
-<!--  <div *ngIf="!currentSite.id">-->
-<!--    <br />-->
-<!--    <p>Cannot access this Site...</p>-->
-<!--  </div>-->
-<!--</ng-template>-->
+<div class="popup" *ngIf="openDialog">
+  <div class="popup-header">
+    <h2>Popup Title</h2>
+<!--    <button (click)="copyContent()">Copy</button>-->
+  </div>
+  <div class="popup-content">
+    {{popupContent}}
+  </div>
+</div>

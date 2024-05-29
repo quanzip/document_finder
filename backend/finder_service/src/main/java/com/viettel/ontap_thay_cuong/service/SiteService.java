@@ -5,6 +5,7 @@ import com.viettel.ontap_thay_cuong.service.dto.SiteDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface SiteService {
@@ -13,7 +14,7 @@ public interface SiteService {
     SiteEntity createSite(SiteDTO siteDTO);
     SiteEntity updateSite(SiteDTO siteDTO);
 
-    String genScriptBySiteCode(String siteCode);
+    void genScriptBySiteCode(String siteCode, HttpServletResponse response);
 
     ResponseEntity<HttpStatus> deleteSite(String id);
 

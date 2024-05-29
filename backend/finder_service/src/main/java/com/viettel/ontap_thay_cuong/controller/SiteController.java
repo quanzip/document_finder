@@ -6,6 +6,7 @@ import com.viettel.ontap_thay_cuong.service.dto.SiteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -44,7 +45,7 @@ public class SiteController {
 //    }
 
     @GetMapping(value = "/sites/gen-script/{siteCode}")
-    public String getScript(@PathVariable(value = "siteCode") String siteCode) {
-        return this.siteService.genScriptBySiteCode(siteCode);
+    public void getScript(@PathVariable(value = "siteCode") String siteCode, HttpServletResponse response) {
+         this.siteService.genScriptBySiteCode(siteCode, response);
     }
 }

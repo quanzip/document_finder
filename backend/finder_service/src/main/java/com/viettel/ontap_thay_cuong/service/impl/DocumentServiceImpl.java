@@ -19,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -47,9 +48,9 @@ public class DocumentServiceImpl implements DocumentService {
     // Get Workbook
     private static Workbook getWorkbook(InputStream inputStream, String excelFilePath) throws IOException {
         Workbook workbook = null;
-        if (excelFilePath.endsWith("xlsx")) {
+        if (excelFilePath.toLowerCase().endsWith("xlsx")) {
             workbook = new XSSFWorkbook(inputStream);
-        } else if (excelFilePath.endsWith("xls")) {
+        } else if (excelFilePath.toLowerCase().endsWith("xls")) {
             workbook = new HSSFWorkbook(inputStream);
         } else {
             throw new IllegalArgumentException("The specified file is not Excel file");
@@ -115,6 +116,7 @@ public class DocumentServiceImpl implements DocumentService {
             DocumentItemEntity docItem = new DocumentItemEntity();
             docItem.setDocument(documentEntity);
             docItem.setSiteCode(siteCode);
+            docItem.setId(UUID.randomUUID().toString());
             docItem.setSelectedCount(0);
             docItem.setStatus((short) 1);
             while (cellIterator.hasNext()) {
@@ -141,6 +143,7 @@ public class DocumentServiceImpl implements DocumentService {
                 }
 
             }
+            if (docItem.getQuestion() == null || docItem.getAnswer() == null || docItem.getQuestion().trim().isEmpty() || docItem.getAnswer().trim().isEmpty()) continue;
             result.add(docItem);
         }
         documentItemRepository.saveAll(result);
@@ -158,18 +161,19 @@ public class DocumentServiceImpl implements DocumentService {
             }
 
             File folder = new File(documentFolder);
-            if (!folder.exists() || !folder.isDirectory()) {
+            if (!folder.exists()) {
                 folder.mkdir();
             }
 
             MultipartFile multipartFile = documentDTO.getMultipartFile();
 
-            if (multipartFile != null && !multipartFile.isEmpty() && !multipartFile.getName().isEmpty()) {
-                File fullFilePath = new File(folder, System.currentTimeMillis() + multipartFile.getName());
+            if (multipartFile != null && !multipartFile.isEmpty() && !multipartFile.getOriginalFilename().isEmpty()) {
+                File fullFilePath = new File(folder, System.currentTimeMillis() + multipartFile.getOriginalFilename());
                 documentDTO.setDocumentUrl(fullFilePath.getPath());
 
                 try (FileOutputStream fileOutputStream = new FileOutputStream(fullFilePath)) {
-                    fileOutputStream.write(multipartFile.getBytes());
+                    FileCopyUtils.copy(multipartFile.getBytes(), fileOutputStream);
+//                    fileOutputStream.write();
                 } catch (Exception e) {
                     e.printStackTrace();
                     logger.error(e.getMessage());

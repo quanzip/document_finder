@@ -69,9 +69,8 @@ public class MessageServiceImpl implements MessageService {
                         operations.convertAndSend("/topic/customer_chat_receive",messResponse);
                     };
                     messageRepository.saveAll(messageEntities);
-                    documentItemRepository.saveAll(docs);
                     docs.forEach(docConsumer);
-
+                    documentItemRepository.saveAll(docs);
                 }
 
             }

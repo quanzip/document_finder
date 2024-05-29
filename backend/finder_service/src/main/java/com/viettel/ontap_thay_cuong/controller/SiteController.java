@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller("/api/v1")
+@CrossOrigin("*")
+@Controller()
+@RequestMapping("/api/v1")
 public class SiteController {
     @Autowired
     private SiteService siteService;

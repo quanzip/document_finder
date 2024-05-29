@@ -22,6 +22,8 @@ export class SiteDetailComponent implements OnInit {
   };
 
   message = '';
+  openDialog = false
+  popupContent = ''
 
   constructor(
     private siteService: SiteService,
@@ -70,5 +72,15 @@ export class SiteDetailComponent implements OnInit {
       });
   }
 
-
+  genScript(): void {
+    this.siteService.generateScript(this.currentSite.code!)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.openDialog = true
+          this.popupContent = res
+        },
+        error: (e) => console.error(e)
+      });
+  }
 }

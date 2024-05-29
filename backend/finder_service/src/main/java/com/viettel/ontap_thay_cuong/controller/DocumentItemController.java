@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api/v1")
 @CrossOrigin(origins = "*")
-
 public class DocumentItemController {
     @Autowired
     private DocumentItemService documentItemService;

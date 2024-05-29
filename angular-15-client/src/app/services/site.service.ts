@@ -19,11 +19,11 @@ export class SiteService {
   }
 
   create(data: any): Observable<any> {
-    return this.http.post(baseUrl, data);
+    return this.http.post(`${baseUrl}/create`, data);
   }
 
   update(id: any, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}/${id}`, data);
+    return this.http.put(`${baseUrl}/update/${id}`, data);
   }
 
   delete(id: any): Observable<any> {
@@ -36,5 +36,8 @@ export class SiteService {
 
   findByName(name: any): Observable<Site[]> {
     return this.http.get<Site[]>(`${baseUrl}?siteName=${name}`);
+  }
+  generateScript(siteCode: string): Observable<any> {
+    return this.http.get(`${baseUrl}/gen-script/${siteCode}`);
   }
 }

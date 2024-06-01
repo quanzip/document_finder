@@ -2,6 +2,7 @@ package com.viettel.ontap_thay_cuong.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,8 +30,7 @@ public class MessageSlimDTO implements Serializable {
     @NotNull
     Integer type;
 
-    @Size(max = 3000)
-    String content;
+    List<ContentDTO> content;
 
     @Size(max = 3000)
     String contentExtra;
@@ -83,6 +83,7 @@ public class MessageSlimDTO implements Serializable {
 
     Short surveyFrequencyUnit;
 
+    @JsonProperty("domainCode")
     String siteCode;
 
     public String getSiteCode() {
@@ -169,11 +170,11 @@ public class MessageSlimDTO implements Serializable {
         this.type = type;
     }
 
-    public String getContent() {
+    public List<ContentDTO> getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(List<ContentDTO> content) {
         this.content = content;
     }
 

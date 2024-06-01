@@ -24,16 +24,10 @@ public class ChatController {
     @Autowired
     private MessageService messageService;
 
-    @PostMapping(value = "/chat/{siteCode}")
-    public Object receiveData(HttpServletRequest request, @PathVariable(value = "siteCode") String siteCode, @RequestBody MessageDTO message) {
-        logger.info("Receive messages from user {}, data: {} ", siteCode, message);
-
-        MessageSlimDTO messageSlimDTO = message.getMessageSlimDTO();
-        messageSlimDTO.setId(UUID.randomUUID().toString());
-        this.messageService.saveMessage(messageSlimDTO);
-
-        messageService.responseClient(messageSlimDTO, siteCode);
-        return message;
+    @PostMapping(value = "/chat")
+    public Object receiveData(@RequestBody MessageDTO message) {
+        logger.info("Receive messages from domainCode {}, data: {} ",message.getMessageSlimDTO().getSiteCode(), message);
+        return messageService.responseClient(message);
     }
 
     @GetMapping(value = "/")

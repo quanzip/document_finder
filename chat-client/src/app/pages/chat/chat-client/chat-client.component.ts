@@ -681,7 +681,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
             // if (isReady) {
                 let messageOut = new MessageOut('', this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, type, messageContent,
                     timeNowInLong, [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
-                    event.chatMessage.replyMsgId, this.messageStatus.SENDING, false);
+                    event.chatMessage.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode);
 
                 let messageOutData = {
                     "data": messageOut
@@ -750,7 +750,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 let messageOut = new MessageOut('', this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, messageModel.type, messageModel.content,
                     contentExtra, [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
-                    messageModel.replyMsgId, this.messageStatus.SENDING, false);
+                    messageModel.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode);
                 let messageOutData = {data: messageOut};
                 console.log("Re-sending messages by recognizer: " + contentExtra)
                 if (messageType == 1) {
@@ -818,9 +818,22 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        this.chatServerService.sendMessage(messageOutData, realmName, this.domainDataService.domainCode).subscribe(res => {
+        messageOutData.domain
+        this.chatServerService.sendMessage(messageOutData).subscribe(res => {
             console.log("Send MESSAGE successfully, has file: " + hasFile)
-            /*now update id, status, fileUrls back to local images*/
+            /*now update id, status, fileUrls back to local
+            * Đây là câu trả lời - res của bot cho câu hỏi của user
+            * Trường contentExtra của res mang giá trị của contentExtra trong câu hỏi của user
+            * Dùng giá trị này để cập nhật [SENT/SENDING/FAILED] cho câu hỏi của user
+            * */
+
+            if (!res || res.length == 0) {
+                let contentExtra = messageOutData.data.contentExtra;
+                this.markFailedMessage(contentExtra)
+                this.saveChatStateToStorage();
+                return;
+            }
+
             let data = JSON.parse(JSON.stringify(res)).data;
             let contentExtra = data.contentExtra;
             let chatMessage = this.getMessageFromLocalStorageByContentExtra(contentExtra);
@@ -916,7 +929,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
         if (isReady) {
             let messageOut = new MessageOut('', this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, type, '',
                 timeNow, [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
-                currentMessageData.replyMsgId, this.messageStatus.SENDING, false);
+                currentMessageData.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode);
 
             messageOut.type = type;
             messageOut.fileSize = [fileSize]
@@ -966,7 +979,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
         let messageOut = new MessageOut('', this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, 0, event.chatMessage.content,
             '', [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
-            event.chatMessage.replyMsgId, this.messageStatus.SENDING, false);
+            event.chatMessage.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode);
 
         let messageOutData = {
             "data": messageOut

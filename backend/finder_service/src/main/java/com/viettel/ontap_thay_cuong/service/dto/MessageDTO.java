@@ -13,4 +13,5 @@ public class MessageDTO {
     public void setMessageSlimDTO(MessageSlimDTO messageSlimDTO) {
         this.messageSlimDTO = messageSlimDTO;
     }
+
 }

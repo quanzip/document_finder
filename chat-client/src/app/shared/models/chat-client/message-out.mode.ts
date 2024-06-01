@@ -20,11 +20,12 @@ export class MessageOut{
     status: number //  0: Gửi lỗi, 1: Đã gửi, 2: Đã xem, 3: Đang gửi
     conversationId: string;
     typing: boolean;
+    domainCode: string
 
     constructor(messageId: string, channelId: number, conversationId: string, authorType: string, authorId: string, type: number, content: string,
                 contentExtra: string, fileUrl: string[], fileName: string[], fileSize: number[], originalMessageId: string, originalMessageTimestamp: string
                 , integrationId: string,
-                serviceId: string, replyTo: string, status: number, typing: boolean) {
+                serviceId: string, replyTo: string, status: number, typing: boolean, domainCode: String) {
         this.messageId = messageId;
         this.channelId = channelId;
         this.conversationId = conversationId;
@@ -43,5 +44,6 @@ export class MessageOut{
         this.replyTo = replyTo;
         this.status = status;
         this.typing = typing;
+        this.domainCode = domainCode;
     }
 }

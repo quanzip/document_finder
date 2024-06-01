@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface DocumentItemRepository extends JpaRepository<DocumentItemEntity, String> {
-    List<DocumentItemEntity> findAllByQuestionAndStatusAndSiteCode(String question, short status, String siteCode);
+    List<DocumentItemEntity> findAllByIdAndStatusAndSiteCode(String id, short status, String siteCode);
 
     @Query(value = "Select d from DocumentItemEntity d where (d.feature like %:input% or d.question like %:input%) and d.siteCode =:siteCode and d.status = :status order by d.selectedCount desc")
     List<DocumentItemEntity> findAllByFeatureLikeOrQuestionLikeAndStatusOrderBySelectedCountDesc(@Param(value = "input") String input, @Param(value = "siteCode") String siteCode, @Param(value = "status") short status);

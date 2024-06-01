@@ -17,8 +17,8 @@ export class ChatServerService extends AbstractService {
         return this.postRequest(this.PUBLIC_SERVICE_URL + '/users?realmName=' + realmName, data)
     }
 
-    public sendMessage(data: any, realmName: string, userId: string) {
-        return this.postRequest(this.BASIC_SERVICE_URL + '/chat/' + userId, data)
+    public sendMessage(data: any) {
+        return this.postRequest(this.BASIC_SERVICE_URL + '/chat', data)
     }
 
     get SERVICE_URL(): string {

@@ -1,9 +1,12 @@
 package com.viettel.ontap_thay_cuong.service;
 
+import com.viettel.ontap_thay_cuong.service.dto.MessageDTO;
 import com.viettel.ontap_thay_cuong.service.dto.MessageSlimDTO;
 
-public interface MessageService {
-    void saveMessage(MessageSlimDTO messageSlimDTO);
+import java.util.List;
 
-    void responseClient(MessageSlimDTO messageSlimDTO, String siteCode);
+public interface MessageService {
+    void saveMessageDTO(MessageSlimDTO messageSlimDTO);
+
+    List<MessageSlimDTO> responseClient(MessageDTO messageDTO);
 }

@@ -13,6 +13,7 @@ import java.util.List;
 @JsonInclude(Include.NON_NULL)
 public class MessageSlimDTO implements Serializable {
 
+    @JsonProperty("messageId")
     String id;
 
     String conversationId;
@@ -30,7 +31,11 @@ public class MessageSlimDTO implements Serializable {
     @NotNull
     Integer type;
 
-    List<ContentDTO> content;
+    String content;
+
+    List<ContentDTO> contents;
+
+    ConfirmDTO confirmDTO;  // case that need user confirm about feature/question
 
     @Size(max = 3000)
     String contentExtra;
@@ -170,12 +175,12 @@ public class MessageSlimDTO implements Serializable {
         this.type = type;
     }
 
-    public List<ContentDTO> getContent() {
-        return content;
+    public List<ContentDTO> getContents() {
+        return contents;
     }
 
-    public void setContent(List<ContentDTO> content) {
-        this.content = content;
+    public void setContents(List<ContentDTO> contents) {
+        this.contents = contents;
     }
 
     public String getContentExtra() {
@@ -378,6 +383,22 @@ public class MessageSlimDTO implements Serializable {
         this.surveyFrequencyUnit = surveyFrequencyUnit;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public ConfirmDTO getConfirmDTO() {
+        return confirmDTO;
+    }
+
+    public void setConfirmDTO(ConfirmDTO confirmDTO) {
+        this.confirmDTO = confirmDTO;
+    }
+
     @Override
     public String toString() {
         return "MessageSlimDTO{" +
@@ -387,7 +408,7 @@ public class MessageSlimDTO implements Serializable {
                 ", authorName='" + authorName + '\'' +
                 ", receivedAt=" + receivedAt +
                 ", type=" + type +
-                ", content='" + content + '\'' +
+                ", content='" + contents + '\'' +
                 ", contentExtra='" + contentExtra + '\'' +
                 '}';
     }

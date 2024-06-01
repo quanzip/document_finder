@@ -16,6 +16,8 @@
     }
   },
   "chat": {
+    "step": "Step ",
+    "last-step": "Lastly ",
     "search": "Search",
     "connected": "Connected",
     "reply": "Reply",

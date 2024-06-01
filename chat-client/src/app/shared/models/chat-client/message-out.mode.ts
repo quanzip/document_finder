@@ -1,3 +1,5 @@
+import {ContentModel} from "./content.model";
+
 export class MessageOut{
     messageId: string;  // only use for send seen status to chat-server
     channelId: number  //   ID kênhs
@@ -8,6 +10,7 @@ export class MessageOut{
     // 13:Button 14: Email
 
     content: string //  Nội dung (dạng text)
+    contents: ContentModel[];
     contentExtra: string //
     fileUrl: string[] //  Đường dẫn file đính kèm
     fileName: string[] // Tên file đính kèm
@@ -25,7 +28,7 @@ export class MessageOut{
     constructor(messageId: string, channelId: number, conversationId: string, authorType: string, authorId: string, type: number, content: string,
                 contentExtra: string, fileUrl: string[], fileName: string[], fileSize: number[], originalMessageId: string, originalMessageTimestamp: string
                 , integrationId: string,
-                serviceId: string, replyTo: string, status: number, typing: boolean, domainCode: String) {
+                serviceId: string, replyTo: string, status: number, typing: boolean, domainCode: string, contents: ContentModel[]) {
         this.messageId = messageId;
         this.channelId = channelId;
         this.conversationId = conversationId;
@@ -45,5 +48,6 @@ export class MessageOut{
         this.status = status;
         this.typing = typing;
         this.domainCode = domainCode;
+        this.contents = contents
     }
 }

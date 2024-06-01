@@ -8,4 +8,7 @@ public class Constants {
 
     public static String avatarIdentify = "_ava_";
     public static String apiPrefixV1 = "/api/v1";
+
+    public static Integer MESSAGE_TYPE_CONFIRM = 30;
+    public static Integer MESSAGE_TYPE_TEXT = 1;
 }

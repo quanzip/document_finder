@@ -1,5 +1,3 @@
-import {SafeUrl} from "@angular/platform-browser";
-import {FileObject} from "./chat-client.model";
 import {SurveyParamModel} from "./survey-param.model";
 
 export class ChatMessageModel {

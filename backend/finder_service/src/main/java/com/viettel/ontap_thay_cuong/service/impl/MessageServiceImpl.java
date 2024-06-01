@@ -5,15 +5,17 @@ import com.viettel.ontap_thay_cuong.entities.MessageEntity;
 import com.viettel.ontap_thay_cuong.repository.DocumentItemRepository;
 import com.viettel.ontap_thay_cuong.repository.MessageRepository;
 import com.viettel.ontap_thay_cuong.service.MessageService;
-import com.viettel.ontap_thay_cuong.service.dto.ContentDTO;
-import com.viettel.ontap_thay_cuong.service.dto.MessageDTO;
-import com.viettel.ontap_thay_cuong.service.dto.MessageSlimDTO;
+import com.viettel.ontap_thay_cuong.service.dto.*;
+import com.viettel.ontap_thay_cuong.utils.Constants;
 import com.viettel.ontap_thay_cuong.utils.ErrorApps;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 @Service
@@ -45,29 +47,31 @@ public class MessageServiceImpl implements MessageService {
 
         // response user;
         List<MessageSlimDTO> result = new ArrayList<>();
-        String id = inputData.getId();
+        String id = inputData.getId().trim();
+        String siteCode = inputData.getSiteCode().trim();
 
-        if (id.isEmpty()) {  // user do not ask by suggestions
-            MessageSlimDTO subMessage = createNewAgentTypeMessage();
-            subMessage.setContent(Collections.singletonList(ContentDTO.Builder().stepContent(ErrorApps.SORRY_NOT_FOUND_ANSWER.getMessage())));
-            result.add(subMessage);
-            return result;
+        List<ContentDTO> contentDTOS = new ArrayList<>();
+        if (id.isEmpty()) {
+            // user do not ask by suggestions => lay cac feature xuat hien trong cau hori, lay cac cau hoi ok nhat cua cac feature do
+            List<String> closeFeatures = this.documentItemRepository.findFeatureByInput(inputData.getContent().toLowerCase(), inputData.getSiteCode());
+            if (closeFeatures.isEmpty()) {
+                return handleNotFoundAnswer(result, siteCode);
+            } else {
+                // lay cac question trong cac feature lien quan de nguoi dung chon cau hoi phu hop y ho
+                return handleConfirmationByUnknownQuestion(inputData, result, siteCode, closeFeatures);
+            }
         } else {
-            List<DocumentItemEntity> docs = documentItemRepository.findAllByIdAndStatusAndSiteCode(id, (short) 1, inputData.getSiteCode());
+            List<DocumentItemEntity> docs = documentItemRepository.findAllByIdAndStatusAndSiteCode(id, (short) 1, siteCode);
             if (docs.isEmpty()) {
-                MessageSlimDTO subMessage = createNewAgentTypeMessage();
-                subMessage.setContent(Collections.singletonList(ContentDTO.Builder().stepContent(ErrorApps.SORRY_NOT_FOUND_ANSWER.getMessage())));
-                result.add(subMessage);
-                return result;
+                return handleNotFoundAnswer(result, siteCode);
             }
 
             List<MessageEntity> messageEntities = new ArrayList<>();
-            List<ContentDTO> contentDTOS = new ArrayList<>();
 
             final Consumer<DocumentItemEntity> docConsumer = doc -> {
                 contentDTOS.add(ContentDTO.Builder().stepContent(doc.getAnswer()));
-                MessageSlimDTO subMessage = createNewAgentTypeMessage();
-                subMessage.setContent(contentDTOS);
+                MessageSlimDTO subMessage = createNewAgentTypeMessage(siteCode, Constants.MESSAGE_TYPE_TEXT);
+                subMessage.setContents(contentDTOS);
                 subMessage.setContentExtra(inputData.getContentExtra());
                 result.add(subMessage);
 
@@ -84,11 +88,45 @@ public class MessageServiceImpl implements MessageService {
         return result;
     }
 
-    private MessageSlimDTO createNewAgentTypeMessage() {
+    private List<MessageSlimDTO> handleConfirmationByUnknownQuestion(MessageSlimDTO inputData, List<MessageSlimDTO> result, String siteCode, List<String> closeFeatures) {
+        List<DocumentItemEntity> docs = this.documentItemRepository.findAllByStatusAndSiteCodeAndFeatureInOrderBySelectedCountDesc((short) 1, siteCode, closeFeatures);
+        if (docs.isEmpty()) {
+            return handleNotFoundAnswer(result, siteCode);
+        }
+
+        List<DocumentItemDTO> confirmQuestions = new ArrayList<>();
+        Consumer<DocumentItemEntity> docConsumer = doc -> {
+            DocumentItemDTO documentItemDTO = new DocumentItemDTO();
+            BeanUtils.copyProperties(doc, documentItemDTO);
+            confirmQuestions.add(documentItemDTO);
+            // vì đây là list câu hỏi để gợi ý cho người dùng chọn tiếp, chưa phải message answer nên không ghi nhận mess mới.
+        };
+        ConfirmDTO confirmDTO = new ConfirmDTO();
+        confirmDTO.setConfirmQuestions(confirmQuestions);
+        confirmDTO.setFeatures(closeFeatures);
+
+        MessageSlimDTO subMessage = createNewAgentTypeMessage(siteCode, Constants.MESSAGE_TYPE_CONFIRM);
+        subMessage.setConfirmDTO(confirmDTO);
+        subMessage.setContentExtra(inputData.getContentExtra());
+        result.add(subMessage);
+
+        docs.forEach(docConsumer);
+        return result;
+    }
+
+    private List<MessageSlimDTO> handleNotFoundAnswer(List<MessageSlimDTO> result, String siteCode) {
+        MessageSlimDTO subMessage = createNewAgentTypeMessage(siteCode, Constants.MESSAGE_TYPE_TEXT);
+        subMessage.setContents(Collections.singletonList(ContentDTO.Builder().stepContent(ErrorApps.SORRY_NOT_FOUND_ANSWER.getMessage())));
+        result.add(subMessage);
+        return result;
+    }
+
+    private MessageSlimDTO createNewAgentTypeMessage(String siteCode, Integer messageType) {
         MessageSlimDTO subMessage = new MessageSlimDTO();
         subMessage.setId(UUID.randomUUID().toString());
-        subMessage.setType(1);
+        subMessage.setType(messageType);
         subMessage.setAuthorId("agent");
+        subMessage.setSiteCode(siteCode);
         subMessage.setReceivedAt(System.currentTimeMillis());
         return subMessage;
     }

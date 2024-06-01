@@ -52,7 +52,8 @@ export class ChatServerStompService implements OnDestroy {
             /* Register to message subscription */
             try {
                 this.chatStompService.subscribe('/topic/customer_chat_receive', (data: any) => {
-                    this.messageService.publish({'topic': data.objectId, 'data': data});
+                    // this.messageService.publish({'topic': data.objectId, 'data': data});
+                    this.messageService.publish(data);
                 })
             } catch (error) {
                 this.changeConnectionDisconnected();

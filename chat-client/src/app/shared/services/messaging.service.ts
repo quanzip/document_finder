@@ -19,7 +19,7 @@ export class MessagingService {
         this.message$.next(message);
     }
 
-    public getMessage(): Observable<Message> {
+    public getMessage(): Observable<any> {
         return this.message$;
     }
 

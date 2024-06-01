@@ -26,9 +26,6 @@ import {FileService} from "../../../../shared/services/chat-client/file.service"
 import {ChatServerService} from "../../../../shared/services/chat-client/chat-server.service";
 import {SurveyParamModel} from "../../../../shared/models/chat-client/survey-param.model";
 import {MessageFlag} from "../../../../shared/models/chat-client/messageModel";
-import {Utils} from "../../../../shared/utils";
-import {ChatSuggestComponent} from "../chat-suggest/chat-suggest.component";
-import {data} from "browserslist";
 import {SuggestService} from "../../../../shared/services/chat-client/suggest.service";
 import {HistoryService} from "../../../../shared/services/chat-client/history.service";
 
@@ -65,6 +62,8 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     public typingUrl = '.\\assets\\images\\typing.gif'
     smallAvatar: string = ''
     textLengthToBreakLine = PROPERTIES.AllowTextInput
+
+    private suggests: any = [];
 
     private submitChatSrc = new Subject();
     private fileDownloadSubscription: Subscription | undefined;
@@ -162,7 +161,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     disableReplyOldMessages(id: string) {
         for (let oldMess of this.chatModel.chatState.chatHistory) {
             oldMess.isRepliable = false;
-            if(oldMess.messageId == id) {
+            if (oldMess.messageId == id) {
                 this.saveChatStateToStorage();
                 return;
             }
@@ -237,9 +236,9 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
                                     replyFilesName = messData.parentTicketDetail.attachments[0].fileName;
                                     replyFiles = this.fileService.getURLContentFilePublic(messData.parentTicketDetail.attachments[0].storeFilePath, this.domainDataService.realmName);
                                 }
-                                if(messData.parentTicketDetail.content) {
+                                if (messData.parentTicketDetail.content) {
                                     replyMsg = messData.parentTicketDetail.content;
-                                }else {
+                                } else {
                                     replyMsg = "";
                                 }
                                 replyType = messData.parentTicketDetail.contentType;
@@ -338,7 +337,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit() {
         this.smallAvatar = this.fileService.getURLContentFilePublic(this.domainDataService.avatarImg, this.domainDataService.realmName);
         this.historyAskDocumentService.getHistorySubscription().subscribe(res => {
-             this.showHistory = !this.showHistory;
+            this.showHistory = !this.showHistory;
         })
     }
 
@@ -362,7 +361,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         this.changeHeader.emit(this.chatModel);
     }
 
-    getColorFromText(id: string){
+    getColorFromText(id: string) {
         return document.getElementById(id + 'reMsg')!.style.color
     }
 
@@ -374,7 +373,19 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
             this.changeBody.emit(this.chatModel);
         } else if (isSendingTextNotEmpty) {
             this.chatModel.chatMessage.type = '1';
-            this.changeBody.emit(this.chatModel);
+
+            if (this.hasSuggest && this.suggests.length > 0 && this.chatModel.chatMessage.messageId == '') {
+                let index = this.suggests.findIndex((suggest: any) => suggest.question.toLowerCase() == this.chatModel.chatMessage.content.trim().toLowerCase())
+                if (index >= 0) { // type question that are existed in suggests
+                    this.chatModel.chatMessage.messageId = this.suggests[index].id
+                    this.chatModel.chatMessage.content = this.suggests[index].question
+                    this.sendMessage()
+                } else {
+                    this.changeBody.emit(this.chatModel);
+                }
+            } else {
+                this.changeBody.emit(this.chatModel);
+            }
         }
 
         if (this.isreplyMessage) {
@@ -458,15 +469,17 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     recentText = "";
-     asyncFunctionWithParams(input: string) {
+
+    asyncFunctionWithParams(input: string) {
         if (input && input.length > 1) {
-            if (this.recentText == input) return ;
+            if (this.recentText == input) return;
             this.recentText = input;
-             this.chatServerService.getSuggest(input, this.domainDataService.domainCode).subscribe(res => {
+            this.chatServerService.getSuggest(input, this.domainDataService.domainCode).subscribe(res => {
                 if (res && res.length > 0) {
                     this.hasSuggest = true;
                     console.log('Showing suggests')
-                    window.setTimeout(()=> {
+                    window.setTimeout(() => {
+                        this.suggests = res;
                         this.suggestService.startShowSuggestion({"input": input, "data": res})
                     }, 100)
                 } else {
@@ -479,14 +492,18 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
             })
         } else {
             this.hasSuggest = false;
+            this.recentText = ''
         }
         return null;
     }
 
 
     resetCurrentMessage() {
+        this.chatModel.chatMessage.messageId = ''
         this.chatModel.chatMessage.files = new FileObject();
         this.chatModel.chatMessage.type = '';
+        this.hasSuggest = false;
+        this.recentText = '';
         this.chatModel.chatMessage.isReplyMessage = false;
         this.chatModel.chatMessage.onlyEmoji = false;
         this.chatModel.chatMessage.replyFilesName = '';
@@ -563,7 +580,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
 
     getTruncateFileName(message: ChatMessageModel): string {
         let content = message.replyFilesName;
-        if(!content) return "";
+        if (!content) return "";
         let extension = content.substring(content.lastIndexOf("."));
 
         if (content.length > 42) {
@@ -642,13 +659,12 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
 
     closeSuggestBlock(data: any) {
         if (!data) {
-            this.hasSuggest = false;
             this.resetCurrentMessage();
-        }else {
+        } else {
             if (data.id) {
+                this.chatModel.chatMessage.messageId = data.id
                 this.chatModel.chatMessage.content = data.question
                 this.sendMessage()
-                this.hasSuggest = false;
             } else {
                 this.chatModel.chatMessage.content = data.question + " "
             }

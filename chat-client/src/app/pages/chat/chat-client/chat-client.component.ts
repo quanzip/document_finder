@@ -214,136 +214,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
         // });
         //
         this.receiveMessageSub = this.messageService.getMessage().subscribe(msg => {
-            let data = msg.data;
-            console.log(data);
-            let isFromAgent = data.authorId != this.userProfileService.userId;
-            if (data.type == this.messageType.TYPING) {
-                if (isFromAgent) this.chatModel.isTyping = data.typing;
-            } else {
-                let existMessage;
-                if(isFromAgent) {
-                    existMessage = this.getMessageFromLocalStorageByContentExtra(data.id)
-                }else {
-                    existMessage = this.getMessageFromLocalStorageByContentExtra(data.contentExtra);
-                }
-
-
-                console.log(data.siteCode + "- " + this.domainDataService.domainCode)
-                if (!existMessage && data.siteCode == this.domainDataService.domainCode) {
-                    /* message */
-                    if (this.domainDataService.workingTimeType == this.WORKING_TYPE.OUT_TIME && isFromAgent) {
-                        this.domainDataService.workingTimeType = this.WORKING_TYPE.IN_TIME
-                        this.chatModel.showService = false;
-                        this.messageDefaultSubscription = this.chatDomainService.getMessageDefault(this.domainDataService.domainId, 1).subscribe(result => {
-                            if (result && result.data) {
-                                console.log(result.data)
-                                this.domainDataService.domainMessageDefault = result.data;
-                            }
-                        });
-
-                        this.domainDetailSubscription = this.chatDomainService.getDomainDetail(this.domainDataService.domainId, 1).subscribe(result => {
-                            if (result && result.data) {
-                                console.log(result.data)
-                                this.domainDataService.domainDetail = result.data;
-                            }
-                        });
-                    }
-
-                    let sendStatus = this.messageStatus.SENT;
-                    let reliable = true;
-                    let sendSeen = true;
-                    if (data.type == this.messageType.END_CHAT) {
-                        reliable = false;
-                        sendStatus = this.messageStatus.SEEN
-                        // this.disableReplyOldMessages(data.id);
-                    } else if (data.type == this.messageType.WARNING_END) {
-                        console.log("WARNING end chat!")
-                        reliable = false;
-                    }
-
-                    /* Case end chat then client continue chatting */
-                    if (data.conversationId != this.chatModel.conversationId) {
-                        this.chatModel.conversationId = data.conversationId;
-                    }
-                    let agentName
-                    if (data.authorName) {
-                        agentName = data.authorName
-                    } else {
-                        agentName = 'SYSTEM'
-                    }
-                    let isReplyMessage = false;
-                    let replyFilesName = '';
-                    let replyMsg = '';
-                    let replyFiles = '';
-                    let replyType = this.messageType.TEXT;
-                    let replyId = data.replyTo;
-                    let replyUserType = this.userType.CLIENT;
-                    let isReplyingAlbum = false;
-                    if (replyId) {
-                        let replyMessage = this.getMessageFromLocalStorageById(replyId);
-
-                        isReplyMessage = true;
-                        replyFilesName = replyMessage.filesName[0];
-                        replyMsg = replyMessage.content;
-                        replyFiles = this.fileService.getURLContentFilePublic(replyMessage.files[0], this.domainDataService.realmName);
-                        replyType = replyMessage.type;
-                        replyUserType = replyMessage.userType;
-                        isReplyingAlbum = this.isReplyingAlbum(replyId);
-                    }
-
-                    let survey: SurveyParamModel = new SurveyParamModel();
-                    let fileNames: string[] = [];
-                    let fileSizes: number = 0
-                    let files: string[] = []
-                    let type = data.type;
-                    let onlyEmoji = false;
-                    if (type == this.messageType.TEXT) {
-                        if (data.content.match(ChatClientComponent.EMOJI_ONLY_TEXT_REGEX)) {
-                            onlyEmoji = true
-                        }
-                    } else if (type == this.messageType.SURVEY) {
-                        /* SURVEY */
-                        reliable = false;
-                        sendStatus = this.messageStatus.SEEN
-                        survey.clientId = data.surveyClientId
-                        survey.realmName = this.domainDataService.realmName
-                        // this.disableReplyOldMessages(data.id);
-                    } else if (type == this.messageType.MISS) {
-                        /* SURVEY */
-                        reliable = false;
-                        sendStatus = this.messageStatus.SEEN
-                    } else {
-                        fileNames = data.fileName
-                        fileSizes = data.fileSize
-                        files = data.fileUrl
-                    }
-
-                    let chatMessage = new ChatMessageModel(data.id, this.channelId, agentName, isFromAgent ? this.userType.AGENT : this.userType.CLIENT, data.authorId, 'ticket_id', onlyEmoji,
-                        false, data.content, "", isFromAgent ? data.id : data.contentExtra, this.topic, [], files, fileNames, fileSizes, type, sendStatus, data.receivedAt,
-                        reliable, isReplyMessage, replyId, replyMsg, replyFiles, replyFilesName, replyType, replyUserType, isReplyingAlbum, '');
-
-                    if (survey) {
-                        chatMessage.survey = survey;
-                    }
-
-                    this.chatModel.chatState.chatHistory.push(chatMessage);
-                    this.saveChatStateToStorage();
-                    this.gainFocusOnTextInput();
-                    this.scrolltoBottom$.next(true)
-
-                    /* send seen status using seen api */
-                    if (this.chatModel.showChatBox && sendSeen && window.document.visibilityState == 'visible' && isFromAgent) {
-                        console.log("Sending seen when receive message from agent...")
-                        this.sendSeenStatusToChatServer(data.id)
-                    }
-
-                    /* check if chat is ended */
-                    if (data.type == this.messageType.END_CHAT) {
-                        this.chatModel.endChat = true;
-                        this.endCurrentConversation()
-                    }
-                }
-            }
+            this.receiveAgentResponse(msg);
         }, error => {
             console.log('Can not receive msg from Server, lost connection!!')
             console.log(error)
@@ -379,6 +250,156 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
         //     //     this.restoreChatFromLocal()
         //     // }
         // }
+    }
+
+    private receiveAgentResponse(data: any) {
+        console.log(data);
+        let isFromAgent = data.authorId != this.userProfileService.userId;
+        if (data.type == this.messageType.TYPING) {
+            if (isFromAgent) this.chatModel.isTyping = data.typing;
+        } else {
+            let existMessage;
+            if (isFromAgent) {
+                existMessage = this.getMessageFromLocalStorageByContentExtra(data.messageId)
+            } else {
+                existMessage = this.getMessageFromLocalStorageByContentExtra(data.contentExtra);
+            }
+
+            console.log(data.domainCode + "- " + this.domainDataService.domainCode)
+            if (!existMessage && data.domainCode == this.domainDataService.domainCode) {
+                /* message */
+                if (this.domainDataService.workingTimeType == this.WORKING_TYPE.OUT_TIME && isFromAgent) {
+                    this.domainDataService.workingTimeType = this.WORKING_TYPE.IN_TIME
+                    this.chatModel.showService = false;
+                    this.messageDefaultSubscription = this.chatDomainService.getMessageDefault(this.domainDataService.domainId, 1).subscribe(result => {
+                        if (result && result.data) {
+                            console.log(result.data)
+                            this.domainDataService.domainMessageDefault = result.data;
+                        }
+                    });
+
+                    this.domainDetailSubscription = this.chatDomainService.getDomainDetail(this.domainDataService.domainId, 1).subscribe(result => {
+                        if (result && result.data) {
+                            console.log(result.data)
+                            this.domainDataService.domainDetail = result.data;
+                        }
+                    });
+                }
+
+                let sendStatus = this.messageStatus.SENT;
+                let reliable = true;
+                let sendSeen = true;
+                if (data.type == this.messageType.END_CHAT) {
+                    reliable = false;
+                    sendStatus = this.messageStatus.SEEN
+                    // this.disableReplyOldMessages(data.id);
+                } else if (data.type == this.messageType.WARNING_END) {
+                    console.log("WARNING end chat!")
+                    reliable = false;
+                }
+
+                /* Case end chat then client continue chatting */
+                if (data.conversationId != this.chatModel.conversationId) {
+                    this.chatModel.conversationId = data.conversationId;
+                }
+                let agentName
+                if (data.authorName) {
+                    agentName = data.authorName
+                } else {
+                    agentName = 'SYSTEM'
+                }
+                let isReplyMessage = false;
+                let replyFilesName = '';
+                let replyMsg = '';
+                let replyFiles = '';
+                let replyType = this.messageType.TEXT;
+                let replyId = data.replyTo;
+                let replyUserType = this.userType.CLIENT;
+                let isReplyingAlbum = false;
+                if (replyId) {
+                    let replyMessage = this.getMessageFromLocalStorageById(replyId);
+
+                    isReplyMessage = true;
+                    replyFilesName = replyMessage.filesName[0];
+                    replyMsg = replyMessage.content;
+                    replyFiles = this.fileService.getURLContentFilePublic(replyMessage.files[0], this.domainDataService.realmName);
+                    replyType = replyMessage.type;
+                    replyUserType = replyMessage.userType;
+                    isReplyingAlbum = this.isReplyingAlbum(replyId);
+                }
+
+                let survey: SurveyParamModel = new SurveyParamModel();
+                let fileNames: string[] = [];
+                let fileSizes: number = 0
+                let files: string[] = []
+                let type = data.type;
+                let onlyEmoji = false;
+                if (type == this.messageType.TEXT) {
+                    if (data.content && data.content.match(ChatClientComponent.EMOJI_ONLY_TEXT_REGEX)) {
+                        onlyEmoji = true
+                    }
+                } else if (type == this.messageType.SURVEY) {
+                    /* SURVEY */
+                    reliable = false;
+                    sendStatus = this.messageStatus.SEEN
+                    survey.clientId = data.surveyClientId
+                    survey.realmName = this.domainDataService.realmName
+                    // this.disableReplyOldMessages(data.id);
+                } else if (type == this.messageType.MISS) {
+                    /* SURVEY */
+                    reliable = false;
+                    sendStatus = this.messageStatus.SEEN
+                } else {
+                    fileNames = data.fileName
+                    fileSizes = data.fileSize
+                    files = data.fileUrl
+                }
+
+                let contentStepsArray = data.contents;
+                let fullContent = ''
+                let length = contentStepsArray.length;
+                if (length > 1) {
+                    let stepString = this.translateService.instant("chat.step")
+                    let index = 1;
+                    for (let step of contentStepsArray) {
+                        if (index == length && length > 2) {
+                            let lastStep = this.translateService.instant("chat.last-step")
+                            if (step && step.stepContent) fullContent += stepString + " " + lastStep + step.stepContent + ".";
+                            break;
+                        }
+                        if (step && step.stepContent) fullContent += stepString + " " + index + ": " + step.stepContent + ".";
+                        index++;
+                    }
+                } else {
+                    fullContent = contentStepsArray[0].stepContent
+                }
+
+                let chatMessage = new ChatMessageModel(data.messageId, this.channelId, agentName, isFromAgent ? this.userType.AGENT : this.userType.CLIENT, data.authorId, 'ticket_id', onlyEmoji,
+                    false, fullContent, "", isFromAgent ? data.messageId : data.contentExtra, this.topic, [], files, fileNames, fileSizes, type, sendStatus, data.receivedAt,
+                    reliable, isReplyMessage, replyId, replyMsg, replyFiles, replyFilesName, replyType, replyUserType, isReplyingAlbum, '');
+
+                if (survey) {
+                    chatMessage.survey = survey;
+                }
+
+                this.chatModel.chatState.chatHistory.push(chatMessage);
+                this.saveChatStateToStorage();
+                this.gainFocusOnTextInput();
+                this.scrolltoBottom$.next(true)
+
+                /* send seen status using seen api */
+                if (this.chatModel.showChatBox && sendSeen && window.document.visibilityState == 'visible' && isFromAgent) {
+                    console.log("Sending seen when receive message from agent...")
+                    this.sendSeenStatusToChatServer(data.messageId)
+                }
+
+                /* check if chat is ended */
+                if (data.type == this.messageType.END_CHAT) {
+                    this.chatModel.endChat = true;
+                    this.endCurrentConversation()
+                }
+            }
+        }
     }
 
     endCurrentConversation() {
@@ -679,9 +700,9 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
             /* send message to server */
             // if (isReady) {
-                let messageOut = new MessageOut('', this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, type, messageContent,
+                let messageOut = new MessageOut(this.chatModel.chatMessage.messageId, this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, type, messageContent,
                     timeNowInLong, [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
-                    event.chatMessage.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode);
+                    event.chatMessage.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode, []);
 
                 let messageOutData = {
                     "data": messageOut
@@ -750,7 +771,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 let messageOut = new MessageOut('', this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, messageModel.type, messageModel.content,
                     contentExtra, [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
-                    messageModel.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode);
+                    messageModel.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode, []);
                 let messageOutData = {data: messageOut};
                 console.log("Re-sending messages by recognizer: " + contentExtra)
                 if (messageType == 1) {
@@ -834,11 +855,11 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                 return;
             }
 
-            let data = JSON.parse(JSON.stringify(res)).data;
+            let data = JSON.parse(JSON.stringify(res[0]))
             let contentExtra = data.contentExtra;
             let chatMessage = this.getMessageFromLocalStorageByContentExtra(contentExtra);
             if (chatMessage) {
-                chatMessage.messageId = data.id;
+                chatMessage.messageId = data.messageId;
                 chatMessage.status = this.messageStatus.SENT
 
                 if (hasFile) {
@@ -847,6 +868,10 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.saveChatStateToStorage();
             } else {
                 console.error('Can not found message: ' + contentExtra + ' to update status and Id for message')
+            }
+
+            for (let msgItem of res) {
+                this.receiveAgentResponse(msgItem);
             }
         }, error => {
             console.error("Error when sending MESSAGE to chat-server!")
@@ -929,7 +954,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
         if (isReady) {
             let messageOut = new MessageOut('', this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, type, '',
                 timeNow, [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
-                currentMessageData.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode);
+                currentMessageData.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode, []);
 
             messageOut.type = type;
             messageOut.fileSize = [fileSize]
@@ -979,7 +1004,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
         let messageOut = new MessageOut('', this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, 0, event.chatMessage.content,
             '', [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
-            event.chatMessage.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode);
+            event.chatMessage.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode, []);
 
         let messageOutData = {
             "data": messageOut

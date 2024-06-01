@@ -13,6 +13,7 @@ export class FileObject {
 }
 
 export class SendingMessage {
+    messageId: string = '';  // use for select suggest then it will be suggest's id
     content: string = '';
     files: FileObject = new FileObject();
     // 1: message = ; 2: image = ; 3 audio = ; 4: video = ; 5 other
@@ -36,13 +37,13 @@ export class ChatClientModel {
     attempToConnectChatServer = false;
     chatServerConnection = false;
     isNetworkAvailable = false;
-    chatMessage = new SendingMessage();
+    chatMessage = new SendingMessage(); // message model that are about to send to server
     conversationId = '';
     showChatBox = true;
     isTyping = false;
-    chatState: ChatClientStateModel = new ChatClientStateModel();
+    chatState: ChatClientStateModel = new ChatClientStateModel(); // hold all messsages in that box
 
     serviceId = '';
-    notifyMessage: MessageModel[] = []
+    notifyMessage: MessageModel[] = [] // for showing float info //error info
     showError = false;
 }

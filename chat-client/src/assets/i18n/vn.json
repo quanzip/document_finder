@@ -18,6 +18,8 @@
   "chat": {
     "search": "Tìm kiếm",
     "connected": "Đã kết nối",
+    "step": "Bước ",
+    "last-step": "Cuối cùng, ",
     "reply": "Trả lời",
     "reply-lowercase": "trả lời",
     "you": "Bạn",

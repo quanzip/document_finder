@@ -53,7 +53,7 @@ public class MessageServiceImpl implements MessageService {
         List<ContentDTO> contentDTOS = new ArrayList<>();
         if (id.isEmpty()) {
             // user do not ask by suggestions => lay cac feature xuat hien trong cau hori, lay cac cau hoi ok nhat cua cac feature do
-            List<String> closeFeatures = this.documentItemRepository.findFeatureByInput(inputData.getContent().toLowerCase(), inputData.getSiteCode());
+            List<String> closeFeatures = this.documentItemRepository.findFeaturesByInputAndStatus(inputData.getContent().toLowerCase(), inputData.getSiteCode(), (short) 1);
             if (closeFeatures.isEmpty()) {
                 return handleNotFoundAnswer(result, siteCode);
             } else {
@@ -101,16 +101,17 @@ public class MessageServiceImpl implements MessageService {
             confirmQuestions.add(documentItemDTO);
             // vì đây là list câu hỏi để gợi ý cho người dùng chọn tiếp, chưa phải message answer nên không ghi nhận mess mới.
         };
+        docs.forEach(docConsumer);
         ConfirmDTO confirmDTO = new ConfirmDTO();
         confirmDTO.setConfirmQuestions(confirmQuestions);
         confirmDTO.setFeatures(closeFeatures);
 
         MessageSlimDTO subMessage = createNewAgentTypeMessage(siteCode, Constants.MESSAGE_TYPE_CONFIRM);
         subMessage.setConfirmDTO(confirmDTO);
+        subMessage.setContents(Collections.EMPTY_LIST);
         subMessage.setContentExtra(inputData.getContentExtra());
         result.add(subMessage);
 
-        docs.forEach(docConsumer);
         return result;
     }
 

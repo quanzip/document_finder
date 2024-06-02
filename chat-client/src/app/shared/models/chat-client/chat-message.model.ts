@@ -1,4 +1,5 @@
 import {SurveyParamModel} from "./survey-param.model";
+import {ConfirmModel} from "./confirm.model";
 
 export class ChatMessageModel {
     messageId: string;
@@ -31,7 +32,9 @@ export class ChatMessageModel {
     replyUserType: number;
     isReplyingAlbum: boolean;
     ticketDetailId: string;
-    survey?: SurveyParamModel
+    survey?: SurveyParamModel;
+    confirmModel?: ConfirmModel
+
 
     constructor(messageId: string, serviceType: number, sender: string, userType: number, userId: string, ticketId: any, onlyEmoji: boolean, hasSurvey: boolean,
                 content: string, linkSurvey: string, contentExtra: string, topic: string, safeUrls: string[], file: string[], fileName: string[],

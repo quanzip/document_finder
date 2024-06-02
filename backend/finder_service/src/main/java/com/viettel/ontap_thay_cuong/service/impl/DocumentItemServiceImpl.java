@@ -29,13 +29,13 @@ public class DocumentItemServiceImpl implements DocumentItemService {
             return result;
         } else {
             List<DocumentItemEntity> result = new ArrayList<>();
-            final Function<Object, DocumentItemEntity> objToDocF = obj -> {
+            final Function<String, DocumentItemEntity> objToDocF = qts -> {
                 DocumentItemEntity res = new DocumentItemEntity();
-                res.setQuestion(obj.toString());
+                res.setQuestion(qts);
                 return res;
             };
 
-            List<Object> features = documentItemRepository.findFeaturesByInputAndStatus(input, siteCode, (short) 1);
+            List<String> features = documentItemRepository.findFeaturesByInputAndStatus(input, siteCode, (short) 1);
             if (features.size() > 0) {
                 result.addAll(features.stream().map(objToDocF).collect(Collectors.toList()));
             }

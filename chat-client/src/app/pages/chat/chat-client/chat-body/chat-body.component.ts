@@ -28,6 +28,8 @@ import {SurveyParamModel} from "../../../../shared/models/chat-client/survey-par
 import {MessageFlag} from "../../../../shared/models/chat-client/messageModel";
 import {SuggestService} from "../../../../shared/services/chat-client/suggest.service";
 import {HistoryService} from "../../../../shared/services/chat-client/history.service";
+import {ConfirmModel} from "../../../../shared/models/chat-client/confirm.model";
+import {DocumentItem} from "../../../../shared/models/chat-client/documentItem";
 
 @Component({
     selector: 'app-chat-body',
@@ -97,7 +99,8 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         END_CHAT: 22,
         BLOCKED_MSG: 24,
         SURVEY: 27,
-        MISS: 28
+        MISS: 28,
+        CONFIRM: 30
     }
     public errorFileType = {
         INVALID_FORMAT: -2,
@@ -202,7 +205,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
                             if (messData.contentType == this.messageType.END_CHAT) {
                                 reliable = false;
                                 this.disableReplyOldMessages(messData.objectId);
-                            } else if (messData.contentType == this.messageType.WARNING_END) {
+                            } else if (messData.contentType == this.messageType.WARNING_END || messData.contentType == this.messageType.CONFIRM ) {
                                 console.log("WARNING end chat!")
                                 reliable = false;
                             }
@@ -300,6 +303,10 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
 
     protected saveChatStateToStorage() {
         localStorage.setItem('chatState_' + this.domainDataService?.domainId, JSON.stringify(this.chatModel.chatState));
+    }
+
+    public rejectConfirmQuestion() {
+
     }
 
     startNewConversation() {
@@ -464,7 +471,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (event.which === 13) {
         } else {
             let input = event.target.value.trim();
-            let result = this.asyncFunctionWithParams(input)
+            this.asyncFunctionWithParams(input)
         }
     }
 
@@ -533,18 +540,39 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         this.gainFocusOnTextInput();
     }
 
-    mouseLeave(event: any) {
-        let elements = event.target.querySelectorAll('.reply-icon');
+    mouseLeave(event: any, className: string) {
+        let elements = event.target.querySelectorAll(className);
         for (let element of elements) {
             element.style.visibility = 'hidden'
         }
     }
 
-    mouseEnter(event: any) {
-        let elements = event.target.querySelectorAll('.reply-icon');
+
+    mouseEnter(event: any, className: string) {
+        let elements = event.target.querySelectorAll(className);
         for (let element of elements) {
             element.style.visibility = 'visible'
         }
+    }
+
+    mouseLeaveConfirm(event: any, className: string) {
+        let elements = event.target.querySelectorAll(className);
+        for (let element of elements) {
+            element.style.visibility = 'hidden'
+        }
+    }
+
+    mouseEnterConfirm(event: any, className: string) {
+        let elements = event.target.querySelectorAll(className);
+        for (let element of elements) {
+            element.style.visibility = 'visible'
+        }
+    }
+
+    confirm(docConfirmItem: DocumentItem) {
+        this.chatModel.chatMessage.messageId = docConfirmItem.id;
+        this.chatModel.chatMessage.content = docConfirmItem.question;
+        this.sendMessage()
     }
 
     getResource(path: string) {
@@ -667,6 +695,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.sendMessage()
             } else {
                 this.chatModel.chatMessage.content = data.question + " "
+                this.asyncFunctionWithParams(data.question)
             }
         }
     }

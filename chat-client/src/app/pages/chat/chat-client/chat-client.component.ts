@@ -85,7 +85,8 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
         WARNING_END: 21,
         END_CHAT: 22,
         SURVEY: 27,
-        MISS: 28
+        MISS: 28,
+        CONFIRM: 30
     }
 
     private errorFileType = {
@@ -293,7 +294,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                     reliable = false;
                     sendStatus = this.messageStatus.SEEN
                     // this.disableReplyOldMessages(data.id);
-                } else if (data.type == this.messageType.WARNING_END) {
+                } else if (data.type == this.messageType.WARNING_END || data.type == this.messageType.CONFIRM) {
                     console.log("WARNING end chat!")
                     reliable = false;
                 }
@@ -349,7 +350,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                     /* SURVEY */
                     reliable = false;
                     sendStatus = this.messageStatus.SEEN
-                } else {
+                } else if (data.fileName && data.fileName.length > 0){
                     fileNames = data.fileName
                     fileSizes = data.fileSize
                     files = data.fileUrl
@@ -371,7 +372,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                         index++;
                     }
                 } else {
-                    fullContent = contentStepsArray[0].stepContent
+                    fullContent = contentStepsArray[0]?.stepContent
                 }
 
                 let chatMessage = new ChatMessageModel(data.messageId, this.channelId, agentName, isFromAgent ? this.userType.AGENT : this.userType.CLIENT, data.authorId, 'ticket_id', onlyEmoji,
@@ -380,6 +381,10 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 if (survey) {
                     chatMessage.survey = survey;
+                }
+
+                if (data.type == this.messageType.CONFIRM) {
+                    chatMessage.confirmModel = data.confirmDTO;
                 }
 
                 this.chatModel.chatState.chatHistory.push(chatMessage);
@@ -1298,7 +1303,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                         if (messData.contentType == this.messageType.END_CHAT) {
                             reliable = false;
                             // this.disableReplyOldMessages(messData.objectId);
-                        } else if (messData.contentType == this.messageType.WARNING_END) {
+                        }  if (messData.contentType == this.messageType.WARNING_END || messData.contentType == this.messageType.CONFIRM ) {
                             console.log("WARNING end chat!")
                             reliable = false;
                         }

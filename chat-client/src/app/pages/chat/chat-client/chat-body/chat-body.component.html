@@ -32,8 +32,8 @@
                                 </div>
                                 <div class="d-flex align-items-center m-0 p-0 text-invert-color">
                                     <!--                      reply icon of self-client mesages, only show when receive back from chat-server that it can has ID to be replied-->
-                                    <div class="user-chat-content" (mouseleave)="mouseLeave($event)"
-                                         (mouseenter)="mouseEnter($event)">
+                                    <div class="user-chat-content" (mouseleave)="mouseLeave($event, '.reply-icon')"
+                                         (mouseenter)="mouseEnter($event, '.reply-icon')">
                                         <div>
                                             <div [ngClass]="message.userType == this.userType.CLIENT ? 'd-flex align-items-center right' : 'd-flex align-items-center'">
                                                 <div *ngIf="message.userType == this.userType.CLIENT && (message.status == this.messageStatus.SEEN || message.status == this.messageStatus.SENT)"
@@ -159,7 +159,8 @@
                                                                 <div  *ngIf="message.type == this.messageType.SURVEY" (click)="loadSurvey(message.survey!)" class="survey-link">{{'chat.survey.start-survey' | translate}}</div>
                                                             </div>
 
-                                                            <!--  ----------------------------------------- case send file to reply other message -->
+                                                            <!--  ----------------------------------------- case send file: (docx. execl,..) to reply other message
+                                                             these file are show mainly below this block when stand alone, but when send file to reply other file, then the background must be send text bground-->
                                                             <div *ngIf="message.isReplyMessage"
                                                                  class="mt-1 ctext-wrap-content1">
 
@@ -227,9 +228,9 @@
                                                         <!------------------------------------------------------------------------ End main part1-->
                                                     </div>
                                                 </div>
-                                                <!-- ----------------------------main content: media file || onlyEmoji, không phải loại file thường như doc, excel
+                                                <!-- ----------------------------main content: media file || onlyEmoji, không phải loại file thường như doc, excel => ảnh, âm thanh, video
                                                         và không phải tin nhắn đang reply (considering...)-->
-                                                <div *ngIf=" (!isTextType(message.type) || message.onlyEmoji == true) && message.type != this.messageType.FILE && message && !message.isReplyMessage && message.type != this.messageType.SURVEY"
+                                                <div *ngIf=" (!isTextType(message.type) || message.onlyEmoji == true) && message.type != this.messageType.FILE && !message.isReplyMessage && message.type != this.messageType.SURVEY && message.type != this.messageType.CONFIRM"
                                                      [ngClass]="message.userType== this.userType.CLIENT ? ' ctext-wrap-content1' : 'ctext-wrap-content1'">
                                                     <div *ngIf="message.isReplyMessage"
                                                          class="ctext-wrap-content cursor-pointer"
@@ -349,6 +350,56 @@
 
                                                         <div *ngIf="message.onlyEmoji"
                                                              class="mb-0 pb-0 ctext-content fs-24">{{message.content}}</div>
+                                                    </div>
+                                                </div>
+
+<!-- --------------------------------------------------------------------------CONFIRM BY USER: CHOOSE FEATURES OR QUESTION-->
+                                                <div *ngIf="message.type == messageType.CONFIRM" class="ctext-wrap-content"
+                                                     [style.background-color]="message.userType == this.userType.AGENT ? '#008391' : '#d22cff'">
+<!--                                                    reply block-->
+                                                    <div *ngIf="message.isReplyMessage"
+                                                         class="ctext-wrap-content cursor-pointer"
+                                                         [style.background-color]="message.userType == this.userType.AGENT ? domainDataService.colorAgent : domainDataService.colorCust">
+                                                        <div class="minor-div" [id]="message.messageId + 'reMsg'">{{message.replyMsg}}</div>
+                                                        <div [ngClass]="message.userType == this.userType.AGENT ? 'replymessage-block-agent1' : 'replymessage-block-user1'"
+                                                             [style.border-radius]="(message.userType != message.replyUserType) ? '3px' : ''"
+                                                             class="px-1">
+<!--                                                            class="px-1 reply-block -->
+                                                            <div class="d-flex">
+                                                                <div class="flex-grow-1 mt-0">
+                                                                    <div class="mb-0 mess-reply-content">{{message.replyMsg}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--                                                    Content confirm block-->
+                                                    <div class="mt-1"
+                                                         [ngClass]="message.userType== this.userType.CLIENT ? 'align-content-right' : 'align-content-left'">
+                                                        <div>
+                                                            <div class="mb-0 pb-0 ctext-content">{{'chat.confirm-title' | translate}}</div>
+                                                            <hr class="my-1">
+                                                            <div *ngIf="message.confirmModel">
+                                                                <div *ngFor="let cfQuestion of message.confirmModel.confirmQuestions; let i = index"
+                                                                     (mouseenter)="mouseEnterConfirm($event, '.goAskSign')" (mouseleave)="mouseLeaveConfirm($event, '.goAskSign' )"
+                                                                (click)="confirm(cfQuestion)">
+<!--                                                                    (mouseenter)="mouseEnterConfirm($event, '.goAskSign')" (mouseleave)="mouseEnterConfirm($event, '.goAskSign' )"-->
+                                                                    <div
+                                                                         class="confirm-opt d-flex align-items-center cursor-pointer" >
+                                                                        <div class="border-left">
+                                                                           &#8900; {{cfQuestion.question}} - {{'(' + cfQuestion.selectedCount + ')'}}
+                                                                        </div>
+                                                                        <div class="goAskSign mx-1">
+                                                                            &#8811;
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr class="my-1">
+                                                                </div>
+                                                            </div>
+                                                            <div (click)="rejectConfirmQuestion()">
+                                                                {{'chat.notfound-suitable-question' | translate}}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 

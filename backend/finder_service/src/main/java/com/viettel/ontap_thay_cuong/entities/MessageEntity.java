@@ -91,6 +91,18 @@ public class MessageEntity implements Serializable {
     @Column(name = "chatbot_history")
     String chatbotHistory;
 
+    @Basic
+    @Column(name = "site_code")
+    String siteCode;
+
+    public String getSiteCode() {
+        return siteCode;
+    }
+
+    public void setSiteCode(String siteCode) {
+        this.siteCode = siteCode;
+    }
+
     public String getId() {
         return id;
     }

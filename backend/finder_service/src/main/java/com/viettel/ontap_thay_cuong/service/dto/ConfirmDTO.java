@@ -6,6 +6,8 @@ public class ConfirmDTO {
     List<DocumentItemDTO> confirmQuestions;
     List<String> features;
     List<String> exploredFeatures;
+    String question;
+    boolean rejected;
 
     public List<DocumentItemDTO> getConfirmQuestions() {
         return confirmQuestions;
@@ -29,5 +31,21 @@ public class ConfirmDTO {
 
     public void setExploredFeatures(List<String> exploredFeatures) {
         this.exploredFeatures = exploredFeatures;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
     }
 }

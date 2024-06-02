@@ -376,12 +376,12 @@
                                                     <!--                                                    Content confirm block-->
                                                     <div class="mt-1"
                                                          [ngClass]="message.userType== this.userType.CLIENT ? 'align-content-right' : 'align-content-left'">
-                                                        <div>
-                                                            <div class="mb-0 pb-0 ctext-content">{{'chat.confirm-title' | translate}}</div>
+                                                        <div *ngIf="message.confirmModel">
+                                                            <div class="mb-0 pb-0 ctext-content">&#10625; {{'chat.confirm-title' | translate}}</div>
                                                             <hr class="my-1">
-                                                            <div *ngIf="message.confirmModel">
-                                                                <div *ngFor="let cfQuestion of message.confirmModel.confirmQuestions; let i = index"
-                                                                     (mouseenter)="mouseEnterConfirm($event, '.goAskSign')" (mouseleave)="mouseLeaveConfirm($event, '.goAskSign' )"
+                                                            <div>
+                                                                <div *ngFor="let cfQuestion of message.confirmModel.confirmQuestions; let i1 = index"
+                                                                     (mouseenter)="mouseEnterConfirm($event, '.goAskSign');" (mouseleave)="mouseLeaveConfirm($event, '.goAskSign' )"
                                                                 (click)="confirm(cfQuestion)">
 <!--                                                                    (mouseenter)="mouseEnterConfirm($event, '.goAskSign')" (mouseleave)="mouseEnterConfirm($event, '.goAskSign' )"-->
                                                                     <div
@@ -396,7 +396,7 @@
                                                                     <hr class="my-1">
                                                                 </div>
                                                             </div>
-                                                            <div (click)="rejectConfirmQuestion()">
+                                                            <div *ngIf="message.confirmModel.rejected == false" style="text-align: center" class="cursor-pointer confirm-opt" (click)="rejectConfirmQuestion(i)">
                                                                 {{'chat.notfound-suitable-question' | translate}}
                                                             </div>
                                                         </div>

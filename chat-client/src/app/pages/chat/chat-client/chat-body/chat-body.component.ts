@@ -44,6 +44,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
     @Output() resend = new EventEmitter<ChatMessageModel>();
     @Output() changeHeader = new EventEmitter<ChatClientModel>();
     @Output() changeBody = new EventEmitter<ChatClientModel>();
+    @Output() rejectConfirm = new EventEmitter<any>();
     @Output() conversationEnded = new EventEmitter<boolean>()
     @ViewChild('userChat') userChat: ElementRef | undefined;
     @ViewChild('scrollRef') scrollRef: any | undefined;
@@ -305,8 +306,11 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
         localStorage.setItem('chatState_' + this.domainDataService?.domainId, JSON.stringify(this.chatModel.chatState));
     }
 
-    public rejectConfirmQuestion() {
-
+    public rejectConfirmQuestion(index: any) {
+        this.chatServerService.sendNotFoundSolutionQuestion(this.chatModel.chatState.chatHistory[index].confirmModel).subscribe((res: any) => {
+            this.rejectConfirm.emit(res[0])
+            this.chatModel.chatState.chatHistory[index].confirmModel!!.rejected = true
+        }, error => console.log(error));
     }
 
     startNewConversation() {

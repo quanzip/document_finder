@@ -21,6 +21,10 @@ export class ChatServerService extends AbstractService {
         return this.postRequest(this.BASIC_SERVICE_URL + '/chat', data)
     }
 
+    public sendNotFoundSolutionQuestion(data: any) {
+        return this.postRequest(this.BASIC_SERVICE_URL + '/chat/user-confirm-not-accept', data)
+    }
+
     get SERVICE_URL(): string {
         return SERVICES.CHAT_SERVER_API.url + '/api/v1';
     }

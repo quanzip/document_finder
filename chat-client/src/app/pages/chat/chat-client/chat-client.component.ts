@@ -253,7 +253,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
         // }
     }
 
-    private receiveAgentResponse(data: any) {
+    public receiveAgentResponse(data: any) {
         console.log(data);
         let isFromAgent = data.authorId != this.userProfileService.userId;
         if (data.type == this.messageType.TYPING) {

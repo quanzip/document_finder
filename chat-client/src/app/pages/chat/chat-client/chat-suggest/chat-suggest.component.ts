@@ -48,7 +48,6 @@ export class ChatSuggestComponent implements OnInit {
     loadSuggest(input: string, data: any) {
         this.input = input;
         this.suggestList = data;
-        console.log(data);
     }
 
     boldText(question: string, section: string){
@@ -57,7 +56,6 @@ export class ChatSuggestComponent implements OnInit {
 
     ngOnInit(): void {
         this.suggestService.getSuggestSubscription().subscribe(res => {
-            console.log(res);
             this.loadSuggest(res.input, res.data)
         });
     }

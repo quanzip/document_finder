@@ -8,7 +8,7 @@
 <!--                              (changeModel)="onChangeService($event)"></app-chat-service>-->
 
             <app-chat-body *ngIf="!showService()" [chatModel]="chatModel" [lastOffsetCon]="lastOffsetCon" [scrollToBottom]="scrolltoBottom$" [typingSignal]="typingSignal"
-                           (changeBody)="onChangeBody($event)" (resend)="resendMessage($event)" (conversationEnded)="checkDomainCalendar()"></app-chat-body>
+                           (changeBody)="onChangeBody($event)" (rejectConfirm)="receiveAgentResponse($event)" (resend)="resendMessage($event)" (conversationEnded)="checkDomainCalendar()"></app-chat-body>
         </div>
     </div>
 </div>

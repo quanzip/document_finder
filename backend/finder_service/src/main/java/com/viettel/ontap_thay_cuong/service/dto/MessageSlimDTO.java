@@ -88,8 +88,18 @@ public class MessageSlimDTO implements Serializable {
 
     Short surveyFrequencyUnit;
 
+    boolean suggestNewQuestion;
+
     @JsonProperty("domainCode")
     String siteCode;
+
+    public boolean isSuggestNewQuestion() {
+        return suggestNewQuestion;
+    }
+
+    public void setSuggestNewQuestion(boolean suggestNewQuestion) {
+        this.suggestNewQuestion = suggestNewQuestion;
+    }
 
     public String getSiteCode() {
         return siteCode;

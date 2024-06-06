@@ -6,7 +6,8 @@ public enum ErrorApps {
     OBJECT_CAN_NOT_BE_NULL(4000,I18n.getMessage("object.can_not_be_null")),
     ROLE_EXISTED(4001,I18n.getMessage("role.existed")),
     SITE_NOT_FOUND(4002,I18n.getMessage("SITE.NOT.FOUND")),
-    SORRY_NOT_FOUND_ANSWER(4003,I18n.getMessage("SORRY.NOT.FOUND.ANSWER"));
+    SORRY_NOT_FOUND_ANSWER(4003,I18n.getMessage("SORRY.NOT.FOUND.ANSWER")),
+    SORRY_NOT_FOUND_ANSWER_SUGGESTED(4004,I18n.getMessage("SORRY.NOT.FOUND.ANSWER.SUGGESTED"));
 
     private int status;
     private String message;

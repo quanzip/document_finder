@@ -11,7 +11,6 @@ import com.viettel.ontap_thay_cuong.service.dto.*;
 import com.viettel.ontap_thay_cuong.utils.Constants;
 import com.viettel.ontap_thay_cuong.utils.ErrorApps;
 import com.viettel.ontap_thay_cuong.utils.I18n;
-import javafx.scene.canvas.GraphicsContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -64,19 +63,20 @@ public class MessageServiceImpl implements MessageService {
         String siteCode = userQuestionObj.getSiteCode().trim();
 
         List<ContentDTO> contentDTOS = new ArrayList<>();
+        String content = userQuestionObj.getContent();
         if (id.isEmpty()) {
             // user do not ask by suggestions => lay cac feature xuat hien trong cau hori, lay cac cau hoi ok nhat cua cac feature do
-            List<String> closeFeatures = this.documentItemRepository.findFeaturesByInputAndStatus(userQuestionObj.getContent().toLowerCase(), userQuestionObj.getSiteCode(), (short) 1);
+            List<String> closeFeatures = this.documentItemRepository.findFeaturesByInputAndStatus(content.toLowerCase(), userQuestionObj.getSiteCode(), (short) 1);
             if (closeFeatures.isEmpty()) {
-                return handleNotFoundAnswer(result, siteCode);
+                return handleNotFoundAnswer(result, siteCode, considerSuggest(content.trim()), userQuestionObj.getContentExtra(), content);
             } else {
                 // lay cac question trong cac feature lien quan de nguoi dung chon cau hoi phu hop y ho
-                return handleConfirmationByUnknownQuestion(userQuestionObj, result, siteCode, closeFeatures);
+                return handleConfirmationByUnknownQuestion(userQuestionObj, result, siteCode, closeFeatures, userQuestionObj.getContentExtra());
             }
         } else {
             List<DocumentItemEntity> docs = documentItemRepository.findAllByIdAndStatusAndSiteCode(id, (short) 1, siteCode);
             if (docs.isEmpty()) {
-                return handleNotFoundAnswer(result, siteCode);
+                return handleNotFoundAnswer(result, siteCode, false, userQuestionObj.getContentExtra(), content);
             }
 
             List<MessageEntity> messageEntities = new ArrayList<>();
@@ -99,6 +99,24 @@ public class MessageServiceImpl implements MessageService {
             documentItemRepository.saveAll(docs);
         }
         return result;
+    }
+
+    private boolean considerSuggest(String content) {
+        int length = content.length();
+        char lastChar = content.charAt(length - 1);
+        if (lastChar == '?' || lastChar == '.') {
+            content = content.substring(0, length-1);
+        }
+        String []parts = content.toLowerCase().replaceAll("  ", " ").split(" ");
+        int length1 = parts.length;
+        if (length1 <= 2) return false;
+        else {
+            String regex = "[^-()_+*&^%$#@!~`:\"/';<>\\[\\]?.,]+";
+            for(String part: parts) {
+                if (!part.matches(regex)) return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -126,10 +144,10 @@ public class MessageServiceImpl implements MessageService {
         return result;
     }
 
-    private List<MessageSlimDTO> handleConfirmationByUnknownQuestion(MessageSlimDTO inputData, List<MessageSlimDTO> result, String siteCode, List<String> closeFeatures) {
+    private List<MessageSlimDTO> handleConfirmationByUnknownQuestion(MessageSlimDTO inputData, List<MessageSlimDTO> result, String siteCode, List<String> closeFeatures, String contentExtra) {
         List<DocumentItemEntity> docs = this.documentItemRepository.findAllByStatusAndSiteCodeAndFeatureInOrderBySelectedCountDesc((short) 1, siteCode, closeFeatures);
         if (docs.isEmpty()) {
-            return handleNotFoundAnswer(result, siteCode);
+            return handleNotFoundAnswer(result, siteCode, true, contentExtra, inputData.getContent());
         }
 
         List<DocumentItemDTO> confirmQuestions = new ArrayList<>();
@@ -155,9 +173,23 @@ public class MessageServiceImpl implements MessageService {
         return result;
     }
 
-    private List<MessageSlimDTO> handleNotFoundAnswer(List<MessageSlimDTO> result, String siteCode) {
+    private List<MessageSlimDTO> handleNotFoundAnswer(List<MessageSlimDTO> result, String siteCode, boolean isSuggested, String contentExtra, String content) {
         MessageSlimDTO subMessage = createNewAgentTypeMessage(siteCode, Constants.MESSAGE_TYPE_TEXT);
-        subMessage.setContents(Collections.singletonList(ContentDTO.Builder().stepContent(ErrorApps.SORRY_NOT_FOUND_ANSWER.getMessage())));
+        subMessage.setContents(Collections.singletonList(ContentDTO.Builder().stepContent(isSuggested ? ErrorApps.SORRY_NOT_FOUND_ANSWER_SUGGESTED.getMessage() : ErrorApps.SORRY_NOT_FOUND_ANSWER.getMessage())));
+        subMessage.setSuggestNewQuestion(isSuggested);
+
+        if(isSuggested) {
+            CustomerWaitingQuestionEntity customerWaitingQuestionEntity = new CustomerWaitingQuestionEntity();
+            customerWaitingQuestionEntity.setId(UUID.randomUUID().toString());
+            customerWaitingQuestionEntity.setQuestion(content);
+            customerWaitingQuestionEntity.setConfirmOptions("System unknown");
+            customerWaitingQuestionEntity.setSiteCode(siteCode);
+            customerWaitingQuestionEntity.setCreateBy("finder_service");
+            customerWaitingQuestionEntity.setCreateDate(LocalDateTime.now().toString());
+            customerWaitingQuestionRepository.save(customerWaitingQuestionEntity);
+        }
+
+        subMessage.setContentExtra(contentExtra);
         result.add(subMessage);
         return result;
     }

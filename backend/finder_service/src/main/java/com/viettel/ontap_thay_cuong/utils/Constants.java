@@ -12,4 +12,5 @@ public class Constants {
     public static Integer MESSAGE_TYPE_TEXT = 1;
     public static Integer MESSAGE_TYPE_CONFIRM = 30;
     public static Integer MESSAGE_TYPE_SAVE_USER_UNSATISFIED_QUESTION = 31;
+    public static Integer MESSAGE_TYPE_CUS_SUGGEST_TO_ADD = 32;
 }

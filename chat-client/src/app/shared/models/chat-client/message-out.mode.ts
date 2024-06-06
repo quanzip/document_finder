@@ -24,6 +24,7 @@ export class MessageOut{
     conversationId: string;
     typing: boolean;
     domainCode: string
+    suggestNewQuestion: boolean;
 
     constructor(messageId: string, channelId: number, conversationId: string, authorType: string, authorId: string, type: number, content: string,
                 contentExtra: string, fileUrl: string[], fileName: string[], fileSize: number[], originalMessageId: string, originalMessageTimestamp: string

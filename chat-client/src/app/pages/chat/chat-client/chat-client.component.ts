@@ -350,7 +350,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                     /* SURVEY */
                     reliable = false;
                     sendStatus = this.messageStatus.SEEN
-                } else if (data.fileName && data.fileName.length > 0){
+                } else if (data.fileName && data.fileName.length > 0) {
                     fileNames = data.fileName
                     fileSizes = data.fileSize
                     files = data.fileUrl
@@ -387,6 +387,11 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                     chatMessage.confirmModel = data.confirmDTO;
                 }
 
+                if (data.suggestNewQuestion) {
+                    this.chatModel.chatState.chatHistory[this.chatModel.chatState.chatHistory.length - 1].suggestNewQuestion = true
+                    data.suggestNewQuestion = false;
+                }
+
                 this.chatModel.chatState.chatHistory.push(chatMessage);
                 this.saveChatStateToStorage();
                 this.gainFocusOnTextInput();
@@ -403,8 +408,25 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.chatModel.endChat = true;
                     this.endCurrentConversation()
                 }
+
+                // mark user recent message is sent
+                this.markUserRecentMsgSent();
             }
         }
+    }
+
+    markUserRecentMsgSent() {
+        let length = this.chatModel.chatState.chatHistory.length;
+        if (length > 0) {
+            for (let i = length - 1; i >= 0 && this.chatModel.chatState.chatHistory[i].userType == 1; i--) {
+                if (this.chatModel.chatState.chatHistory[i].status != this.messageStatus.SEEN) {
+                    this.chatModel.chatState.chatHistory[i].status = this.messageStatus.SEEN;
+                } else {
+                    break;
+                }
+            }
+        }
+        this.saveChatStateToStorage();
     }
 
     endCurrentConversation() {
@@ -441,7 +463,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
         for (let oldMess of this.chatModel.chatState.chatHistory) {
             console.log(oldMess.content)
             oldMess.isRepliable = false;
-            if(oldMess.messageId == id) {
+            if (oldMess.messageId == id) {
                 this.saveChatStateToStorage();
                 return;
             }
@@ -705,14 +727,14 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
 
             /* send message to server */
             // if (isReady) {
-                let messageOut = new MessageOut(this.chatModel.chatMessage.messageId, this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, type, messageContent,
-                    timeNowInLong, [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
-                    event.chatMessage.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode, []);
+            let messageOut = new MessageOut(this.chatModel.chatMessage.messageId, this.channelId, this.chatModel.conversationId, 'CHAT-CLIENT', this.userProfileService.userId, type, messageContent,
+                timeNowInLong, [], [], [0], '', '', this.domainDataService!.domainCode!, this.userProfileService.serviceId,
+                event.chatMessage.replyMsgId, this.messageStatus.SENDING, false, this.domainDataService.domainCode, []);
 
-                let messageOutData = {
-                    "data": messageOut
-                }
-                this.sendMessageToChatServer(messageOutData, this.domainDataService!.realmName, this.userProfileService.userId, false);
+            let messageOutData = {
+                "data": messageOut
+            }
+            this.sendMessageToChatServer(messageOutData, this.domainDataService!.realmName, this.userProfileService.userId, false);
             // }
         }
         this.chatModel.chatMessage.content = '';
@@ -1236,7 +1258,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
             let conversationId = this.chatModel.conversationId;
             if (conversationId) {
                 this.getSeenStatus()
-            }else {
+            } else {
                 console.log("Do not get seen due to no conversation ID")
             }
 
@@ -1268,7 +1290,7 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                 console.log("Send seen status manually failed")
                 console.log(error);
             })
-        }else {
+        } else {
             console.log("Do not send seen due to no USER ID | SERVICE ID")
         }
     }
@@ -1303,7 +1325,8 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
                         if (messData.contentType == this.messageType.END_CHAT) {
                             reliable = false;
                             // this.disableReplyOldMessages(messData.objectId);
-                        }  if (messData.contentType == this.messageType.WARNING_END || messData.contentType == this.messageType.CONFIRM ) {
+                        }
+                        if (messData.contentType == this.messageType.WARNING_END || messData.contentType == this.messageType.CONFIRM) {
                             console.log("WARNING end chat!")
                             reliable = false;
                         }

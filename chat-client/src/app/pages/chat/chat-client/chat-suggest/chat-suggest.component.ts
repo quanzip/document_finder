@@ -51,7 +51,7 @@ export class ChatSuggestComponent implements OnInit {
     }
 
     boldText(question: string, section: string){
-        return question.replace(section, `<b>${section}</b>`)
+        return question.replace(section, `<b style="text-decoration: underline">${section}</b>`)
     }
 
     ngOnInit(): void {

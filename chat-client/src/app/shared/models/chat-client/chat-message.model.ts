@@ -34,6 +34,7 @@ export class ChatMessageModel {
     ticketDetailId: string;
     survey?: SurveyParamModel;
     confirmModel?: ConfirmModel
+    suggestNewQuestion?: boolean;
 
 
     constructor(messageId: string, serviceType: number, sender: string, userType: number, userId: string, ticketId: any, onlyEmoji: boolean, hasSurvey: boolean,

@@ -1,5 +1,14 @@
 <div class="mess-content">
-    <span *ngIf="!hasLink">{{contentByTypes[0]}}</span>
+    <div>
+        <div>
+            <span *ngIf="!hasLink">{{contentByTypes[0]}}</span>
+        </div>
+        <div>
+<!--            // fs-10 p-1 bg-soft-light-->
+            <div  data-bs-toggle="tooltip"
+                  ngbTooltip="{{'chat.suggested-tooltip-tittle' | translate}}" class="d-flex justify-content-end align-items-end fs-10 p-1" *ngIf="mess.suggestNewQuestion" ><u>{{'chat.suggested' | translate}} &#8730;</u></div>
+        </div>
+    </div>
     <div *ngIf="hasLink">
         <span *ngFor="let contentParts of contentByTypes">
             <span *ngIf="contentParts.type == 'TEXT'">{{contentParts.content}}</span>

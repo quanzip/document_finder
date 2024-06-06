@@ -1,6 +1,6 @@
 <div *ngIf="viewMode">
-  <div *ngIf="currentSite.id">
-    <h4 class="mt-3">Site detail</h4>
+  <div *ngIf="currentSite.id && showScript == false">
+    <h4 >Site detail</h4>
     <div>
       <label><strong>Name:</strong></label> {{ currentSite.name }}
     </div>
@@ -9,11 +9,39 @@
       {{ currentSite.code }}
     </div>
 
-    <a
-      [href]="'/sites/gen-script/{{ currentSite.code }}'"
-    >
-      Script Generation
-    </a>
+  </div>
+  <div *ngIf="currentSite.id">
+    <h4  *ngIf="showScript">Site script</h4>
+    <div class="d-flex justify-content-between">
+    <button *ngIf="currentSite.id" class="btn btn-info mt-1" (click)="showScript = !showScript">{{showScript ? 'Hide script' : 'Show script'}}</button>
+    </div>
+  </div>
+  <div *ngIf="showScript" class="mt-2">
+    <textarea style="width: 100%;" rows="22" readonly="readonly" (click)="SelectAll('embedded-script');" id="embedded-script" >
+<script type="text/javascript">
+  function loadJsAsync(src, callback) {
+    let s = document.createElement('script');
+    s.type = "text/javascript";
+    s.src = src;
+    s.addEventListener('load', function (e) {
+      callback(null, e);
+    }, false);
+    let head = document.getElementsByTagName('head')[0];
+    head.appendChild(s);
+  }
+  window.onload = function() {
+    loadJsAsync('{{domain}}/assets/js/IpccChat.js',
+    function() {
+      let IpccChat = {
+        realmName: 'document_finder',
+        domain: '{{currentSite.code}}',
+        url: '{{domain}}'
+      };
+      embedIpccChat(IpccChat);
+    })
+  };
+</script>
+</textarea>
   </div>
 
   <div *ngIf="!currentSite">

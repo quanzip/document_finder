@@ -1,5 +1,5 @@
 <div class="list">
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div class="input-group mb-3">
       <input
         type="text"
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <h4>Site List</h4>
       <ul class="list-group">
         <li
@@ -31,13 +31,13 @@
         </li>
       </ul>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <app-site-detail
         [viewMode]="true"
         [currentSite]="currentSite"
       ></app-site-detail>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <app-file-upload *ngIf="currentSite.id" [selectedSite]="currentSite"></app-file-upload>
     </div>
   </div>

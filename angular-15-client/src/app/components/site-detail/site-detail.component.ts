@@ -11,6 +11,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class SiteDetailComponent implements OnInit {
 
   @Input() viewMode = false;
+  showScript = false;
+  copy = false;
+
+  domain='http://videocalltest.viettel.vn/document-finder'
 
   @Input() currentSite: Site = {
     name: '',
@@ -21,10 +25,47 @@ export class SiteDetailComponent implements OnInit {
     // published: false
   };
 
-  genCode(){
-    this.siteService.gencode(this.currentSite.code).subscribe(res => {
 
-    })
+  SelectAll(id: any)
+  {
+    document.getElementById(id)!!.focus();
+    (document.getElementById(id) as HTMLInputElement).select();
+  }
+
+  copyText(e: any) {
+    let script = e.target.parentNode.nextSibling.value;
+    let globalThis = this;
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(script).then(function () {
+        // globalThis.toastSvc.showSuccess(globalThis.translate.instant("DOMAINS.SCRIPT_COPIED"));
+        globalThis.copy = true
+      }, function (err) {
+        // globalThis.toastSvc.showDanger(globalThis.translate.instant("DOMAINS.SCRIPT_COPY_FAILED"));
+        globalThis.copy = true
+      });
+    } else {
+      // Use the 'out of viewport hidden text area' trick
+      const textArea = document.createElement("textarea");
+      textArea.value = script;
+
+      // Move textarea out of the viewport so it's not visible
+      textArea.style.position = "absolute";
+      textArea.style.left = "-999999px";
+
+      document.body.prepend(textArea);
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        // globalThis.toastSvc.showSuccess(globalThis.translate.instant("DOMAINS.SCRIPT_COPIED"));
+        globalThis.copy = true
+      } catch (error) {
+        // globalThis.toastSvc.showDanger(globalThis.translate.instant("DOMAINS.SCRIPT_COPY_FAILED"));
+        globalThis.copy = true
+      } finally {
+        textArea.remove();
+      }
+    }
   }
 
   message = '';
@@ -73,18 +114,6 @@ export class SiteDetailComponent implements OnInit {
         next: (res) => {
           console.log(res);
           this.router.navigate(['/sites']);
-        },
-        error: (e) => console.error(e)
-      });
-  }
-
-  genScript(): void {
-    this.siteService.generateScript(this.currentSite.code!)
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-          this.openDialog = true
-          this.popupContent = res
         },
         error: (e) => console.error(e)
       });

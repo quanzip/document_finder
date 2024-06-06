@@ -14,8 +14,9 @@ public class ScriptController {
     @Autowired
     private SiteService siteService;
 
-//    @GetMapping(value = "/sites/gen-script/{siteCode}")
-//    public String getScript(@PathVariable(value = "siteCode") String siteCode, HttpServletResponse response) {
-//        return this.siteService.genScriptBySiteCode1(siteCode, response);
-//    }
+    @GetMapping(value = "/sites/gen-script/{siteCode}")
+    public String getScript(@PathVariable(value = "siteCode") String siteCode, HttpServletResponse response) {
+         this.siteService.genScriptBySiteCode(siteCode, response);
+         return null;
+    }
 }

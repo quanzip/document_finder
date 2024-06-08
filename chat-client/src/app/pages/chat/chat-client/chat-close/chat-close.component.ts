@@ -27,7 +27,7 @@ export class ChatCloseComponent implements OnInit, OnDestroy {
     domainDataService: DomainDataService;
     protected fileService: FileService;
     /* This variable is for showing small icon or not, if chat-service die, or no connection to it, then do not show small icon */
-    showIcon = false;
+    showIcon = true;
     reCheckCalendar = false;
 
     /* This variable is for knowing if user is reloading or just navigating into this component */
@@ -58,6 +58,7 @@ export class ChatCloseComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        this.smallAvatar =  '.\\assets\\images\\plan.png';
         const key = this.activatedRoute!.snapshot!.paramMap.get('domain')!;
         let listParams = '';
 
@@ -68,8 +69,26 @@ export class ChatCloseComponent implements OnInit, OnDestroy {
 
 
         this.domainDataService.domainCode = this.domainEncoded
-        parent.postMessage('openChatBox', '*');
-        this.router!.navigate(['/chat-client/' + this.domainEncoded]);
+        // parent.postMessage('openChatBox', '*');
+        // this.router!.navigate(['/chat-client/' + this.domainEncoded]);
+
+        let openChatVar = localStorage.getItem('open-chat');
+        let openedChat = openChatVar && openChatVar == 'true'
+        if (openedChat) {
+            parent.postMessage('openChatBox', '*');
+            this.router!.navigate(['/chat-client/' + this.domainEncoded]);
+        }
+        // if (this.reload) {
+        //     if (this.domainDataService.autoChat == 1) {
+        //         parent.postMessage('openChatBox', '*');
+        //         this.router!.navigate(['/chat-client/' + this.domainEncoded]);
+        //     } else {
+        //         if (openedChat) {
+        //             parent.postMessage('openChatBox', '*');
+        //             this.router!.navigate(['/chat-client/' + this.domainEncoded]);
+        //         }
+        //     }
+        // }
 
         // try {
         //     listParams = atob(decodeURIComponent(key))
@@ -442,7 +461,7 @@ export class ChatCloseComponent implements OnInit, OnDestroy {
     }
 
     openChatBox() {
-        if (this.domainDataService.status == 0 || !this.userDataService.serviceId) return;
+        // if (this.domainDataService.status == 0 || !this.userDataService.serviceId) return;
         parent.postMessage('openChatBox', '*');
         this.router!.navigate(['/chat-client/' + this.domainEncoded]);
     }

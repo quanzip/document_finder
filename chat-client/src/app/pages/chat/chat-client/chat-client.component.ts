@@ -540,14 +540,17 @@ export class ChatClientComponent implements OnInit, OnDestroy, AfterViewInit {
             this.domainDataService.autoChat = 0
             let externalId = (this.userProfileService.externalId != null && this.userProfileService.externalId != '') ? this.userProfileService.externalId.trim() : null;
             let userCode = externalId == null ? null : ((this.userProfileService.userCode != null && this.userProfileService.userCode != '') ? this.userProfileService.userCode.trim() : null);
-            let path = '/chat-client/close/' + this.domainDataService.domainCode
-                + '?realm=' + this.domainDataService.realmName;
+            let src = '/chat-client/close/'
+
+            var queryString = "?domain=" + this.domainDataService.domainCode + "&output=embed";
             if (externalId) {
-                path = path + '&externalId=' + externalId
+                queryString = queryString + '&externalId=' + externalId
             }
             if (userCode) {
-                path = path + '&userCode=' + userCode
+                queryString = queryString + '&userCode=' + userCode
             }
+            let path = src + encodeURIComponent(btoa(queryString));
+
             this.router.navigate([path])
             parent.postMessage('closeChatBox', '*');
         }

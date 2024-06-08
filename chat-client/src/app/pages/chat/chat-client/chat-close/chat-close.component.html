@@ -1,9 +1,15 @@
-<div *ngIf="showIcon" id="chat-mini" class="chat-detail d-flex align-items-center justify-content-end">
-    <div [ngClass]="domainDataService.status == 0 ? 'fade' : ''" placement="top" data-bs-toggle="tooltip" title="{{domainDataService.minimumTitle}}"  *ngIf="domainDataService.avatarImg" >
-        <img (click)="openChatBox()" class="small-avatar rounded-circle" src="{{smallAvatar}}" onerror="this.src='assets/images/users/user-dummy-img.jpg'" style="max-width: 65px; max-height: 65px" alt="No image">
-    </div>
+<!--<div *ngIf="showIcon" id="chat-mini" class="chat-detail d-flex align-items-center justify-content-end">-->
+<!--    <div [ngClass]="domainDataService.status == 0 ? 'fade' : ''" placement="top" data-bs-toggle="tooltip" title="{{domainDataService.minimumTitle}}"  *ngIf="domainDataService.avatarImg" >-->
+<!--        <img (click)="openChatBox()" class="small-avatar rounded-circle" src="{{smallAvatar}}" onerror="this.src='assets/images/users/user-dummy-img.jpg'" style="max-width: 65px; max-height: 65px" alt="No image">-->
+<!--    </div>-->
 
-    <div [ngClass]="domainDataService.status == 0 ? 'fade' : ''" placement="top" data-bs-toggle="tooltip" ngbTooltip="{{domainDataService.minimumTitle}}"  *ngIf="!domainDataService.avatarImg">
-        <img (click)="openChatBox()" class="small-avatar rounded-circle" src="{{smallAvatar}}" onerror="this.src='assets/images/users/user-dummy-img.jpg'" style="max-width: 65px; max-height: 65px" alt="No image">
-    </div>
+<!--    <div [ngClass]="domainDataService.status == 0 ? 'fade' : ''" placement="top" data-bs-toggle="tooltip" ngbTooltip="{{domainDataService.minimumTitle}}"  *ngIf="!domainDataService.avatarImg">-->
+<!--        <img (click)="openChatBox()" class="small-avatar rounded-circle" src="{{smallAvatar}}" onerror="this.src='assets/images/users/user-dummy-img.jpg'" style="max-width: 65px; max-height: 65px" alt="No image">-->
+<!--    </div>-->
+<!--</div>-->
+
+<div *ngIf="showIcon" id="chat-mini" class="chat-detail d-flex align-items-center justify-content-end">
+        <div placement="top" data-bs-toggle="tooltip" title="{{'FAQ for documents'}}"  >
+            <img (click)="openChatBox()" class="small-avatar rounded-circle" src="{{smallAvatar}}" onerror="this.src='assets/images/users/user-dummy-img.jpg'" style="max-width: 65px; background-position: center; max-height: 65px" alt="No image">
+        </div>
 </div>

@@ -54,8 +54,8 @@ function embedIpccChat(data) {
 
             if (data == "openChatBox") {
                 iframe.style.border = '1px';
-                iframe.style.width = '450px';
-                iframe.style.height = '600px';
+                iframe.style.width = '400px';
+                iframe.style.height = '550px';
                 iframe.style.position = 'fixed';
                 iframe.style.bottom = '30px';
                 iframe.style.right = '30px';

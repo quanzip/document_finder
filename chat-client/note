@@ -1,0 +1,3 @@
+-Đã disable function reply msg, enable at chat-body.ts: replyMessages() function:528
+-Để chỉnh chiều cao của khung chat: chỉnh trong ipccChat.js, cho chiều dài / rộng tăng lên
++ sau đó vào trong chat-body.ts-dòng6, điều chỉnh chỉ số px của ng-simplebar, class: chat-conversation style=Value px, chỉnh value cho phù hợp

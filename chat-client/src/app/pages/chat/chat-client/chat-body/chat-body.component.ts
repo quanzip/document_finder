@@ -528,6 +528,7 @@ export class ChatBodyComponent implements OnInit, AfterViewInit, OnDestroy {
 
     replyMessage(event: any, message: any) {
         this.isreplyMessage = true;
+        this.isreplyMessage = false;
 
         this.chatModel.chatMessage.replyMsgId = message.messageId;
         this.chatModel.chatMessage.replySendTime = message.sendTime;
